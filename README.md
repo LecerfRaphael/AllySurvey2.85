@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <p align="center">
   <strong>✨ AllySurvey V2.85 autonome — Des questionnaires LimeSurvey plus simples, plus clairs, plus accessibles</strong><br>
   Université de Lille • Direction du numérique — Service DAWAM<br>
