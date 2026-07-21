@@ -1,0 +1,180 @@
+/* Fruity AllySurvey V1.1 accessibility toolbar */
+.fas-a11y-toolbar{position:fixed;top:30%;z-index:1055;display:flex;align-items:flex-start;max-width:min(28rem,calc(100vw - 1rem));font-size:1rem}
+.fas-toolbar-right .fas-a11y-toolbar{right:0;flex-direction:row-reverse}.fas-toolbar-left .fas-a11y-toolbar{left:0}
+.fas-a11y-toggle{display:flex;gap:.45rem;align-items:center;min-height:44px;padding:.7rem .8rem;border:2px solid currentColor;background:var(--bs-body-bg,#fff);color:var(--bs-body-color,#212529);font-weight:700;box-shadow:0 2px 10px rgba(0,0,0,.18)}
+.fas-toolbar-right .fas-a11y-toggle{border-radius:.5rem 0 0 .5rem}.fas-toolbar-left .fas-a11y-toggle{border-radius:0 .5rem .5rem 0}
+.fas-a11y-panel{width:24rem;padding:1rem;border:2px solid currentColor;background:var(--bs-body-bg,#fff);color:var(--bs-body-color,#212529);box-shadow:0 4px 18px rgba(0,0,0,.22)}
+.fas-toolbar-right .fas-a11y-panel{border-right:0;border-radius:.5rem 0 0 .5rem}.fas-toolbar-left .fas-a11y-panel{border-left:0;border-radius:0 .5rem .5rem 0}
+.fas-a11y-toolbar.is-collapsed .fas-a11y-panel{display:none}.fas-a11y-toolbar.is-collapsed .fas-a11y-toggle-label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.fas-a11y-toolbar.is-collapsed{width:auto!important;max-width:none!important}
+.fas-a11y-toolbar.is-collapsed .fas-a11y-toggle{box-sizing:border-box;justify-content:center;width:44px!important;min-width:44px;max-width:44px;padding:.55rem!important}
+.fas-a11y-title{margin:0 0 .75rem;font-weight:700}.fas-a11y-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:.5rem}
+.fas-a11y-actions button{display:flex;align-items:center;justify-content:center;text-align:center;min-height:44px;padding:.55rem;border:1px solid currentColor;border-radius:.35rem;background:transparent;color:inherit;font-weight:600;line-height:1.25;white-space:normal;word-break:normal;overflow-wrap:normal}
+.fas-a11y-actions button:hover,.fas-a11y-actions button:focus-visible,.fas-a11y-actions button[aria-pressed="true"]{background:currentColor;color:var(--bs-body-bg,#fff)}
+html.fas-text-1{font-size:106.25%}html.fas-text-2{font-size:112.5%}html.fas-text-3{font-size:125%}
+html.fas-high-contrast body{background:#000!important;color:#fff!important}html.fas-high-contrast body *:not(img):not(video):not(svg){border-color:#fff!important}html.fas-high-contrast a{color:#fff!important}html.fas-high-contrast button,html.fas-high-contrast input,html.fas-high-contrast select,html.fas-high-contrast textarea{background:#000!important;color:#fff!important}
+html.fas-monochrome{filter:grayscale(1)}html.fas-text-spacing body{line-height:1.7!important;letter-spacing:.08em!important;word-spacing:.12em!important}html.fas-text-spacing p,html.fas-text-spacing li{margin-bottom:1em!important}
+html.fas-underline-links a:not(.btn){text-decoration:underline!important;text-decoration-thickness:.12em!important;text-underline-offset:.15em!important}
+html.fas-motion-reduced *,html.fas-motion-reduced *::before,html.fas-motion-reduced *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+@media(max-width:576px){.fas-a11y-toolbar{top:auto;right:max(1.5rem,env(safe-area-inset-right));bottom:max(4.75rem,calc(env(safe-area-inset-bottom) + .75rem));left:auto;max-width:calc(100vw - 3rem)}.fas-toolbar-left .fas-a11y-toolbar{right:auto;left:max(1.5rem,env(safe-area-inset-left))}.fas-a11y-toolbar.is-collapsed .fas-a11y-toggle{width:44px!important;min-width:44px;max-width:44px;height:44px;min-height:44px;border-radius:.55rem!important}.fas-a11y-panel{width:min(24rem,calc(100vw - 6rem));max-height:calc(100dvh - 8rem);overflow:auto}.fas-a11y-toggle-label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}}
+@media print{.fas-a11y-toolbar{display:none!important}}
+
+/* V2.0.1 — correction des contrastes hover/focus de la barre */
+.fas-a11y-toolbar{
+  --fas-toolbar-bg: var(--bs-body-bg, #fff);
+  --fas-toolbar-text: var(--bs-body-color, #212529);
+  --fas-toolbar-accent: var(--bs-primary, #0d6efd);
+  --fas-toolbar-accent-text: #fff;
+}
+.fas-a11y-toggle,
+.fas-a11y-panel{
+  background-color:var(--fas-toolbar-bg)!important;
+  color:var(--fas-toolbar-text)!important;
+}
+.fas-a11y-actions button{
+  background-color:var(--fas-toolbar-bg)!important;
+  color:var(--fas-toolbar-text)!important;
+  border-color:var(--fas-toolbar-text)!important;
+}
+.fas-a11y-toggle:hover,
+.fas-a11y-toggle:focus-visible,
+.fas-a11y-actions button:hover,
+.fas-a11y-actions button:focus-visible,
+.fas-a11y-actions button[aria-pressed="true"]{
+  background-color:var(--fas-toolbar-accent)!important;
+  color:var(--fas-toolbar-accent-text)!important;
+  border-color:var(--fas-toolbar-accent)!important;
+}
+.fas-a11y-toggle:focus-visible,
+.fas-a11y-actions button:focus-visible{
+  outline:3px solid #000!important;
+  outline-offset:3px!important;
+  box-shadow:0 0 0 2px #fff!important;
+}
+html.fas-high-contrast .fas-a11y-toolbar{
+  --fas-toolbar-bg:#000;
+  --fas-toolbar-text:#fff;
+  --fas-toolbar-accent:#fff;
+  --fas-toolbar-accent-text:#000;
+}
+html.fas-monochrome .fas-a11y-toolbar{
+  --fas-toolbar-accent:#222;
+  --fas-toolbar-accent-text:#fff;
+}
+
+/* Polices de lecture proposées par la barre d’accessibilité. */
+@font-face{font-family:"Luciole";src:url("../files/fonts/Luciole-Regular.ttf") format("truetype");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"Luciole";src:url("../files/fonts/Luciole-Bold.ttf") format("truetype");font-style:normal;font-weight:700;font-display:swap}
+@font-face{font-family:"Luciole";src:url("../files/fonts/Luciole-Regular-Italic.ttf") format("truetype");font-style:italic;font-weight:400;font-display:swap}
+@font-face{font-family:"Luciole";src:url("../files/fonts/Luciole-Bold-Italic.ttf") format("truetype");font-style:italic;font-weight:700;font-display:swap}
+@font-face{font-family:"OpenDyslexic";src:url("../files/fonts/OpenDyslexic-Regular.woff2") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"OpenDyslexic";src:url("../files/fonts/OpenDyslexic-Bold.woff2") format("woff2");font-style:normal;font-weight:700;font-display:swap}
+@font-face{font-family:"OpenDyslexic";src:url("../files/fonts/OpenDyslexic-Italic.woff2") format("woff2");font-style:italic;font-weight:400;font-display:swap}
+@font-face{font-family:"OpenDyslexic";src:url("../files/fonts/OpenDyslexic-Bold-Italic.woff2") format("woff2");font-style:italic;font-weight:700;font-display:swap}
+html.fas-font-luciole{--bs-body-font-family:"Luciole",Arial,sans-serif}
+html.fas-font-dyslexic{--bs-body-font-family:"OpenDyslexic",Arial,sans-serif}
+html.fas-font-luciole body,
+html.fas-font-luciole button,
+html.fas-font-luciole input,
+html.fas-font-luciole select,
+html.fas-font-luciole textarea{font-family:"Luciole",Arial,sans-serif!important}
+html.fas-font-dyslexic body,
+html.fas-font-dyslexic button,
+html.fas-font-dyslexic input,
+html.fas-font-dyslexic select,
+html.fas-font-dyslexic textarea{font-family:"OpenDyslexic",Arial,sans-serif!important}
+
+/* Mode contraste : neutralise les fonds et couleurs hérités des palettes Fruity. */
+html.fas-high-contrast,
+html.fas-high-contrast body.fruity-allysurvey-rgaa,
+html.fas-high-contrast body.fruity-allysurvey-rgaa *:not(img):not(video):not(svg):not(path){
+  background-color:#000!important;
+  background-image:none!important;
+  color:#fff!important;
+  border-color:#fff!important;
+}
+html.fas-high-contrast body.fruity-allysurvey-rgaa a:not(.btn){
+  color:#fff!important;
+  text-decoration:underline!important;
+  text-decoration-thickness:.12em!important;
+  text-underline-offset:.15em!important;
+}
+html.fas-high-contrast body.fruity-allysurvey-rgaa .fas-a11y-actions button:hover,
+html.fas-high-contrast body.fruity-allysurvey-rgaa .fas-a11y-actions button:focus-visible,
+html.fas-high-contrast body.fruity-allysurvey-rgaa .fas-a11y-actions button[aria-pressed="true"]{
+  background-color:#fff!important;
+  color:#000!important;
+  border-color:#fff!important;
+}
+
+/* Luciole et OpenDyslexic occupent davantage de largeur : empilement sans débordement. */
+html.fas-font-luciole .fas-a11y-toolbar,
+html.fas-font-dyslexic .fas-a11y-toolbar{
+  flex-direction:column!important;
+  align-items:flex-end!important;
+  width:min(28rem,calc(100vw - 1rem));
+  max-width:calc(100vw - 1rem);
+}
+html.fas-font-luciole .fas-toolbar-left .fas-a11y-toolbar,
+html.fas-font-luciole body.fas-toolbar-left .fas-a11y-toolbar,
+html.fas-font-dyslexic .fas-toolbar-left .fas-a11y-toolbar,
+html.fas-font-dyslexic body.fas-toolbar-left .fas-a11y-toolbar{
+  align-items:flex-start!important;
+}
+html.fas-font-luciole .fas-a11y-toggle,
+html.fas-font-luciole .fas-a11y-panel,
+html.fas-font-dyslexic .fas-a11y-toggle,
+html.fas-font-dyslexic .fas-a11y-panel{
+  box-sizing:border-box;
+  width:100%;
+  max-width:100%;
+  border:2px solid currentColor!important;
+  border-radius:.5rem!important;
+}
+html.fas-font-luciole .fas-a11y-toolbar.is-collapsed,
+html.fas-font-dyslexic .fas-a11y-toolbar.is-collapsed{
+  width:auto!important;
+  max-width:none!important;
+}
+html.fas-font-luciole .fas-a11y-toolbar.is-collapsed .fas-a11y-toggle,
+html.fas-font-dyslexic .fas-a11y-toolbar.is-collapsed .fas-a11y-toggle{
+  width:44px!important;
+  min-width:44px;
+  max-width:44px;
+}
+html.fas-font-luciole .fas-a11y-panel,
+html.fas-font-dyslexic .fas-a11y-panel{
+  max-height:70vh;
+  overflow:auto;
+}
+html.fas-font-luciole .fas-a11y-actions,
+html.fas-font-dyslexic .fas-a11y-actions{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+html.fas-font-luciole .fas-a11y-actions button,
+html.fas-font-luciole .fas-a11y-toggle,
+html.fas-font-dyslexic .fas-a11y-actions button,
+html.fas-font-dyslexic .fas-a11y-toggle{
+  min-width:0;
+  white-space:normal;
+  word-break:normal;
+  overflow-wrap:normal;
+  line-height:1.4;
+}
+
+/* Leurs métriques nécessitent une hauteur de ligne non figée. */
+html.fas-font-luciole body h1,
+html.fas-font-luciole body .h1,
+html.fas-font-luciole body .survey-name,
+html.fas-font-luciole body .large-heading,
+html.fas-font-dyslexic body h1,
+html.fas-font-dyslexic body .h1,
+html.fas-font-dyslexic body .survey-name,
+html.fas-font-dyslexic body .large-heading{
+  height:auto!important;
+  max-width:100%;
+  overflow:visible!important;
+  white-space:normal!important;
+  overflow-wrap:anywhere;
+  line-height:1.4!important;
+}

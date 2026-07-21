@@ -1,0 +1,11 @@
+/* Fruity AllySurvey V2.0 - print fallback for LimeSurvey 7 */
+@media print {
+  #fas-accessibility-toolbar,
+  #fas-exclusive-tools,
+  #fas-diagnostic-panel,
+  .fas-dev-badge,
+  .fas-dev-inspector { display: none !important; }
+  body, #fas-main-content { background: #fff !important; color: #000 !important; }
+  a[href] { text-decoration: underline; }
+  .question-container { break-inside: avoid; box-shadow: none !important; }
+}

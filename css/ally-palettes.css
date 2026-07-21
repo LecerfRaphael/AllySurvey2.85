@@ -1,0 +1,858 @@
+/* Fruity AllySurvey V2.0.8 - palettes ULille 2026.
+   Une palette sélectionnée neutralise les colorpickers de l'onglet Couleurs. */
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]){
+  --fas-palette-bg:#FFFFFF;--fas-palette-surface:#F8F9FB;--fas-palette-surface-2:#F3F4F6;
+  --fas-palette-text:#111827;--fas-palette-muted:#4B5563;--fas-palette-warning:#C70000;
+  --fas-palette-primary1:#D2D4DB;--fas-palette-primary2:#4B5563;--fas-palette-accent:#9500FF;
+  --fas-palette-on-primary:#FFFFFF;--fas-palette-border:#69707E;--fas-palette-focus:#C70000;
+  background:var(--fas-palette-bg)!important;color:var(--fas-palette-text)!important;
+  --bs-body-bg:var(--fas-palette-bg);--bs-body-color:var(--fas-palette-text);
+  --bs-primary:var(--fas-palette-primary2);--fas-accent:var(--fas-palette-primary2);--fas-focus:var(--fas-palette-focus);
+}
+body[data-fas-color-palette="neutre"]{--fas-palette-primary1:#D2D4DB;--fas-palette-primary2:#4B5563;--fas-palette-accent:#9500FF;--fas-palette-on-primary:#FFFFFF;}
+body[data-fas-color-palette="industrie"]{--fas-palette-primary1:#96A2F5;--fas-palette-primary2:#454F91;--fas-palette-accent:#5A55AF;--fas-palette-on-primary:#FFFFFF;}
+body[data-fas-color-palette="pinklady"]{--fas-palette-primary1:#FE7DB1;--fas-palette-primary2:#B72962;--fas-palette-accent:#89586C;--fas-palette-on-primary:#FFFFFF;}
+body[data-fas-color-palette="brique"]{--fas-palette-primary1:#FC8670;--fas-palette-primary2:#B14937;--fas-palette-accent:#8C584F;--fas-palette-on-primary:#FFFFFF;}
+body[data-fas-color-palette="orangette"]{--fas-palette-primary1:#F39200;--fas-palette-primary2:#AA2E00;--fas-palette-accent:#995238;--fas-palette-on-primary:#FFFFFF;}
+body[data-fas-color-palette="hyperion"]{--fas-palette-primary1:#FFD24D;--fas-palette-primary2:#4D3F17;--fas-palette-accent:#7B6523;--fas-palette-on-primary:#FFFFFF;}
+body[data-fas-color-palette="ocean"]{--fas-palette-primary1:#7ABAFF;--fas-palette-primary2:#2973C3;--fas-palette-accent:#2569B1;--fas-palette-on-primary:#FFFFFF;}
+body[data-fas-color-palette="menthe"]{--fas-palette-primary1:#89E0B1;--fas-palette-primary2:#3F845F;--fas-palette-accent:#37724F;--fas-palette-on-primary:#FFFFFF;}
+body[data-fas-color-palette="dune"]{--fas-palette-primary1:#FAF0E1;--fas-palette-primary2:#827561;--fas-palette-accent:#6F6452;--fas-palette-on-primary:#FFFFFF;}
+body[data-fas-color-palette="commodore"]{--fas-palette-primary1:#A6CEFF;--fas-palette-primary2:#003D87;--fas-palette-accent:#005AC7;--fas-palette-on-primary:#FFFFFF;}
+body[data-fas-color-palette="colvert"]{--fas-palette-primary1:#4ABEB1;--fas-palette-primary2:#007668;--fas-palette-accent:#007668;--fas-palette-on-primary:#FFFFFF;}
+body[data-fas-color-palette="vulcain"]{--fas-palette-primary1:#D15C64;--fas-palette-primary2:#941B23;--fas-palette-accent:#944C53;--fas-palette-on-primary:#FFFFFF;}
+body[data-fas-color-palette="orangesanguine"]{--fas-palette-primary1:#E67339;--fas-palette-primary2:#4D1900;--fas-palette-accent:#8C5D45;--fas-palette-on-primary:#FFFFFF;}
+body[data-fas-color-palette="highcontrast"]{--fas-palette-bg:#000;--fas-palette-surface:#000;--fas-palette-surface-2:#111;--fas-palette-text:#fff;--fas-palette-muted:#fff;--fas-palette-warning:#ff5252;--fas-palette-primary1:#ff0;--fas-palette-primary2:#ff0;--fas-palette-accent:#0ff;--fas-palette-on-primary:#000;--fas-palette-border:#fff;--fas-palette-focus:#0ff}
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) .question-container,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) .card,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) .modal-content,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) .dropdown-menu,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) .fas-a11y-panel{background-color:var(--fas-palette-surface)!important;color:var(--fas-palette-text)!important;border-color:var(--fas-palette-border)!important}
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) .question-title-container,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) .survey-name,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) h1,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) h2,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) h3{color:var(--fas-palette-text)!important}
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) a{color:var(--fas-palette-primary2)!important}
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) .btn-primary,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) .ls-move-btn,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) .progress-bar{background-color:var(--fas-palette-primary2)!important;border-color:var(--fas-palette-primary2)!important;color:var(--fas-palette-on-primary)!important}
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) .btn-primary:hover,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) .btn-primary:focus-visible,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) .ls-move-btn:hover,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) .ls-move-btn:focus-visible{background-color:var(--fas-palette-accent)!important;border-color:var(--fas-palette-accent)!important;color:#fff!important}
+body[data-fas-color-palette="hyperion"] .btn-primary:hover,body[data-fas-color-palette="dune"] .btn-primary:hover{color:#fff!important}
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) input,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) select,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) textarea{background-color:#fff!important;color:var(--fas-palette-text)!important;border-color:var(--fas-palette-border)!important}
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) :focus-visible{outline:3px solid var(--fas-palette-focus)!important;outline-offset:3px}
+body[data-fas-color-palette="highcontrast"] .text-muted,body[data-fas-color-palette="highcontrast"] .form-text{color:#fff!important}
+body[data-fas-color-palette="highcontrast"] a{color:#ff0!important;text-decoration:underline!important}
+body[data-fas-color-palette="highcontrast"] .btn-primary:hover,body[data-fas-color-palette="highcontrast"] .btn-primary:focus-visible{background:#0ff!important;color:#000!important;border-color:#0ff!important}
+
+/* V2.0.10 : application robuste par classe, en complément de data-* */
+body[class*="fas-palette-"]:not(.fas-palette-custom){
+  background-color:var(--fas-palette-bg,#fff)!important;
+  color:var(--fas-palette-text,#111827)!important;
+}
+body.fas-palette-neutre{--fas-palette-primary1:#D2D4DB;--fas-palette-primary2:#4B5563;--fas-palette-accent:#9500FF;--fas-palette-on-primary:#fff}
+body.fas-palette-industrie{--fas-palette-primary1:#96A2F5;--fas-palette-primary2:#454F91;--fas-palette-accent:#5A55AF;--fas-palette-on-primary:#fff}
+body.fas-palette-pinklady{--fas-palette-primary1:#FE7DB1;--fas-palette-primary2:#B72962;--fas-palette-accent:#89586C;--fas-palette-on-primary:#fff}
+body.fas-palette-brique{--fas-palette-primary1:#FC8670;--fas-palette-primary2:#B14937;--fas-palette-accent:#8C584F;--fas-palette-on-primary:#fff}
+body.fas-palette-orangette{--fas-palette-primary1:#F39200;--fas-palette-primary2:#AA2E00;--fas-palette-accent:#995238;--fas-palette-on-primary:#fff}
+body.fas-palette-hyperion{--fas-palette-primary1:#FFD24D;--fas-palette-primary2:#4D3F17;--fas-palette-accent:#7B6523;--fas-palette-on-primary:#fff}
+body.fas-palette-ocean{--fas-palette-primary1:#7ABAFF;--fas-palette-primary2:#2973C3;--fas-palette-accent:#2569B1;--fas-palette-on-primary:#fff}
+body.fas-palette-menthe{--fas-palette-primary1:#89E0B1;--fas-palette-primary2:#3F845F;--fas-palette-accent:#37724F;--fas-palette-on-primary:#fff}
+body.fas-palette-dune{--fas-palette-primary1:#FAF0E1;--fas-palette-primary2:#827561;--fas-palette-accent:#6F6452;--fas-palette-on-primary:#fff}
+body.fas-palette-commodore{--fas-palette-primary1:#A6CEFF;--fas-palette-primary2:#003D87;--fas-palette-accent:#005AC7;--fas-palette-on-primary:#fff}
+body.fas-palette-colvert{--fas-palette-primary1:#4ABEB1;--fas-palette-primary2:#007668;--fas-palette-accent:#007668;--fas-palette-on-primary:#fff}
+body.fas-palette-vulcain{--fas-palette-primary1:#D15C64;--fas-palette-primary2:#941B23;--fas-palette-accent:#944C53;--fas-palette-on-primary:#fff}
+body.fas-palette-orangesanguine{--fas-palette-primary1:#E67339;--fas-palette-primary2:#4D1900;--fas-palette-accent:#8C5D45;--fas-palette-on-primary:#fff}
+body.fas-palette-highcontrast{--fas-palette-bg:#000;--fas-palette-surface:#000;--fas-palette-surface-2:#111;--fas-palette-text:#fff;--fas-palette-muted:#fff;--fas-palette-primary1:#ff0;--fas-palette-primary2:#ff0;--fas-palette-accent:#0ff;--fas-palette-on-primary:#000;--fas-palette-border:#fff;--fas-palette-focus:#0ff}
+body[class*="fas-palette-"]:not(.fas-palette-custom) .navbar,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .navbar-default,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .top-container,
+body[class*="fas-palette-"]:not(.fas-palette-custom) header,
+body[class*="fas-palette-"]:not(.fas-palette-custom) footer{background-color:var(--fas-palette-primary1)!important;color:var(--fas-palette-text,#111827)!important}
+body[class*="fas-palette-"]:not(.fas-palette-custom) .question-container,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .card,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .modal-content,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .dropdown-menu{background-color:var(--fas-palette-surface,#F8F9FB)!important;color:var(--fas-palette-text,#111827)!important;border-color:var(--fas-palette-primary2)!important}
+body[class*="fas-palette-"]:not(.fas-palette-custom) .btn-primary,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .ls-move-btn,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .progress-bar{background-color:var(--fas-palette-primary2)!important;border-color:var(--fas-palette-primary2)!important;color:var(--fas-palette-on-primary,#fff)!important}
+body[class*="fas-palette-"]:not(.fas-palette-custom) .btn-primary:hover,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .btn-primary:focus-visible,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .ls-move-btn:hover,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .ls-move-btn:focus-visible{background-color:var(--fas-palette-accent)!important;border-color:var(--fas-palette-accent)!important;color:#fff!important}
+body[class*="fas-palette-"]:not(.fas-palette-custom) a{color:var(--fas-palette-primary2)!important}
+body[class*="fas-palette-"]:not(.fas-palette-custom) input,
+body[class*="fas-palette-"]:not(.fas-palette-custom) select,
+body[class*="fas-palette-"]:not(.fas-palette-custom) textarea{border-color:var(--fas-palette-primary2)!important}
+
+/* V2.0.11 — priorité explicite sur les variations Fruity héritées. */
+body[class*="fas-palette-"]:not(.fas-palette-custom){
+ --fas-palette-bg:#fff;--fas-palette-surface:#F8F9FB;--fas-palette-surface-2:#F3F4F6;
+ --fas-palette-text:#111827;--fas-palette-muted:#4B5563;--fas-palette-border:#69707E;--fas-palette-focus:var(--fas-palette-accent);
+ --bs-primary:var(--fas-palette-primary2)!important;--bs-link-color:var(--fas-palette-primary2)!important;
+}
+body.fas-palette-highcontrast{--fas-palette-bg:#000;--fas-palette-surface:#000;--fas-palette-surface-2:#111;--fas-palette-text:#fff;--fas-palette-muted:#fff;--fas-palette-border:#fff}
+body[class*="fas-palette-"]:not(.fas-palette-custom) .form-control:focus,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .form-select:focus{border-color:var(--fas-palette-accent)!important;box-shadow:0 0 0 .2rem color-mix(in srgb,var(--fas-palette-accent) 30%,transparent)!important}
+
+
+/* V2.0.12 — tous les états interactifs suivent la palette active. */
+body[class*="fas-palette-"]:not(.fas-palette-custom) {
+  --fas-control-accent: var(--fas-palette-accent, var(--fas-palette-primary2, #005ac7));
+  --fas-control-primary: var(--fas-palette-primary2, #005ac7);
+  --fas-control-primary-soft: var(--fas-palette-primary1, #a6ceff);
+}
+body[class*="fas-palette-"]:not(.fas-palette-custom) .checkbox-item input[type="checkbox"]:checked + label,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .radio-item input[type="radio"]:checked + label,
+body[class*="fas-palette-"]:not(.fas-palette-custom) input[type="checkbox"]:checked + label,
+body[class*="fas-palette-"]:not(.fas-palette-custom) input[type="radio"]:checked + label,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .form-check-input:checked + .form-check-label {
+  color: var(--fas-control-accent) !important;
+}
+body[class*="fas-palette-"]:not(.fas-palette-custom) .form-check-input:checked,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .checkbox-item input[type="checkbox"]:checked,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .radio-item input[type="radio"]:checked {
+  background-color: var(--fas-palette-primary2, #005ac7) !important;
+  border-color: var(--fas-control-primary) !important;
+}
+body[class*="fas-palette-"]:not(.fas-palette-custom) .form-check-input:focus,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .checkbox-item input[type="checkbox"]:focus-visible,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .radio-item input[type="radio"]:focus-visible {
+  border-color: var(--fas-control-accent) !important;
+  box-shadow: 0 0 0 .22rem color-mix(in srgb, var(--fas-control-accent) 32%, transparent) !important;
+}
+body[class*="fas-palette-"]:not(.fas-palette-custom) .btn-check:checked + .btn,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .btn.active,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .dropdown-item.active,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .dropdown-item:active,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .list-group-item.active,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .nav-pills .nav-link.active,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .page-item.active .page-link {
+  background-color: var(--fas-control-primary) !important;
+  border-color: var(--fas-control-primary) !important;
+  color: var(--fas-palette-on-primary, #fff) !important;
+}
+body[class*="fas-palette-"]:not(.fas-palette-custom) .select2-container--default .select2-results__option--highlighted[aria-selected],
+body[class*="fas-palette-"]:not(.fas-palette-custom) .select2-container--default .select2-results__option--highlighted[aria-selected="true"],
+body[class*="fas-palette-"]:not(.fas-palette-custom) option:checked {
+  background: var(--fas-control-primary) !important;
+  color: var(--fas-palette-on-primary, #fff) !important;
+}
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) .bootstrap-select .dropdown-item:hover,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) .bootstrap-select .dropdown-item:focus,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) .bootstrap-select .dropdown-item.active,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) .bootstrap-select .dropdown-item[aria-selected="true"],
+body[class*="fas-palette-"]:not(.fas-palette-custom) .bootstrap-select .dropdown-item:hover,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .bootstrap-select .dropdown-item:focus,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .bootstrap-select .dropdown-item.active,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .bootstrap-select .dropdown-item[aria-selected="true"],
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) .select2-results__option--highlighted,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .select2-results__option--highlighted {
+  background-color: var(--fas-palette-primary2, #005ac7) !important;
+  color: var(--fas-palette-on-primary, #fff) !important;
+}
+body[class*="fas-palette-"]:not(.fas-palette-custom) .ui-slider-range,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .noUi-connect,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .slider-selection,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary {
+  background: var(--fas-control-primary) !important;
+}
+body[class*="fas-palette-"]:not(.fas-palette-custom) .ui-slider-handle,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .noUi-handle {
+  border-color: var(--fas-control-primary) !important;
+}
+body[class*="fas-palette-"]:not(.fas-palette-custom) .sortable-item.active,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .sortable-item:focus,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .ranking-sorted-items .list-group-item {
+  border-color: var(--fas-control-primary) !important;
+}
+body.fas-palette-highcontrast .checkbox-item input[type="checkbox"]:checked + label,
+body.fas-palette-highcontrast .radio-item input[type="radio"]:checked + label,
+body.fas-palette-highcontrast input[type="checkbox"]:checked + label,
+body.fas-palette-highcontrast input[type="radio"]:checked + label {
+  color: #ffff00 !important;
+}
+
+/* V2.0.19 — carte de contrôle de la palette dans la prévisualisation. */
+.fas-welcome-palette-preview {
+  margin: 2rem 0 1rem;
+  padding: 1.25rem;
+  border: 2px solid var(--fas-palette-primary2, #4b5563);
+  border-radius: .75rem;
+  background: var(--fas-palette-surface, #f8f9fb);
+  color: var(--fas-palette-text, #111827);
+  box-shadow: 0 .35rem 1rem rgb(17 24 39 / 12%);
+}
+.fas-welcome-palette-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .5rem 1rem;
+  margin-bottom: 1rem;
+}
+.fas-welcome-palette-heading h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+.fas-welcome-palette-heading strong {
+  color: var(--fas-palette-primary2, #4b5563);
+  font-size: 1rem;
+}
+.fas-welcome-palette-colors {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  min-height: 4.25rem;
+  overflow: hidden;
+  border: 1px solid var(--fas-palette-border, #69707e);
+  border-radius: .5rem;
+}
+.fas-welcome-palette-colors span:nth-child(1) { background: var(--fas-palette-primary1, #d2d4db); }
+.fas-welcome-palette-colors span:nth-child(2) { background: var(--fas-palette-primary2, #4b5563); }
+.fas-welcome-palette-colors span:nth-child(3) { background: var(--fas-palette-accent, #9500ff); }
+.fas-welcome-palette-sample {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--fas-palette-border, #69707e);
+  border-radius: .5rem;
+  background: var(--fas-palette-bg, #fff);
+}
+.fas-welcome-palette-button {
+  display: inline-block;
+  padding: .55rem 1rem;
+  border-radius: .4rem;
+  background: var(--fas-palette-primary2, #4b5563);
+  color: var(--fas-palette-on-primary, #fff);
+  font-weight: 700;
+}
+body.fas-palette-highcontrast .fas-welcome-palette-preview,
+body.fas-palette-highcontrast .fas-welcome-palette-sample {
+  background: #000;
+  color: #fff;
+}
+body.fas-palette-highcontrast .fas-welcome-palette-heading strong { color: #ffff00; }
+
+@media (max-width: 575.98px) {
+  .fas-welcome-palette-preview { padding: 1rem; }
+  .fas-welcome-palette-colors { min-height: 3rem; }
+}
+
+/* V2.0.24 — cases à cocher pilotées par la palette active. */
+body[data-fas-color-palette] .checkbox-item label {
+  display: inline-block;
+  position: relative;
+  padding-left: 20px;
+  vertical-align: middle;
+}
+body[data-fas-color-palette] .checkbox-item label::before,
+body[data-fas-color-palette] .privacy .checkbox-item label::before {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  left: 0;
+  top: 0;
+  margin-left: -20px;
+  border: 3px solid var(--fas-palette-primary2, #4b5563) !important;
+  border-radius: 0;
+  background-color: var(--fas-palette-bg, #fff) !important;
+  transition: border-color .15s ease-in-out, background-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+body[data-fas-color-palette] .checkbox-item label::after {
+  display: inline-block;
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  margin-left: -20px;
+  color: var(--fas-palette-on-primary, #fff) !important;
+}
+body[data-fas-color-palette] .checkbox-item input[type="checkbox"]:checked + label::before,
+body[data-fas-color-palette] .privacy .checkbox-item input[type="checkbox"]:checked + label::before {
+  border-color: var(--fas-palette-primary2, #4b5563) !important;
+  background-color: var(--fas-palette-primary2, #4b5563) !important;
+}
+body[data-fas-color-palette] .checkbox-item input[type="checkbox"]:hover + label::before,
+body[data-fas-color-palette] .privacy .checkbox-item input[type="checkbox"]:hover + label::before {
+  border-color: var(--fas-palette-accent, #9500ff) !important;
+}
+body[data-fas-color-palette] .checkbox-item input[type="checkbox"]:focus + label::before,
+body[data-fas-color-palette] .checkbox-item input[type="checkbox"]:focus-visible + label::before,
+body[data-fas-color-palette] .privacy .checkbox-item input[type="checkbox"]:focus + label::before,
+body[data-fas-color-palette] .privacy .checkbox-item input[type="checkbox"]:focus-visible + label::before {
+  border-color: var(--fas-palette-focus, #9500ff) !important;
+  outline: 3px solid var(--fas-palette-focus, #9500ff);
+  outline-offset: 3px;
+  box-shadow: none !important;
+}
+body[data-fas-color-palette="highcontrast"] .checkbox-item label::before,
+body[data-fas-color-palette="highcontrast"] .privacy .checkbox-item label::before {
+  border-color: #ffff00 !important;
+  background-color: #000 !important;
+}
+body[data-fas-color-palette="highcontrast"] .checkbox-item input[type="checkbox"]:checked + label::before,
+body[data-fas-color-palette="highcontrast"] .privacy .checkbox-item input[type="checkbox"]:checked + label::before {
+  background-color: #ffff00 !important;
+}
+body[data-fas-color-palette="highcontrast"] .checkbox-item input[type="checkbox"]:checked + label::after,
+body[data-fas-color-palette="highcontrast"] .privacy .checkbox-item input[type="checkbox"]:checked + label::after {
+  color: #000 !important;
+}
+
+/* V2.0.25 — surcharge enregistrée du fond des questions. */
+body[data-fas-color-palette] .question-container {
+  background-color: var(--fas-question-background, var(--fas-palette-surface, #f8f9fb)) !important;
+}
+
+/* Priorité finale du mode contraste sur toutes les palettes et variations Fruity. */
+html.fas-high-contrast,
+html.fas-high-contrast body.fruity-allysurvey-rgaa,
+html.fas-high-contrast body.fruity-allysurvey-rgaa *:not(img):not(video):not(svg):not(path) {
+  background-color: #000 !important;
+  background-image: none !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+html.fas-high-contrast body.fruity-allysurvey-rgaa::before,
+html.fas-high-contrast body.fruity-allysurvey-rgaa::after,
+html.fas-high-contrast body.fruity-allysurvey-rgaa .top-container::before,
+html.fas-high-contrast body.fruity-allysurvey-rgaa .top-container::after,
+html.fas-high-contrast body.fruity-allysurvey-rgaa header::before,
+html.fas-high-contrast body.fruity-allysurvey-rgaa header::after {
+  background-color: #000 !important;
+  background-image: none !important;
+  border-color: #fff !important;
+}
+html.fas-high-contrast body.fruity-allysurvey-rgaa a:not(.btn) {
+  color: #fff !important;
+  text-decoration: underline !important;
+  text-decoration-thickness: .12em !important;
+  text-underline-offset: .15em !important;
+}
+html.fas-high-contrast body.fruity-allysurvey-rgaa .btn,
+html.fas-high-contrast body.fruity-allysurvey-rgaa .ls-move-btn,
+html.fas-high-contrast body.fruity-allysurvey-rgaa button,
+html.fas-high-contrast body.fruity-allysurvey-rgaa input,
+html.fas-high-contrast body.fruity-allysurvey-rgaa select,
+html.fas-high-contrast body.fruity-allysurvey-rgaa textarea {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+html.fas-high-contrast body.fruity-allysurvey-rgaa .fas-a11y-actions button:hover,
+html.fas-high-contrast body.fruity-allysurvey-rgaa .fas-a11y-actions button:focus-visible,
+html.fas-high-contrast body.fruity-allysurvey-rgaa .fas-a11y-actions button[aria-pressed="true"] {
+  background-color: #fff !important;
+  color: #000 !important;
+  border-color: #fff !important;
+}
+html.fas-high-contrast body.fruity-allysurvey-rgaa .checkbox-item label::before,
+html.fas-high-contrast body.fruity-allysurvey-rgaa .privacy .checkbox-item label::before,
+html.fas-high-contrast body.fruity-allysurvey-rgaa .radio-item label::before {
+  background-color: #000 !important;
+  border-color: #fff !important;
+}
+html.fas-high-contrast body.fruity-allysurvey-rgaa .checkbox-item input[type="checkbox"]:checked + label::before,
+html.fas-high-contrast body.fruity-allysurvey-rgaa .privacy .checkbox-item input[type="checkbox"]:checked + label::before,
+html.fas-high-contrast body.fruity-allysurvey-rgaa .radio-item input[type="radio"]:checked + label::before {
+  background-color: #fff !important;
+  border-color: #fff !important;
+}
+html.fas-high-contrast body.fruity-allysurvey-rgaa .checkbox-item input[type="checkbox"]:checked + label::after,
+html.fas-high-contrast body.fruity-allysurvey-rgaa .privacy .checkbox-item input[type="checkbox"]:checked + label::after,
+html.fas-high-contrast body.fruity-allysurvey-rgaa .radio-item input[type="radio"]:checked + label::after {
+  color: #000 !important;
+}
+
+/* Variante indépendante du layout : l’état de contraste porté par <html> suffit. */
+html.fas-high-contrast:root,
+html.fas-high-contrast:root body,
+html.fas-high-contrast:root body *:not(img):not(video):not(svg):not(path) {
+  background-color: #000 !important;
+  background-image: none !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+html.fas-high-contrast:root body h1,
+html.fas-high-contrast:root body .h1,
+html.fas-high-contrast:root body .survey-name,
+html.fas-high-contrast:root body .large-heading {
+  color: #fff !important;
+}
+html.fas-high-contrast:root body #survey-nav,
+html.fas-high-contrast:root body #survey-nav > .container-fluid,
+html.fas-high-contrast:root body #survey-nav .navbar-brand.logo-container,
+html.fas-high-contrast:root body #navbar-menu,
+html.fas-high-contrast:root body #main-dropdown,
+html.fas-high-contrast:root body .top-container,
+html.fas-high-contrast:root body header,
+html.fas-high-contrast:root body footer,
+html.fas-high-contrast:root body .fas-a11y-panel {
+  background: #000 !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+html.fas-high-contrast:root body #survey-nav::before,
+html.fas-high-contrast:root body #survey-nav::after,
+html.fas-high-contrast:root body #survey-nav > .container-fluid::before,
+html.fas-high-contrast:root body #survey-nav > .container-fluid::after,
+html.fas-high-contrast:root body .top-container::before,
+html.fas-high-contrast:root body .top-container::after {
+  background: #000 !important;
+  border-color: #fff !important;
+}
+html.fas-high-contrast:root body #survey-nav .logo-container > img.logo {
+  filter: grayscale(1) brightness(0) invert(1) !important;
+}
+html.fas-high-contrast:root body a:not(.btn) {
+  color: #fff !important;
+  text-decoration: underline !important;
+  text-decoration-thickness: .12em !important;
+  text-underline-offset: .15em !important;
+}
+html.fas-high-contrast:root body .btn,
+html.fas-high-contrast:root body .ls-move-btn,
+html.fas-high-contrast:root body button,
+html.fas-high-contrast:root body input,
+html.fas-high-contrast:root body select,
+html.fas-high-contrast:root body textarea {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+html.fas-high-contrast:root body .fas-a11y-actions button:hover,
+html.fas-high-contrast:root body .fas-a11y-actions button:focus-visible,
+html.fas-high-contrast:root body .fas-a11y-actions button[aria-pressed="true"] {
+  background-color: #fff !important;
+  color: #000 !important;
+  border-color: #fff !important;
+}
+html.fas-high-contrast:root body .question-container.ranking.ls-ranking-a11y-enabled .select-sortable-lists .select-list,
+html.fas-high-contrast:root body .question-container.ls-ranking-a11y-enabled .select-sortable-lists .select-list,
+html.fas-high-contrast:root body fieldset.ls-ranking-a11y-enabled .select-sortable-lists .select-list,
+html.fas-high-contrast:root body .question-container.ls-ranking-a11y-enabled .select-item,
+html.fas-high-contrast:root body fieldset.ls-ranking-a11y-enabled .select-item,
+html.fas-high-contrast:root body .question-container.ls-ranking-a11y-enabled .select-item label,
+html.fas-high-contrast:root body fieldset.ls-ranking-a11y-enabled .select-item label,
+html.fas-high-contrast:root body .ls-ranking-a11y-help,
+html.fas-high-contrast:root body .ls-ranking-a11y-help strong {
+  background:#000!important;
+  color:#fff!important;
+  border-color:#fff!important;
+}
+
+/* Les 12 px de padding supérieur ne doivent jamais révéler le fond de question enregistré. */
+html.fas-high-contrast:root body div[id^="question"].question-container,
+html.fas-high-contrast:root body fieldset[id^="question"].question-container,
+html.fas-high-contrast:root body div[id^="question"].question-container > .question-title-container,
+html.fas-high-contrast:root body fieldset[id^="question"].question-container > .question-title-container,
+html.fas-high-contrast:root body div[id^="question"].question-container > .answer-container,
+html.fas-high-contrast:root body fieldset[id^="question"].question-container > .answer-container,
+html.fas-high-contrast:root body div[id^="question"].question-container > .question-help-container,
+html.fas-high-contrast:root body fieldset[id^="question"].question-container > .question-help-container,
+html.fas-high-contrast:root body div[id^="question"].question-container > .question-valid-container,
+html.fas-high-contrast:root body fieldset[id^="question"].question-container > .question-valid-container {
+  background:#000!important;
+  background-color:#000!important;
+  background-image:none!important;
+  color:#fff!important;
+  border-color:#fff!important;
+  box-shadow:none!important;
+}
+html.fas-high-contrast:root body div[id^="question"].question-container::before,
+html.fas-high-contrast:root body div[id^="question"].question-container::after,
+html.fas-high-contrast:root body fieldset[id^="question"].question-container::before,
+html.fas-high-contrast:root body fieldset[id^="question"].question-container::after {
+  background:#000!important;
+  background-image:none!important;
+  border-color:#fff!important;
+  box-shadow:none!important;
+}
+
+/* La progression et les liens ne doivent jamais reprendre le vert natif de Fruity. */
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) #progressbar-top .progress > .progress-bar,
+body[class*="fas-palette-"]:not(.fas-palette-custom) #progressbar-top .progress > .progress-bar {
+  background-color:var(--fas-palette-primary2)!important;
+  border-color:var(--fas-palette-primary2)!important;
+  color:var(--fas-palette-on-primary,#fff)!important;
+}
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) #progressbar-top .progress,
+body[class*="fas-palette-"]:not(.fas-palette-custom) #progressbar-top .progress {
+  background-color:var(--fas-palette-surface-2,#e5e7eb)!important;
+  border-color:var(--fas-palette-border,#69707e)!important;
+}
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) #fas-main-content a:not(.btn),
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) #fas-main-content a:not(.btn):hover,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) #fas-main-content a:not(.btn):focus,
+body[class*="fas-palette-"]:not(.fas-palette-custom) #fas-main-content a:not(.btn),
+body[class*="fas-palette-"]:not(.fas-palette-custom) #fas-main-content a:not(.btn):hover,
+body[class*="fas-palette-"]:not(.fas-palette-custom) #fas-main-content a:not(.btn):focus {
+  color:var(--fas-palette-primary2)!important;
+}
+html.fas-high-contrast:root body #fas-main-content a:not(.btn),
+html.fas-high-contrast:root body #fas-main-content a:not(.btn):hover,
+html.fas-high-contrast:root body #fas-main-content a:not(.btn):focus {
+  color:#fff!important;
+}
+html.fas-high-contrast:root body #progressbar-top .progress {
+  background:#000!important;
+  border-color:#fff!important;
+}
+html.fas-high-contrast:root body #progressbar-top .progress > .progress-bar {
+  background:#fff!important;
+  border-color:#fff!important;
+  color:#000!important;
+}
+
+/* Réponses radio présentées comme boutons : état sélectionné persistant et explicite. */
+body #fas-main-content .form-check > input.btn-check.button-item:checked + label.btn,
+body #fas-main-content .form-check > input.btn-check:checked + label.btn-primary,
+body #fas-main-content .answers-list > input.btn-check.ls-button-radio:checked + label.ls-button-label,
+body #fas-main-content [role="radiogroup"] > input.btn-check.ls-button-radio:checked + label.btn-primary {
+  background-color:var(--fas-palette-accent,var(--fas-accent,#005ac7))!important;
+  border:3px solid var(--fas-palette-primary2,var(--fas-accent,#005ac7))!important;
+  color:#fff!important;
+  box-shadow:inset 0 0 0 2px currentColor,0 0 0 2px var(--fas-palette-accent,var(--fas-accent,#005ac7))!important;
+  font-weight:700!important;
+}
+body #fas-main-content .form-check > input.btn-check.button-item:checked + label.btn::before,
+body #fas-main-content .form-check > input.btn-check:checked + label.btn-primary::before {
+  content:"✓";
+  display:inline-block;
+  margin-inline-end:.5em;
+  font-weight:900;
+}
+body #fas-main-content .form-check > input.btn-check:focus-visible + label.btn {
+  outline:3px solid var(--fas-palette-focus,var(--fas-focus,#005ac7))!important;
+  outline-offset:3px!important;
+}
+body #fas-main-content .answers-list > input.btn-check.ls-button-radio:focus-visible + label.ls-button-label,
+body #fas-main-content [role="radiogroup"] > input.btn-check.ls-button-radio:focus-visible + label.btn-primary {
+  outline:3px solid var(--fas-palette-focus,var(--fas-focus,#005ac7))!important;
+  outline-offset:3px!important;
+}
+html.fas-high-contrast:root body #fas-main-content .form-check > input.btn-check:checked + label.btn,
+html.fas-high-contrast:root body #fas-main-content .answers-list > input.btn-check.ls-button-radio:checked + label.ls-button-label,
+html.fas-high-contrast:root body #fas-main-content [role="radiogroup"] > input.btn-check.ls-button-radio:checked + label.btn-primary {
+  background:#fff!important;
+  border-color:#fff!important;
+  color:#000!important;
+  box-shadow:inset 0 0 0 2px #000,0 0 0 2px #fff!important;
+}
+
+/* Contrastes minimums des messages d’erreur et des contrôles de formulaire. */
+body #fas-main-content .text-danger,
+body #fas-main-content .ls-question-message,
+body #fas-main-content .question-valid-container .text-danger,
+body #fas-main-content .invalid-feedback,
+body #fas-main-content .error {
+  color:#a40000!important;
+  background-color:transparent!important;
+  font-weight:700!important;
+}
+body #fas-main-content select.form-select,
+body #fas-main-content select.form-control,
+body #fas-main-content select.em_sq_validation {
+  background-color:#fff!important;
+  color:#1a1a1a!important;
+  border:2px solid #5b5b5b!important;
+}
+body #fas-main-content select.form-select option,
+body #fas-main-content select.form-control option,
+body #fas-main-content select.em_sq_validation option {
+  background-color:#fff!important;
+  color:#1a1a1a!important;
+}
+body #fas-main-content select.form-select:focus,
+body #fas-main-content select.form-control:focus,
+body #fas-main-content select.em_sq_validation:focus {
+  border-color:var(--fas-palette-focus,var(--fas-focus,#005ac7))!important;
+  outline:3px solid var(--fas-palette-focus,var(--fas-focus,#005ac7))!important;
+  outline-offset:2px!important;
+  box-shadow:none!important;
+}
+html.fas-high-contrast:root body #fas-main-content .text-danger,
+html.fas-high-contrast:root body #fas-main-content .ls-question-message,
+html.fas-high-contrast:root body #fas-main-content .question-valid-container .text-danger,
+html.fas-high-contrast:root body #fas-main-content .invalid-feedback,
+html.fas-high-contrast:root body #fas-main-content .error {
+  color:#fff!important;
+  background:#000!important;
+  text-decoration:underline!important;
+}
+html.fas-high-contrast:root body #fas-main-content select,
+html.fas-high-contrast:root body #fas-main-content select option {
+  background:#000!important;
+  color:#fff!important;
+  border-color:#fff!important;
+}
+
+/* Les libellés techniques restent disponibles aux lecteurs d’écran, hors affichage. */
+body .visually-hidden.control-label {
+  position:absolute!important;
+  width:1px!important;
+  height:1px!important;
+  padding:0!important;
+  margin:-1px!important;
+  overflow:hidden!important;
+  clip:rect(0,0,0,0)!important;
+  clip-path:inset(50%)!important;
+  white-space:nowrap!important;
+  border:0!important;
+  color:#000!important;
+  background:#fff!important;
+  opacity:0!important;
+}
+html.fas-high-contrast:root body .visually-hidden.control-label {
+  color:#fff!important;
+  background:#000!important;
+  opacity:0!important;
+}
+
+/* V2.0.34 - Les champs coches et le ranking suivent la palette active. */
+body #fas-main-content {
+  --fas-control-current: var(--fas-palette-primary2, var(--bs-primary, #005ac7));
+  --fas-control-current-soft: var(--fas-palette-primary1, #e7f1ff);
+  --fas-control-current-text: var(--fas-palette-on-primary, #fff);
+  --fas-control-unavailable-bg: #f0f2f5;
+  --fas-control-unavailable-text: #5f6673;
+}
+
+body #fas-main-content input[type="checkbox"],
+body #fas-main-content input[type="radio"] {
+  accent-color: var(--fas-control-current) !important;
+}
+
+body #fas-main-content .form-check-input:checked,
+body #fas-main-content input[type="checkbox"]:checked,
+body #fas-main-content input[type="radio"]:checked {
+  background-color: var(--fas-control-current) !important;
+  border-color: var(--fas-control-current) !important;
+}
+
+body #fas-main-content .checkbox-item input[type="checkbox"]:checked + label,
+body #fas-main-content .radio-item input[type="radio"]:checked + label,
+body #fas-main-content input[type="checkbox"]:checked + label,
+body #fas-main-content input[type="radio"]:checked + label {
+  color: var(--fas-control-current) !important;
+}
+
+body #fas-main-content .checkbox-item input[type="checkbox"]:checked + label::before,
+body #fas-main-content .radio-item input[type="radio"]:checked + label::before {
+  border-color: var(--fas-control-current) !important;
+}
+
+body #fas-main-content .checkbox-item input[type="checkbox"]:checked + label::after,
+body #fas-main-content .radio-item input[type="radio"]:checked + label::after,
+body #fas-main-content input[type="checkbox"]:checked::after,
+body #fas-main-content input[type="radio"]:checked::after {
+  color: var(--fas-control-current) !important;
+  background-color: var(--fas-control-current) !important;
+  border-color: var(--fas-control-current) !important;
+}
+
+body #fas-main-content select option:checked {
+  background: var(--fas-control-current) !important;
+  color: var(--fas-control-current-text) !important;
+}
+
+body #fas-main-content select option:disabled {
+  background: var(--fas-control-unavailable-bg) !important;
+  color: var(--fas-control-unavailable-text) !important;
+}
+
+body #fas-main-content .ls-ranking-a11y-enabled select[data-ls-ranking-a11y-select] {
+  border-width: 2px !important;
+}
+
+body #fas-main-content .ls-ranking-a11y-enabled select[data-ls-ranking-a11y-select].ls-ranking-has-value {
+  border-color: var(--fas-control-current) !important;
+}
+
+/* V2.0.35 - Navigation et coches harmonisees avec la palette active. */
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) #survey-nav .dropdown-menu .bg-success,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) #survey-nav .dropdown-menu .list-group-item-success,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) #survey-nav .dropdown-menu .index-item-answered,
+body[class*="fas-palette-"]:not(.fas-palette-custom) #survey-nav .dropdown-menu .bg-success,
+body[class*="fas-palette-"]:not(.fas-palette-custom) #survey-nav .dropdown-menu .list-group-item-success,
+body[class*="fas-palette-"]:not(.fas-palette-custom) #survey-nav .dropdown-menu .index-item-answered {
+  background-color: var(--fas-palette-primary2, #005ac7) !important;
+  border-color: var(--fas-palette-primary2, #005ac7) !important;
+  color: var(--fas-palette-on-primary, #fff) !important;
+}
+
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) #survey-nav .dropdown-menu .bg-success a,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) #survey-nav .dropdown-menu .list-group-item-success a,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) #survey-nav .dropdown-menu .index-item-answered a,
+body[class*="fas-palette-"]:not(.fas-palette-custom) #survey-nav .dropdown-menu .bg-success a,
+body[class*="fas-palette-"]:not(.fas-palette-custom) #survey-nav .dropdown-menu .list-group-item-success a,
+body[class*="fas-palette-"]:not(.fas-palette-custom) #survey-nav .dropdown-menu .index-item-answered a {
+  background-color: transparent !important;
+  color: var(--fas-palette-on-primary, #fff) !important;
+}
+
+body #fas-main-content .checkbox-item input[type="checkbox"]:checked + label::after,
+body #fas-main-content .privacy .checkbox-item input[type="checkbox"]:checked + label::after {
+  content: "\2713" !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0 !important;
+  font-family: Arial, sans-serif !important;
+  font-size: 19px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  color: var(--fas-control-current-text, #fff) !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+
+body #fas-main-content .ls-ranking-a11y-enabled .sortable-choice .sortable-item,
+body #fas-main-content .ls-ranking-a11y-enabled .sortable-rank .sortable-item {
+  border-color: var(--fas-control-current) !important;
+}
+
+body #fas-main-content .ls-ranking-a11y-enabled .sortable-choice .sortable-item[aria-disabled="true"],
+body #fas-main-content .ls-ranking-a11y-enabled .sortable-choice .sortable-item.disabled,
+body #fas-main-content .ls-ranking-a11y-enabled .sortable-choice .sortable-item.ui-state-disabled {
+  background: var(--fas-control-unavailable-bg) !important;
+  color: var(--fas-control-unavailable-text) !important;
+  border-color: #9aa3b2 !important;
+  opacity: 1 !important;
+}
+
+html.fas-high-contrast:root body #fas-main-content {
+  --fas-control-current: #ffff00;
+  --fas-control-current-soft: #000;
+  --fas-control-current-text: #000;
+  --fas-control-unavailable-bg: #000;
+  --fas-control-unavailable-text: #fff;
+}
+
+/* V2.0.36 - Sous-menu Index des questions dans le menu principal. */
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) #survey-nav #main-dropdown > li.index-menu-full > a.dropdown-toggle:hover,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) #survey-nav #main-dropdown > li.index-menu-full > a.dropdown-toggle:focus,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) #survey-nav #main-dropdown > li.index-menu-full > a.dropdown-toggle:active,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) #survey-nav #main-dropdown > li.index-menu-full > a.dropdown-toggle[aria-expanded="true"],
+body[class*="fas-palette-"]:not(.fas-palette-custom) #survey-nav #main-dropdown > li.index-menu-full > a.dropdown-toggle:hover,
+body[class*="fas-palette-"]:not(.fas-palette-custom) #survey-nav #main-dropdown > li.index-menu-full > a.dropdown-toggle:focus,
+body[class*="fas-palette-"]:not(.fas-palette-custom) #survey-nav #main-dropdown > li.index-menu-full > a.dropdown-toggle:active,
+body[class*="fas-palette-"]:not(.fas-palette-custom) #survey-nav #main-dropdown > li.index-menu-full > a.dropdown-toggle[aria-expanded="true"] {
+  background: var(--fas-palette-primary1, #e7f1ff) !important;
+  border-color: var(--fas-palette-primary2, #005ac7) !important;
+  box-shadow: inset .25rem 0 0 var(--fas-palette-primary2, #005ac7) !important;
+  color: var(--fas-palette-primary2, #005ac7) !important;
+}
+
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) #survey-nav #index-dropdown .dropdown-item:hover,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) #survey-nav #index-dropdown .dropdown-item:focus,
+body[class*="fas-palette-"]:not(.fas-palette-custom) #survey-nav #index-dropdown .dropdown-item:hover,
+body[class*="fas-palette-"]:not(.fas-palette-custom) #survey-nav #index-dropdown .dropdown-item:focus {
+  background: var(--fas-palette-primary1, #e7f1ff) !important;
+  box-shadow: inset .25rem 0 0 var(--fas-palette-primary2, #005ac7) !important;
+  color: var(--fas-palette-primary2, #005ac7) !important;
+}
+
+html.fas-high-contrast body #survey-nav #main-dropdown > li.index-menu-full > a.dropdown-toggle:hover,
+html.fas-high-contrast body #survey-nav #main-dropdown > li.index-menu-full > a.dropdown-toggle:focus,
+html.fas-high-contrast body #survey-nav #main-dropdown > li.index-menu-full > a.dropdown-toggle[aria-expanded="true"],
+body[data-fas-color-palette="highcontrast"] #survey-nav #main-dropdown > li.index-menu-full > a.dropdown-toggle:hover,
+body[data-fas-color-palette="highcontrast"] #survey-nav #main-dropdown > li.index-menu-full > a.dropdown-toggle:focus,
+body[data-fas-color-palette="highcontrast"] #survey-nav #main-dropdown > li.index-menu-full > a.dropdown-toggle[aria-expanded="true"] {
+  background: #ffff00 !important;
+  box-shadow: inset .25rem 0 0 #00ffff !important;
+  color: #000 !important;
+}
+
+/* V2.0.37 - Index directement injecte dans #main-dropdown (LS6/LS7). */
+body #survey-nav #main-dropdown > li.list-group-item.index-item,
+body #survey-nav #main-dropdown > li.list-group-item.index-item:hover,
+body #survey-nav #main-dropdown > li.list-group-item.index-item:focus-within {
+  background: transparent !important;
+  border-color: transparent !important;
+}
+
+body #survey-nav #main-dropdown > li.list-group-item.index-item > a.dropdown-item:hover,
+body #survey-nav #main-dropdown > li.list-group-item.index-item > a.dropdown-item:focus,
+body #survey-nav #main-dropdown > li.list-group-item.index-item > a.dropdown-item:focus-visible {
+  background: var(--fas-palette-primary1, #e7f1ff) !important;
+  border-left-color: var(--fas-palette-primary2, #005ac7) !important;
+  box-shadow: inset .25rem 0 0 var(--fas-palette-primary2, #005ac7) !important;
+  color: var(--fas-palette-primary2, #005ac7) !important;
+}
+
+body #survey-nav #main-dropdown > li.list-group-item.index-item > a.dropdown-item.active,
+body #survey-nav #main-dropdown > li.list-group-item.index-item > a.dropdown-item:active,
+body #survey-nav #main-dropdown > li.list-group-item.index-item > a.dropdown-item[aria-current="step"] {
+  background: var(--fas-palette-primary2, #005ac7) !important;
+  border-left-color: var(--fas-palette-accent, #005ac7) !important;
+  box-shadow: inset .25rem 0 0 var(--fas-palette-accent, #005ac7) !important;
+  color: var(--fas-palette-on-primary, #fff) !important;
+}
+
+body #survey-nav #main-dropdown > li.list-group-item.index-item > a.dropdown-item.disabled,
+body #survey-nav #main-dropdown > li.list-group-item.index-item > a.dropdown-item[aria-disabled="true"] {
+  background: var(--fas-palette-surface, #f8f9fb) !important;
+  color: var(--fas-palette-muted, #4b5563) !important;
+}
+
+html.fas-high-contrast body #survey-nav #main-dropdown > li.list-group-item.index-item > a.dropdown-item:hover,
+html.fas-high-contrast body #survey-nav #main-dropdown > li.list-group-item.index-item > a.dropdown-item:focus,
+html.fas-high-contrast body #survey-nav #main-dropdown > li.list-group-item.index-item > a.dropdown-item:active {
+  background: #ffff00 !important;
+  border-left-color: #00ffff !important;
+  box-shadow: inset .25rem 0 0 #00ffff !important;
+  color: #000 !important;
+}
+
+/* V2.0.38 - Texte lisible sur les fonds interactifs fonces. */
+body[data-fas-color-palette="dune"] .btn-primary,
+body[data-fas-color-palette="dune"] .btn-primary:hover,
+body[data-fas-color-palette="dune"] .btn-primary:focus,
+body[data-fas-color-palette="dune"] .btn-primary:active,
+body[data-fas-color-palette="dune"] .ls-move-btn,
+body[data-fas-color-palette="dune"] .ls-move-btn:hover,
+body[data-fas-color-palette="dune"] .ls-move-btn:focus,
+body[data-fas-color-palette="hyperion"] .btn-primary,
+body[data-fas-color-palette="hyperion"] .btn-primary:hover,
+body[data-fas-color-palette="hyperion"] .btn-primary:focus,
+body[data-fas-color-palette="hyperion"] .btn-primary:active,
+body[data-fas-color-palette="hyperion"] .ls-move-btn,
+body[data-fas-color-palette="hyperion"] .ls-move-btn:hover,
+body[data-fas-color-palette="hyperion"] .ls-move-btn:focus {
+  color: #fff !important;
+}
+
+body[data-fas-color-palette="dune"] .bootstrap-select .dropdown-item:hover,
+body[data-fas-color-palette="dune"] .bootstrap-select .dropdown-item:focus,
+body[data-fas-color-palette="dune"] .bootstrap-select .dropdown-item.active,
+body[data-fas-color-palette="dune"] .bootstrap-select .dropdown-item[aria-selected="true"],
+body[data-fas-color-palette="hyperion"] .bootstrap-select .dropdown-item:hover,
+body[data-fas-color-palette="hyperion"] .bootstrap-select .dropdown-item:focus,
+body[data-fas-color-palette="hyperion"] .bootstrap-select .dropdown-item.active,
+body[data-fas-color-palette="hyperion"] .bootstrap-select .dropdown-item[aria-selected="true"] {
+  color: #fff !important;
+}
+
+body[data-fas-color-palette="dune"] .bootstrap-select .dropdown-item:hover *,
+body[data-fas-color-palette="dune"] .bootstrap-select .dropdown-item:focus *,
+body[data-fas-color-palette="dune"] .bootstrap-select .dropdown-item.active *,
+body[data-fas-color-palette="dune"] .bootstrap-select .dropdown-item[aria-selected="true"] *,
+body[data-fas-color-palette="hyperion"] .bootstrap-select .dropdown-item:hover *,
+body[data-fas-color-palette="hyperion"] .bootstrap-select .dropdown-item:focus *,
+body[data-fas-color-palette="hyperion"] .bootstrap-select .dropdown-item.active *,
+body[data-fas-color-palette="hyperion"] .bootstrap-select .dropdown-item[aria-selected="true"] * {
+  color: inherit !important;
+}

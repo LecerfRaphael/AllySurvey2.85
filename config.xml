@@ -1,0 +1,565 @@
+﻿<?xml version='1.0' encoding='UTF-8'?>
+<config>
+    <metadata>
+        <name>AllySurvey_V285_RGAA_WCAG_Autonome</name>
+        <title>AllySurvey_V285_RGAA_WCAG_Autonome</title>
+        <type>theme</type>
+        <creationDate>2026-07-13</creationDate>
+        <author>Raphaël Lecerf – Université de Lille / DAWAM</author>
+        <authorEmail>support-limesurvey@univ-lille.fr</authorEmail>
+        <authorUrl>https://www.univ-lille.fr</authorUrl>
+        <copyright>Copyright (C) LimeSurvey GmbH and Université de Lille DGD Num DAWAM</copyright>
+        <license>GNU General Public License version 2 or later</license>
+        <version>2.0.32</version>
+        <apiVersion>3.0</apiVersion>
+        <description twig="on">Thème LimeSurvey autonome, adapté pour améliorer l’accessibilité numérique et la conformité au RGAA 4. En amélioration continue par la Direction du numérique – Service DAWAM de l’Université de Lille. 📧 Contact : raphael.lecerf@univ-lille.fr</description>
+        <lastUpdate>2026-07-14 00:00:50</lastUpdate>
+    </metadata>
+    <compatibility>
+        <version>7.0</version>
+        <version>6.0</version>
+    </compatibility>
+    <files>
+        <css>
+            <add>css/variations/theme_apple.css</add>
+            <add>css/base.css</add>
+            <add>css/custom.css</add>
+            <remove>survey.css</remove>
+            <remove>template-core.css</remove>
+            <remove>awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css</remove>
+            <remove>awesome-bootstrap-checkbox/awesome-bootstrap-checkbox-rtl.css</remove>
+            <add>css/ally-v1.css</add>
+            <add>css/ally-toolbar.css</add>
+            <add>css/ally-rgaa-wcag.css</add>
+            <add>css/ally-exclusive-tools.css</add>
+            <add>css/ally-customization.css</add>
+            <add>css/ally-ls7.css</add>
+            <add>css/ally-matching.css</add>
+            <add>css/ally-ranking.css</add>
+            <add>css/ally-palettes.css</add>
+            <add>css/ally-admin-options.css</add>
+        </css>
+        <js>
+            <add>scripts/theme.js</add>
+            <add>scripts/custom.js</add>
+            <remove>survey.js</remove>
+            <remove>template-core.js</remove>
+            <add>scripts/ally-v1.js</add>
+            <add>scripts/ally-toolbar.js</add>
+            <add>scripts/ally-observer-hub.js</add>
+            <add>scripts/ally-text-utils.js</add>
+            <add>files/accessibilite.js</add>
+            <add>scripts/ally-diagnostic.js</add>
+            <add>scripts/ally-developer.js</add>
+            <add>scripts/ally-customization.js</add>
+            <add>scripts/ally-ls7-compat.js</add>
+            <add>scripts/ally-matching.js</add>
+            <add>scripts/ally-audit-fixes.js</add>
+            <add>scripts/ally-admin-options-bridge.js</add>
+        </js>
+        <print_css>
+            <add>css/print_theme.css</add>
+        </print_css>
+    </files>
+    <options>
+        <themecolor
+            type="buttons"
+            category="Color themes"
+            width="12"
+            title="Color palette"
+            options="neutre|industrie|pinklady|brique|orangette|hyperion|ocean|menthe|dune|commodore|colvert|vulcain|orangesanguine|custom"
+            optionlabels="1 Neutre|2 Industrie|3 Pink Lady|4 Brique du Nord|5 Orangette|6 Hypérion|7 Océan|8 Menthe|9 Dune|10 Commodore|11 Colvert|12 Vulcain|13 Orange Sanguine|Personnalisé"
+            optionimages="palette-neutre.txt|palette-industrie.txt|palette-pinklady.txt|palette-brique.txt|palette-orangette.txt|palette-hyperion.txt|palette-ocean.txt|palette-menthe.txt|palette-dune.txt|palette-commodore.txt|palette-colvert.txt|palette-vulcain.txt|palette-orangesanguine.txt|palette-custom.txt">neutre</themecolor>
+        <hideprivacyinfo type="buttons" category="Simple options" width="4" title="Hide privacy info" options="on|off" optionlabels="Yes|No">off
+        </hideprivacyinfo>
+        <showpopups type="buttons" category="Simple options" width="4" title="Show popups" options="1|0|-1" optionlabels="Popup|On page|No">1
+        </showpopups>
+        <notables type="buttons" category="Simple options" width="4" title="Wrap tables" options="2|1|0" optionlabels="Always on|Small screens|Off">1
+        </notables>
+        <showclearall type="buttons" category="Simple options" width="4" title="Show 'Clear all' button" options="on|off" optionlabels="Yes|No">off
+        </showclearall>
+        <questionhelptextposition type="buttons" category="Simple options" width="4" title="Question help text position" options="top|bottom" optionlabels="Top|Bottom">top
+        </questionhelptextposition>
+        <fixnumauto type="buttons" category="Simple options" width="4" title="Fix automatically numeric value" options="enable|partial|disable" optionlabels="Yes|For expression|No">enable
+        </fixnumauto>
+        <cornerradius type="buttons" category="Simple options" width="4" title="Corner radius" options="1|2|3" optionlabels="0px|4px|20px" optionimages="cornerradius_0.txt|cornerradius_4.txt|cornerradius_20.txt">2</cornerradius>
+        <bodybackgroundcolor type="colorpicker" category="Colors" width="4" title="Background color" options="on|off" optionlabels="Yes|No">#ffffff</bodybackgroundcolor>
+        <fontcolor type="colorpicker" category="Colors" width="4" title="Font color" options="on|off" optionlabels="Yes|No">#444444</fontcolor>
+        <questionbackgroundcolor type="colorpicker" category="Colors" width="4" title="Question background color" options="on|off" optionlabels="Yes|No">#ffffff</questionbackgroundcolor>
+        <checkicon type="icon" library="remixicon" category="Colors" width="4" title="Check icon">EB7A
+            
+            <dropdownoptions>
+                <option value="EB7A"> Check </option>
+                <option value="EB80"> Check circle </option>
+                <option value="EB82"> Check square </option>
+            </dropdownoptions>
+        </checkicon>
+        <backgroundimage type="buttons" category="Images" width="4" title="Background image" options="on|off" optionlabels="Yes|No">off
+        </backgroundimage>
+        <backgroundimagefile type="dropdown" category="Images" width="6" title="Background image file" parent="backgroundimage">./files/pattern.png
+        </backgroundimagefile>
+        <brandlogo type="buttons" category="Images" width="4" title="Logo" options="on|off" optionlabels="Yes|No">off
+        </brandlogo>
+        <brandlogofile type="dropdown" category="Images" width="6" title="Logo file" parent="brandlogo">
+            ./files/logo.png
+        </brandlogofile>
+        <footertext type="textarea" category="Special footer" width="12" rows="10" title="Footer HTML"><![CDATA[<p style="text-align:center;">
+    <a href="https://www.univ-lille.fr" target="_blank" rel="noopener noreferrer" aria-label="Université de Lille - site officiel, nouvelle fenêtre" data-ls-a11y-new-window="1">
+        Université de Lille
+    </a>
+    © Université de Lille -
+    <a href="https://enquetes-etablissement.univ-lille.fr/support-videos" target="_blank" rel="noopener noreferrer" data-ls-a11y-new-window="1">
+        Utilisation &amp; support<span class="sr-only" data-ls-a11y-new-window-indicator="1"> (nouvelle fenêtre)</span>
+    </a><br>
+    Notre système de formulaire a été optimisé, le 06 juillet 2026, pour respecter les règles de l'accessibilité numérique (RGAA 4.1) - template vers. 2.76+.
+    Si toutefois vous rencontrez des soucis, des points de blocage, n'hésitez pas à nous contacter :
+    <a href="mailto:support-limesurvey@univ-lille.fr">support-limesurvey@univ-lille.fr</a>
+</p>]]></footertext>
+        <footerlogo type="buttons" category="Special footer" width="4" title="Footer logo" options="on|off" optionlabels="Yes|No">off</footerlogo>
+        <footerimage type="imagefile" category="Special footer" width="6" title="Footer logo file" parent="footerlogo">./files/logo.png</footerimage>
+        <font type="dropdown" category="Fonts" width="12" title="Fonts">
+            ibm-sans
+            <dropdownoptions>
+                <optgroup label="User browser">
+                    <option class="font-arial           " value="arial" data-font-package="websafe">Arial</option>
+                    <option class="font-arial_black     " value="arial_black" data-font-package="websafe">Arial Black
+                    </option>
+                    <option class="font-comic_sans      " value="comic_sans" data-font-package="websafe">Comic Sans
+                    </option>
+                    <option class="font-courier         " value="courier" data-font-package="websafe">Courier New
+                    </option>
+                    <option class="font-georgia         " value="georgia" data-font-package="websafe">Georgia</option>
+                    <option class="font-impact          " value="impact" data-font-package="websafe">Impact</option>
+                    <option class="font-lucida_console  " value="lucida_console" data-font-package="websafe">Lucida
+                        Console
+                    </option>
+                    <option class="font-lucida_sans     " value="lucida_sans" data-font-package="websafe">Lucida Sans
+                    </option>
+                    <option class="font-palatino        " value="palatino" data-font-package="websafe">Palatino
+                        Linotype
+                    </option>
+                    <option class="font-times_new_roman " value="times_new_roman" data-font-package="websafe">Times New
+                        Roman
+                    </option>
+                    <option class="font-trebuchet       " value="trebuchet" data-font-package="websafe">Trebuchet
+                    </option>
+                </optgroup>
+            </dropdownoptions>
+        </font>
+        <cssframework type="dropdown" colorSwatch="true" category="Simple options" width="12" title="Theme color">Apple
+            <dropdownoptions>
+                <optgroup>
+                    <option data-value="css/variations/theme_apple.css" value="apple" hexValue="#14AE5C">Apple</option>
+                    <option data-value="css/variations/theme_blueberry.css" value="blueberry" hexValue="#5076FF">Blueberry</option>
+                    <option data-value="css/variations/theme_grape.css" value="grape" hexValue="#8146F6">Grape</option>
+                    <option data-value="css/variations/theme_mango.css" value="mango" hexValue="#ED5046">Mango</option>
+                </optgroup>
+            </dropdownoptions>
+        </cssframework>
+        <skiplinks type="buttons" category="Accessibility" width="4" title="Skip links" options="on|off" optionlabels="Yes|No">on</skiplinks>
+        <enhancedfocus type="buttons" category="Accessibility" width="4" title="Enhanced keyboard focus" options="on|off" optionlabels="Yes|No">on</enhancedfocus>
+        <reducedmotion type="buttons" category="Accessibility" width="4" title="Respect reduced motion" options="on|off" optionlabels="Yes|No">on</reducedmotion>
+        <accessibilitytoolbar type="buttons" category="Accessibility toolbar" width="4" title="Accessibility toolbar" options="on|off" optionlabels="Yes|No">on</accessibilitytoolbar>
+        <toolbarposition type="buttons" category="Accessibility toolbar" width="4" title="Toolbar position" options="left|right" optionlabels="Left|Right">right</toolbarposition>
+        <toolbarcollapsed type="buttons" category="Accessibility toolbar" width="4" title="Collapsed by default" options="on|off" optionlabels="Yes|No">on</toolbarcollapsed>
+        <toolbartextsize type="buttons" category="Accessibility toolbar" width="4" title="Text size controls" options="on|off" optionlabels="Yes|No">on</toolbartextsize>
+        <toolbarcontrast type="buttons" category="Accessibility toolbar" width="4" title="High contrast control" options="on|off" optionlabels="Yes|No">on</toolbarcontrast>
+        <toolbarmonochrome type="buttons" category="Accessibility toolbar" width="4" title="Monochrome control" options="on|off" optionlabels="Yes|No">on</toolbarmonochrome>
+        <toolbarspacing type="buttons" category="Accessibility toolbar" width="4" title="Text spacing control" options="on|off" optionlabels="Yes|No">on</toolbarspacing>
+        <toolbarlinks type="buttons" category="Accessibility toolbar" width="4" title="Underline links control" options="on|off" optionlabels="Yes|No">on</toolbarlinks>
+        <toolbarmotion type="buttons" category="Accessibility toolbar" width="4" title="Animation control" options="on|off" optionlabels="Yes|No">on</toolbarmotion>
+        <toolbarluciole type="buttons" category="Accessibility toolbar" width="4" title="Luciole font control" options="on|off" optionlabels="Yes|No">on</toolbarluciole>
+        <toolbardyslexic type="buttons" category="Accessibility toolbar" width="4" title="Dyslexia-friendly font control" options="on|off" optionlabels="Yes|No">on</toolbardyslexic>
+        <questionborder type="buttons" category="Display options" width="4" title="Question borders" options="on|off" optionlabels="Yes|No">off</questionborder>
+        <questioncontainershadow type="buttons" category="Display options" width="4" title="Question shadow" options="on|off" optionlabels="Yes|No">on</questioncontainershadow>
+        <contentwidth type="buttons" category="Display options" width="4" title="Content width" options="normal|wide|full" optionlabels="Normal|Wide|Full">normal</contentwidth>
+        <rgaawcagpack type="buttons" category="Accessibility" width="4" title="RGAA/WCAG enhancements" options="on" optionlabels="Enabled">on</rgaawcagpack>
+        <diagnosticmode type="buttons" category="Exclusive tools" width="4" title="Accessibility diagnostic" options="on|off" optionlabels="Yes|No">off</diagnosticmode>
+        <diagnosticvisibility type="buttons" category="Exclusive tools" width="8" title="Diagnostic visibility" options="preview|always" optionlabels="Preview only|Preview and public survey" parent="diagnosticmode">preview</diagnosticvisibility>
+        <developermode type="buttons" category="Exclusive tools" width="4" title="Developer mode" options="on|off" optionlabels="Yes|No">off</developermode>
+        <devshowcodes type="buttons" category="Exclusive tools" width="4" title="Show question codes" options="on|off" optionlabels="Yes|No" parent="developermode">on</devshowcodes>
+        <advancedcustomization type="buttons" category="Advanced customization" width="4" title="Advanced customization" options="on|off" optionlabels="Yes|No">on</advancedcustomization>
+        <allyaccentcolor type="colorpicker" category="Advanced customization" width="4" title="Accent color">#1d6f42</allyaccentcolor>
+        <allyfocuscolor type="colorpicker" category="Advanced customization" width="4" title="Focus color">#ffbf47</allyfocuscolor>
+        <allymaxwidth type="buttons" category="Advanced customization" width="4" title="Maximum content width" options="960|1140|1320|none" optionlabels="960 px|1140 px|1320 px|Unlimited">1140</allymaxwidth>
+        <allydensity type="buttons" category="Advanced customization" width="4" title="Interface density" options="compact|comfortable|spacious" optionlabels="Compact|Comfortable|Spacious">comfortable</allydensity>
+        <allyquestionstyle type="buttons" category="Advanced customization" width="4" title="Question presentation" options="flat|card|outlined" optionlabels="Flat|Card|Outlined">card</allyquestionstyle>
+        <allybuttonstyle type="buttons" category="Advanced customization" width="4" title="Button shape" options="square|soft|pill" optionlabels="Square|Soft|Pill">soft</allybuttonstyle>
+        <allyfontsize type="buttons" category="Advanced customization" width="4" title="Base text size" options="small|normal|large" optionlabels="Small|Normal|Large">normal</allyfontsize>
+        <ls7compatibility type="buttons" category="LimeSurvey 7" width="4" title="LimeSurvey 7 compatibility layer" options="on|off" optionlabels="Yes|No">on</ls7compatibility>
+    </options>
+    <optionsOrderReact>
+        <themecolor category="Color themes" />
+        <brandlogo category="Logo" />
+        <brandlogofile category="Logo" />
+        <footertext category="Special footer" />
+        <footerlogo category="Special footer" />
+        <footerimage category="Special footer" />
+        <font category="Appearance" />
+        <fontcolor category="Appearance" />
+        <bodybackgroundcolor category="Appearance" />
+        <questionbackgroundcolor category="Appearance" />
+        <cssframework category="Appearance" />
+        <checkicon category="Appearance" />
+        <backgroundimage category="Appearance" />
+        <backgroundimagefile category="Appearance" />
+        <cornerradius category="Display options" />
+        <hideprivacyinfo category="Display options" />
+        <notables category="Display options" />
+        <showclearall category="Display options" />
+        <questionhelptextposition category="Display options" />
+        <showpopups category="Display options" />
+        <fixnumauto category="Display options" />
+        <skiplinks category="Accessibility" />
+        <enhancedfocus category="Accessibility" />
+        <reducedmotion category="Accessibility" />
+        <accessibilitytoolbar category="Accessibility toolbar" />
+        <toolbarposition category="Accessibility toolbar" />
+        <toolbarcollapsed category="Accessibility toolbar" />
+        <toolbartextsize category="Accessibility toolbar" />
+        <toolbarcontrast category="Accessibility toolbar" />
+        <toolbarmonochrome category="Accessibility toolbar" />
+        <toolbarspacing category="Accessibility toolbar" />
+        <toolbarlinks category="Accessibility toolbar" />
+        <toolbarmotion category="Accessibility toolbar" />
+        <toolbarluciole category="Accessibility toolbar" />
+        <toolbardyslexic category="Accessibility toolbar" />
+        <questionborder category="Display options" />
+        <questioncontainershadow category="Display options" />
+        <contentwidth category="Display options" />
+        <diagnosticmode category="Exclusive tools" />
+        <diagnosticvisibility category="Exclusive tools" />
+        <developermode category="Exclusive tools" />
+        <devshowcodes category="Exclusive tools" />
+        <advancedcustomization category="Advanced customization" />
+        <allyaccentcolor category="Advanced customization" />
+        <allyfocuscolor category="Advanced customization" />
+        <allymaxwidth category="Advanced customization" />
+        <allydensity category="Advanced customization" />
+        <allyquestionstyle category="Advanced customization" />
+        <allybuttonstyle category="Advanced customization" />
+        <allyfontsize category="Advanced customization" />
+        <ls7compatibility category="LimeSurvey 7" />
+    </optionsOrderReact>
+    <engine>
+        <optionspage>custom</optionspage>
+        <viewdirectory>views</viewdirectory>
+        <filesdirectory>files</filesdirectory>
+        <packages>
+            <add>pjax</add>
+            <add>moment</add>
+            <add>font-ibm-sans</add>
+            <add>font-ibm-serif</add>
+        </packages>
+        <template_editor>
+            <screens>
+                <question>
+                    <screen_title type="data" role="title" twig="on"> {{gT('Question')}} </screen_title>
+                    <file type="view" role="layout">layout_global.twig</file>
+                    <file type="view" role="subview">./subviews/footer/footer.twig</file>
+                    <file type="view" role="content">./subviews/content/main.twig</file>
+                    <file type="view" role="subview">./subviews/messages/justsaved.twig</file>
+                    <file type="view" role="subview">./subviews/survey/group.twig</file>
+                    <file type="view" role="subview">./subviews/survey/group_subviews/group_container.twig</file>
+                    <file type="view" role="subview">./subviews/survey/group_subviews/group_desc.twig</file>
+                    <file type="view" role="subview">./subviews/survey/group_subviews/group_name.twig</file>
+                    <file type="view" role="subview">./subviews/survey/question.twig</file>
+                    <file type="view" role="subview">./subviews/survey/question_container.twig</file>
+                    <file type="view" role="subview">./subviews/survey/question_subviews/question_text_container.twig</file>
+                    <file type="view" role="subview">./subviews/survey/question_subviews/question_text_content.twig</file>
+                    <file type="view" role="subview">./subviews/survey/question_subviews/answers.twig</file>
+                    <file type="view" role="subview">./subviews/survey/question_subviews/survey_question_help.twig</file>
+                    <file type="view" role="subview">./subviews/survey/question_subviews/valid_message_and_help.twig</file>
+                    <file type="view" role="subview">./subviews/survey/question_subviews/question_image_container.twig</file>
+                    <file type="view" role="subview">./subviews/survey/question_subviews/question_image.twig</file>
+                    <file type="css">./css/variations/theme_apple.css</file>
+                    <file type="css">./css/variations/theme_apple-rtl.css</file>
+                    <file type="css">./css/variations/theme_blueberry.css</file>
+                    <file type="css">./css/variations/theme_blueberry-rtl.css</file>
+                    <file type="css">./css/variations/theme_grape.css</file>
+                    <file type="css">./css/variations/theme_grape-rtl.css</file>
+                    <file type="css">./css/variations/theme_mango.css</file>
+                    <file type="css">./css/variations/theme_mango-rtl.css</file>
+                    <file type="js">./scripts/theme.js</file>
+                    <file type="css">./css/custom.css</file>
+                    <file type="js">./scripts/custom.js</file>
+                </question>
+                <surveylist>
+                    <screen_title type="data" role="title" twig="on"> {{gT('Survey list')}} </screen_title>
+                    <file type="view" role="layout">layout_survey_list.twig</file>
+                    <file type="view" role="layout">ls_logo_svg.twig</file>
+                    <file type="view" role="subview">./subviews/footer/footer.twig</file>
+                    <file type="view" role="subview">./subviews/content/mainrow.twig</file>
+                    <file type="view" role="subview">./subviews/content/outerframe.twig</file>
+                    <file type="view" role="subview">./subviews/navigation/language_changer_form.twig</file>
+                    <file type="css">./css/variations/theme_apple.css</file>
+                    <file type="css">./css/variations/theme_apple-rtl.css</file>
+                    <file type="css">./css/variations/theme_blueberry.css</file>
+                    <file type="css">./css/variations/theme_blueberry-rtl.css</file>
+                    <file type="css">./css/variations/theme_grape.css</file>
+                    <file type="css">./css/variations/theme_grape-rtl.css</file>
+                    <file type="css">./css/variations/theme_mango.css</file>
+                    <file type="css">./css/variations/theme_mango-rtl.css</file>
+                    <file type="js">./scripts/theme.js</file>
+                    <file type="css">./css/custom.css</file>
+                    <file type="js">./scripts/custom.js</file>
+                </surveylist>
+                <welcome>
+                    <screen_title type="data" role="title" twig="on"> {{gT('Welcome')}} </screen_title>
+                    <file type="view" role="layout">layout_global.twig</file>
+                    <file type="view" role="subview">./subviews/footer/footer.twig</file>
+                    <file type="view" role="subview">./subviews/content/mainrow.twig</file>
+                    <file type="view" role="subview">./subviews/content/outerframe.twig</file>
+                    <file type="view" role="content">./subviews/content/firstpage.twig</file>
+                    <file type="view" role="subview">./subviews/header/head.twig</file>
+                    <file type="view" role="subview">./subviews/header/custom_header.twig</file>
+                    <file type="view" role="subview">./subviews/header/nav_bar.twig</file>
+                    <file type="view" role="subview">./subviews/header/progress_bar.twig</file>
+                    <file type="view" role="subview">./subviews/messages/welcome.twig</file>
+                    <file type="view" role="subview">./subviews/messages/warnings.twig</file>
+                    <file type="view" role="subview">./subviews/messages/no_js_alert.twig</file>
+                    <file type="view" role="subview">./subviews/privacy/privacy.twig</file>
+                    <file type="view" role="subview">./subviews/navigation/language_changer.twig</file>
+                    <file type="view" role="subview">./subviews/logincomponents/captcha.twig</file>
+                    <file type="view" role="subview">./subviews/logincomponents/token.twig</file>
+                    <file type="css">./css/variations/theme_apple.css</file>
+                    <file type="css">./css/variations/theme_apple-rtl.css</file>
+                    <file type="css">./css/variations/theme_blueberry.css</file>
+                    <file type="css">./css/variations/theme_blueberry-rtl.css</file>
+                    <file type="css">./css/variations/theme_grape.css</file>
+                    <file type="css">./css/variations/theme_grape-rtl.css</file>
+                    <file type="css">./css/variations/theme_mango.css</file>
+                    <file type="css">./css/variations/theme_mango-rtl.css</file>
+                    <file type="js">./scripts/theme.js</file>
+                    <file type="css">./css/custom.css</file>
+                    <file type="js">./scripts/custom.js</file>
+                </welcome>
+                <completed>
+                    <screen_title type="data" role="title" twig="on"> {{gT('Completed')}} </screen_title>
+                    <file type="view" role="layout">layout_global.twig</file>
+                    <file type="view" role="subview">./subviews/footer/footer.twig</file>
+                    <file type="view" role="subview">./subviews/content/mainrow.twig</file>
+                    <file type="view" role="subview">./subviews/content/outerframe.twig</file>
+                    <file type="view" role="content">./subviews/content/submit.twig</file>
+                    <file type="css">./css/variations/theme_apple.css</file>
+                    <file type="css">./css/variations/theme_apple-rtl.css</file>
+                    <file type="css">./css/variations/theme_blueberry.css</file>
+                    <file type="css">./css/variations/theme_blueberry-rtl.css</file>
+                    <file type="css">./css/variations/theme_grape.css</file>
+                    <file type="css">./css/variations/theme_grape-rtl.css</file>
+                    <file type="css">./css/variations/theme_mango.css</file>
+                    <file type="css">./css/variations/theme_mango-rtl.css</file>
+                    <file type="js">./scripts/theme.js</file>
+                    <file type="css">./css/custom.css</file>
+                    <file type="js">./scripts/custom.js</file>
+                </completed>
+                <assessments>
+                    <screen_title type="data" role="title" twig="on"> {{gT('Assessments')}} </screen_title>
+                    <file type="view" role="layout">layout_global.twig</file>
+                    <file type="view" role="subview">./subviews/footer/footer.twig</file>
+                    <file type="view" role="subview">./subviews/content/mainrow.twig</file>
+                    <file type="view" role="subview">./subviews/content/outerframe.twig</file>
+                    <file type="view" role="content">./subviews/content/submit.twig</file>
+                    <file type="view" role="subview">./subviews/messages/assessments.twig</file>
+                    <file type="css">./css/variations/theme_apple.css</file>
+                    <file type="css">./css/variations/theme_apple-rtl.css</file>
+                    <file type="css">./css/variations/theme_blueberry.css</file>
+                    <file type="css">./css/variations/theme_blueberry-rtl.css</file>
+                    <file type="css">./css/variations/theme_grape.css</file>
+                    <file type="css">./css/variations/theme_grape-rtl.css</file>
+                    <file type="css">./css/variations/theme_mango.css</file>
+                    <file type="css">./css/variations/theme_mango-rtl.css</file>
+                    <file type="js">./scripts/theme.js</file>
+                    <file type="css">./css/custom.css</file>
+                    <file type="js">./scripts/custom.js</file>
+                </assessments>
+                <error>
+                    <screen_title type="data" role="title" twig="on"> {{gT('Error')}} </screen_title>
+                    <file type="view" role="layout">layout_errors.twig</file>
+                    <file type="view" role="subview">./subviews/footer/footer.twig</file>
+                </error>
+                <clearall>
+                    <screen_title type="data" role="title" twig="on"> {{gT('Clear all')}} </screen_title>
+                    <file type="view" role="layout">layout_global.twig</file>
+                    <file type="view" role="subview">./subviews/footer/footer.twig</file>
+                    <file type="view" role="subview">./subviews/content/mainrow.twig</file>
+                    <file type="view" role="subview">./subviews/content/outerframe.twig</file>
+                    <file type="view" role="content">./subviews/content/clearall.twig</file>
+                    <file type="css">./css/variations/theme_apple.css</file>
+                    <file type="css">./css/variations/theme_apple-rtl.css</file>
+                    <file type="css">./css/variations/theme_blueberry.css</file>
+                    <file type="css">./css/variations/theme_blueberry-rtl.css</file>
+                    <file type="css">./css/variations/theme_grape.css</file>
+                    <file type="css">./css/variations/theme_grape-rtl.css</file>
+                    <file type="css">./css/variations/theme_mango.css</file>
+                    <file type="css">./css/variations/theme_mango-rtl.css</file>
+                    <file type="js">./scripts/theme.js</file>
+                    <file type="css">./css/custom.css</file>
+                    <file type="js">./scripts/custom.js</file>
+                </clearall>
+                <load>
+                    <screen_title type="data" role="title" twig="on"> {{gT('Load')}} </screen_title>
+                    <file type="view" role="layout">layout_global.twig</file>
+                    <file type="view" role="subview">./subviews/footer/footer.twig</file>
+                    <file type="view" role="subview">./subviews/content/mainrow.twig</file>
+                    <file type="view" role="subview">./subviews/content/outerframe.twig</file>
+                    <file type="view" role="content">./subviews/content/load.twig</file>
+                    <file type="css">./css/variations/theme_apple.css</file>
+                    <file type="css">./css/variations/theme_apple-rtl.css</file>
+                    <file type="css">./css/variations/theme_blueberry.css</file>
+                    <file type="css">./css/variations/theme_blueberry-rtl.css</file>
+                    <file type="css">./css/variations/theme_grape.css</file>
+                    <file type="css">./css/variations/theme_grape-rtl.css</file>
+                    <file type="css">./css/variations/theme_mango.css</file>
+                    <file type="css">./css/variations/theme_mango-rtl.css</file>
+                    <file type="js">./scripts/theme.js</file>
+                    <file type="css">./css/custom.css</file>
+                    <file type="js">./scripts/custom.js</file>
+                </load>
+                <save>
+                    <screen_title type="data" role="title" twig="on"> {{gT('Save')}} </screen_title>
+                    <file type="view" role="layout">layout_global.twig</file>
+                    <file type="view" role="subview">./subviews/footer/footer.twig</file>
+                    <file type="view" role="subview">./subviews/content/mainrow.twig</file>
+                    <file type="view" role="subview">./subviews/content/outerframe.twig</file>
+                    <file type="view" role="content">./subviews/content/save.twig</file>
+                    <file type="css">./css/variations/theme_apple.css</file>
+                    <file type="css">./css/variations/theme_apple-rtl.css</file>
+                    <file type="css">./css/variations/theme_blueberry.css</file>
+                    <file type="css">./css/variations/theme_blueberry-rtl.css</file>
+                    <file type="css">./css/variations/theme_grape.css</file>
+                    <file type="css">./css/variations/theme_grape-rtl.css</file>
+                    <file type="css">./css/variations/theme_mango.css</file>
+                    <file type="css">./css/variations/theme_mango-rtl.css</file>
+                    <file type="js">./scripts/theme.js</file>
+                    <file type="css">./css/custom.css</file>
+                    <file type="js">./scripts/custom.js</file>
+                </save>
+                <register>
+                    <screen_title type="data" role="title" twig="on"> {{gT('Registration')}} </screen_title>
+                    <file type="view" role="layout">layout_global.twig</file>
+                    <file type="view" role="subview">./subviews/footer/footer.twig</file>
+                    <file type="view" role="content">./subviews/content/register.twig</file>
+                    <file type="view" role="subview">./subviews/registration/register_error.twig</file>
+                    <file type="view" role="subview">./subviews/registration/register_head.twig</file>
+                    <file type="view" role="subview">./subviews/registration/register_message.twig</file>
+                    <file type="view" role="subview">./subviews/registration/register_success.twig</file>
+                    <file type="view" role="subview">./subviews/registration/register_form.twig</file>
+                    <file type="view" role="subview">./subviews/registration/required.twig</file>
+                </register>
+                <printanswers>
+                    <screen_title type="data" role="title" twig="on">
+                         {{gT('Print answers')}} </screen_title>
+                    <file type="view" role="layout">layout_printanswers.twig</file>
+                    <file type="view" role="subview">./subviews/content/outerframe.twig</file>
+                    <file type="view" role="content">./subviews/content/printanswers.twig</file>
+                    <file type="view" role="subview">./subviews/printanswers/printanswers_head.twig</file>
+                    <file type="view" role="subview">./subviews/printanswers/printanswers_table.twig</file>
+                    <file type="view" role="subview">./subviews/printanswers/printanswers_question.twig</file>
+                    <file type="view" role="subview">./subviews/printanswers/printanswers_foot.twig</file>
+                </printanswers>
+                <statistics_user>
+                    <screen_title type="data" role="title" twig="on">
+                         {{gT('Public statistics')}} </screen_title>
+                    <file type="view" role="layout">layout_statistics_user.twig</file>
+                    <file type="view" role="subview">./subviews/content/outerframe.twig</file>
+                    <file type="view" role="content">./subviews/content/statistics_user.twig</file>
+                    <file type="view" role="subview">./subviews/statistics_user/statistics_user_head.twig</file>
+                    <file type="view" role="subview">./subviews/statistics_user/statistics_user_content.twig</file>
+                    <file type="view" role="subview">./subviews/statistics_user/statistics_user_foot.twig</file>
+                </statistics_user>
+                <pdf>
+                    <screen_title type="data" role="title" twig="on"> {{gT('PDF')}} </screen_title>
+                    <file type="view" role="layout">layout_print.twig</file>
+                </pdf>
+                <quotas>
+                    <screen_title type="data" role="title" twig="on">
+                         {{gT('Quotas exceeded')}} </screen_title>
+                    <file type="view" role="layout">layout_global.twig</file>
+                    <file type="view" role="content">./subviews/content/quotas.twig</file>
+                    <file type="view" role="subview">./subviews/header/start_form.twig</file>
+                </quotas>
+                <navigation>
+                    <screen_title type="data" role="title" twig="on"> {{gT('Navigation')}} </screen_title>
+                    <file type="view" role="layout">layout_global.twig</file>
+                    <file type="view" role="layout">ls_logo_svg.twig</file>
+                    <file type="view" role="subview">./subviews/footer/footer.twig</file>
+                    <file type="view" role="content">./subviews/content/main.twig</file>
+                    <file type="view" role="subview">./subviews/navigation/ajax_indicator.twig</file>
+                    <file type="view" role="subview">./subviews/navigation/clearall_links.twig</file>
+                    <file type="view" role="subview">./subviews/navigation/save_links.twig</file>
+                    <file type="view" role="subview">./subviews/navigation/language_changer_top_menu.twig</file>
+                    <file type="view" role="subview">./subviews/navigation/language_changer.twig</file>
+                    <file type="view" role="subview">./subviews/navigation/question_index_menu.twig</file>
+                    <file type="view" role="subview">./subviews/navigation/navigator.twig</file>
+                    <file type="view" role="subview">./subviews/navigation/navigator_complement.twig</file>
+                    <file type="view" role="subview">./subviews/navigation/clearall_buttons.twig</file>
+                    <file type="view" role="subview">./subviews/navigation/save_buttons.twig</file>
+                    <file type="view" role="subview">./subviews/navigation/question_index_buttons.twig</file>
+                    <file type="view" role="subview">./subviews/navigation/question_index_questions_buttons.twig</file>
+                    <file type="view" role="subview">./subviews/navigation/question_index_groups_buttons.twig</file>
+                </navigation>
+                <token>
+                    <screen_title type="data" role="title" twig="on"> {{gT('Participant')}} </screen_title>
+                    <file type="view" role="layout">layout_user_forms.twig</file>
+                    <file type="view" role="content">./subviews/content/userforms.twig</file>
+                    <file type="view" role="subview">./subviews/logincomponents/token.twig</file>
+                    <file type="view" role="subview">./subviews/logincomponents/captcha.twig</file>
+                </token>
+            </screens>
+            <default_data>
+                <survey type="core">
+                    <name type="data" twig="on"> {{ gT("Template Sample") }} </name>
+                    <description type="data" twig="on">
+                        &lt;p&gt;{{ gT('This is a sample survey description. It could be quite long.') }}&lt;/p&gt;&lt;p&gt;{{ gT("But this one isn't.") }}&lt;p&gt;</description>
+                    <welcome type="data" twig="on">
+                        &lt;p&gt;{{ gT('Welcome to this sample survey')}} &lt;p&gt; &lt;p&gt; {{ gT('You should have a great time doing this') }} &lt;p&gt; </welcome>
+                    <therearexquestions type="data" twig="on">
+                        gT('There are 2 questions in this survey,'])</therearexquestions>
+                    <surveyls_url type="data" twig="on">"https://www.limesurvey.org/"</surveyls_url>
+                    <surveyls_urldescription type="data" twig="on">
+                         gT("Some URL description") </surveyls_urldescription>
+                    <showsurveypolicynotice>2</showsurveypolicynotice>
+                    <datasecurity_notice_label type="data" twig="on">
+                         &lt;a href='#data-security-modal-' data-bs-toggle='collapse'&gt; {{ gT('Show privacy policy') }} &lt;/a&gt;  </datasecurity_notice_label>
+                    <datasecurity_notice type="data" twig="on">
+                         {{ gT("Your privacy policy text is shown here.") }} </datasecurity_notice>
+                </survey>
+                <group type="core">
+                    <name type="data" twig="on"> {{ gT("Group 1: The first lot of questions") }} </name>
+                    <description type="data" twig="on">
+                         {{ gT("This group description is fairly vacuous, but quite important.") }} </description>
+                </group>
+                <question_1 type="core">
+                    <code type="data">'Q1 '</code>
+                    <text type="data" twig="on"> {{ gT("How many roads must a man walk down?") }} </text>
+                    <valid_message type="data" twig="on">
+                         &lt;div id="vmsg_4496_num_answers" class="em_num_answers emtip error"&gt;&lt;span class="ri-error-warning-fill" aria-hidden="true"&gt;&lt;/span&gt; {{ gT("Choose one of the following answers") }} &lt;/div&gt; </valid_message>
+                </question_1>
+                <question_2 type="core">
+                    <code type="data">'Q2 '</code>
+                    <text type="data" twig="on"> {{ gT("Please explain something in detail:") }} </text>
+                    <valid_message type="data" twig="on">
+                        &lt;div id="vmsg_4496_num_answers" class="em_num_answers emtip error"&gt;&lt;span class="ri-error-warning-fill" aria-hidden="true"&gt;&lt;/span&gt; {{ gT("Hint when response is not valid") }} &lt;/div&gt; </valid_message>
+                </question_2>
+                <assessments type="core">
+                    <name type="data" twig="on"> {{ gT("Welcome to the Assessment") }} </name>
+                    <message type="data" twig="on">
+                         {{ gT("You got {TOTAL} points out of 3 possible points.") }} </message>
+                </assessments>
+                <quotas type="custom" arrayName="aQuotas">
+                    <sMessage type="data" twig="on">
+                         {{ gT("Sorry your responses have exceeded a quota on this survey.") }} </sMessage>
+                    <sUrl type="data">http://limesurvey.org</sUrl>
+                    <sUrlDescription type="data" twig="on"> {{ gT("End url") }} </sUrlDescription>
+                    <bShowNavigator type="data">false</bShowNavigator>
+                </quotas>
+                <userforms type="custom" arrayName="aForm">
+                    <sType type="data">token</sType>
+                </userforms>
+            </default_data>
+        </template_editor>
+    </engine>
+    <updaters disabled="disabled">
+    </updaters>
+</config>

@@ -1,0 +1,287 @@
+{#
+    LimeSurvey
+    Copyright (C) 2007-2026 The LimeSurvey Project Team
+    All rights reserved.
+    License: GNU/GPL License v2 or later, see LICENSE.php
+    LimeSurvey is free software. This version may have been modified pursuant
+    to the GNU General Public License, and as distributed it includes or
+    is derivative of works licensed under the GNU General Public License or
+    other free or open source software licenses.
+    See COPYRIGHT.php for copyright notices and details.
+
+    (¯`·._.·(¯`·._.· Custom Header  ·._.·´¯)·._.·´¯)
+
+    If you extend a template, and want to add custom headers (js, css, scripts, meta etc), you'd rather do it here.
+    This file is empty in Vanilla, and contains the code for the background option in Fruity
+#}
+
+{# Custom backgroud option #}
+<style>
+    {# V2.0.11 palette variables #}
+    {% set fasPalette = aSurveyInfo.options.themecolor|default(aSurveyInfo.options.allycolorpalette|default('neutre')) %}
+    {% set fasPrimary1 = '#D2D4DB' %}
+    {% set fasPrimary2 = '#4B5563' %}
+    {% set fasAccent = '#9500FF' %}
+    {% set fasOnPrimary = '#FFFFFF' %}
+    {% set fasBodyBackground = aSurveyInfo.options.bodybackgroundcolor|default('') %}
+    {% set fasFontColor = aSurveyInfo.options.fontcolor|default('') %}
+    {% set fasQuestionBackground = aSurveyInfo.options.questionbackgroundcolor|default('') %}
+    {% if fasPalette == 'industrie' %}{% set fasPrimary1 = '#96A2F5' %}{% set fasPrimary2 = '#454F91' %}{% set fasAccent = '#5A55AF' %}
+    {% elseif fasPalette == 'pinklady' %}{% set fasPrimary1 = '#FE7DB1' %}{% set fasPrimary2 = '#B72962' %}{% set fasAccent = '#89586C' %}
+    {% elseif fasPalette == 'brique' %}{% set fasPrimary1 = '#FC8670' %}{% set fasPrimary2 = '#B14937' %}{% set fasAccent = '#8C584F' %}
+    {% elseif fasPalette == 'orangette' %}{% set fasPrimary1 = '#F39200' %}{% set fasPrimary2 = '#AA2E00' %}{% set fasAccent = '#995238' %}
+    {% elseif fasPalette == 'hyperion' %}{% set fasPrimary1 = '#FFD24D' %}{% set fasPrimary2 = '#4D3F17' %}{% set fasAccent = '#7B6523' %}{% set fasOnPrimary = '#FFFFFF' %}
+    {% elseif fasPalette == 'ocean' %}{% set fasPrimary1 = '#7ABAFF' %}{% set fasPrimary2 = '#2973C3' %}{% set fasAccent = '#2569B1' %}
+    {% elseif fasPalette == 'menthe' %}{% set fasPrimary1 = '#89E0B1' %}{% set fasPrimary2 = '#3F845F' %}{% set fasAccent = '#37724F' %}
+    {% elseif fasPalette == 'dune' %}{% set fasPrimary1 = '#FAF0E1' %}{% set fasPrimary2 = '#827561' %}{% set fasAccent = '#6F6452' %}{% set fasOnPrimary = '#FFFFFF' %}
+    {% elseif fasPalette == 'commodore' %}{% set fasPrimary1 = '#A6CEFF' %}{% set fasPrimary2 = '#003D87' %}{% set fasAccent = '#005AC7' %}
+    {% elseif fasPalette == 'colvert' %}{% set fasPrimary1 = '#4ABEB1' %}{% set fasPrimary2 = '#007668' %}{% set fasAccent = '#007668' %}
+    {% elseif fasPalette == 'vulcain' %}{% set fasPrimary1 = '#D15C64' %}{% set fasPrimary2 = '#941B23' %}{% set fasAccent = '#944C53' %}
+    {% elseif fasPalette == 'orangesanguine' %}{% set fasPrimary1 = '#E67339' %}{% set fasPrimary2 = '#4D1900' %}{% set fasAccent = '#8C5D45' %}
+    {% elseif fasPalette == 'highcontrast' %}{% set fasPrimary1 = '#FFFF00' %}{% set fasPrimary2 = '#FFFF00' %}{% set fasAccent = '#00FFFF' %}{% set fasOnPrimary = '#000000' %}
+    {% endif %}
+
+    {# Les couleurs du questionnaire surchargent les surfaces de la palette, quelle que soit la palette choisie. #}
+    :root, body {
+      {% if fasBodyBackground and fasBodyBackground != 'inherit' %}
+      --fas-palette-bg: {{ fasBodyBackground }} !important;
+      --bs-body-bg: {{ fasBodyBackground }} !important;
+      {% endif %}
+      {% if fasFontColor and fasFontColor != 'inherit' %}
+      --fas-palette-text: {{ fasFontColor }} !important;
+      --bs-body-color: {{ fasFontColor }} !important;
+      {% endif %}
+      {% if fasQuestionBackground and fasQuestionBackground != 'inherit' %}
+      --fas-question-background: {{ fasQuestionBackground }} !important;
+      {% endif %}
+    }
+    {% if fasPalette != 'custom' %}
+    :root, body {
+      --fas-palette-primary1: {{ fasPrimary1 }} !important;
+      --fas-palette-primary2: {{ fasPrimary2 }} !important;
+      --fas-palette-accent: {{ fasAccent }} !important;
+      --fas-palette-on-primary: {{ fasOnPrimary }} !important;
+      --bs-primary: {{ fasPrimary2 }} !important;
+      --bs-link-color: {{ fasPrimary2 }} !important;
+      --fas-accent: {{ fasPrimary2 }} !important;
+      --fas-focus: {{ fasAccent }} !important;
+    }
+    body .btn-primary, body .ls-move-btn, body .progress-bar {
+      background-color: var(--fas-palette-primary2) !important;
+      border-color: var(--fas-palette-primary2) !important;
+      color: var(--fas-palette-on-primary) !important;
+    }
+    body .btn-primary:hover, body .btn-primary:focus-visible,
+    body .ls-move-btn:hover, body .ls-move-btn:focus-visible {
+      background-color: var(--fas-palette-accent) !important;
+      border-color: var(--fas-palette-accent) !important;
+    }
+    body .top-container, body header, body footer {border-color: var(--fas-palette-primary2) !important;}
+    body a {color: var(--fas-palette-primary2) !important;}
+    body input:focus, body select:focus, body textarea:focus {border-color: var(--fas-palette-accent) !important;box-shadow:0 0 0 .2rem color-mix(in srgb, var(--fas-palette-accent) 30%, transparent) !important;}
+    {% endif %}
+
+    {% if (aSurveyInfo.options.backgroundimage == "on" and imageSrc(aSurveyInfo.options.backgroundimagefile )) %}
+        body {
+            background-image: url('{{ imageSrc(aSurveyInfo.options.backgroundimagefile ) }}');
+            background-attachment: fixed;
+            background-size: cover;
+
+        }
+
+        body .top-container {
+            background-color: rgba(236, 240, 241, 0.2);
+        }
+    {% endif %}
+
+    body {
+         padding-bottom: 10px;
+         {% if fasBodyBackground and fasBodyBackground != 'inherit' %}
+         background-color: {{ aSurveyInfo.options.bodybackgroundcolor }};
+         {% endif %}
+         {% if fasFontColor and fasFontColor != 'inherit' %}
+         color: {{ aSurveyInfo.options.fontcolor }};
+         {% endif %}
+    }
+
+    {% if fasFontColor and fasFontColor != 'inherit' %}
+    .navbar-default .navbar-nav > li > a:hover {
+        color: {{ aSurveyInfo.options.fontcolor }};
+    }
+    {% endif %}
+
+    {% if fasQuestionBackground and fasQuestionBackground != 'inherit' %}
+    .question-container {
+        background-color: {{ aSurveyInfo.options.questionbackgroundcolor }} !important;
+    }
+    {% endif %}
+
+    {% set checkicon = '"\\' ~  aSurveyInfo.options.checkicon   ~ '"' %}
+    .checkbox-item input[type="checkbox"]:checked + label::after, .checkbox-item input[type="radio"]:checked + label::after {
+        content: {{ checkicon }};
+    }
+
+    {% if (aSurveyInfo.options.animatecheckbox == "on" ) %}
+
+        {% if (aSurveyInfo.options.checkboxanimationduration < 1) %}
+            {% set checkboxanimationduration = 500 %}
+        {% else %}
+            {% set checkboxanimationduration = aSurveyInfo.options.checkboxanimationduration %}
+        {% endif %}
+
+        .checkbox-item input[type="checkbox"]:checked + label::after{
+            animation-name: {{ aSurveyInfo.options.checkboxanimation  }};
+            animation-duration: {{ checkboxanimationduration }}ms;
+            animation-fill-mode: both;
+            animation-iteration-count: 1;
+            display: inline-block;
+            -webkit-transform: none;
+            -ms-transform: none;
+            -o-transform: none;
+            transform: none;
+        }
+        .checkbox-item input[type="checkbox"] + label::after{
+            display: none;
+            -webkit-transform: none;
+            -ms-transform: none;
+            -o-transform: none;
+            transform: none;
+        }
+    {% endif %}
+
+    {% if (aSurveyInfo.options.animateradio == "on" ) %}
+
+        {% if (aSurveyInfo.options.radioanimationduration < 1) %}
+            {% set radioanimationduration = 500 %}
+        {% else %}
+            {% set radioanimationduration = aSurveyInfo.options.radioanimationduration %}
+        {% endif %}
+
+        .radio-item input[type="radio"]:checked + label::after{
+            animation-name: {{ aSurveyInfo.options.radioanimation  }};
+            animation-duration: {{ radioanimationduration }}ms;
+            animation-fill-mode: both;
+            animation-iteration-count: 1;
+            display: inline-block;
+            -webkit-transform: none;
+            -ms-transform: none;
+            -o-transform: none;
+            transform: none;
+        }
+        .radio-item input[type="radio"] + label::after{
+            display:none;
+            -webkit-transform: none;
+            -ms-transform: none;
+            -o-transform: none;
+            transform: none;
+        }
+    {% endif %}
+
+    {% if (aSurveyInfo.options.animatequestion == "on" ) %}
+
+        {% if (aSurveyInfo.options.questionanimationduration < 1) %}
+            {% set questionanimationduration = 500 %}
+        {% else %}
+            {% set questionanimationduration = aSurveyInfo.options.questionanimationduration %}
+        {% endif %}
+
+        .question-container {
+            animation-name: {{ aSurveyInfo.options.questionanimation  }};
+            animation-duration: {{ questionanimationduration }}ms;
+            animation-fill-mode: both;
+        }
+    {% endif %}
+
+    {% if (aSurveyInfo.options.animatealert == "on" ) %}
+
+        {% if (aSurveyInfo.options.alertanimationduration < 1) %}
+            {% set alertanimationduration = 500 %}
+        {% else %}
+            {% set alertanimationduration = aSurveyInfo.options.alertanimationduration %}
+        {% endif %}
+
+        .alert {
+            animation-name: {{ aSurveyInfo.options.alertanimation  }};
+            animation-duration: {{ alertanimationduration }}ms;
+            animation-fill-mode: both;
+        }
+    {% endif %}
+
+    {% if (aSurveyInfo.options.animatebody == "on" ) %}
+
+        {% if (aSurveyInfo.options.bodyanimationduration < 1) %}
+            {% set bodyanimationduration = 500 %}
+        {% else %}
+            {% set bodyanimationduration = aSurveyInfo.options.bodyanimationduration %}
+        {% endif %}
+
+        #outerframeContainer {
+            animation-name: {{ aSurveyInfo.options.bodyanimation  }};
+            animation-duration: {{ bodyanimationduration }}ms;
+            animation-fill-mode: both;
+        }
+    {% endif %}
+
+    {% if (aSurveyInfo.options.cornerradius == 1 ) %}
+        {% set cornerradius = '0px' %}
+    {% endif %}
+    {% if (aSurveyInfo.options.cornerradius == 3 ) %}
+        {% set cornerradius = '20px' %}
+    {% endif %}
+        {% if (aSurveyInfo.options.cornerradius != 2 ) %}
+        .question-container,
+        .form-control,
+        .form-select,
+        .btn,
+        .yesno-button.btn-group > .btn:not(:last-child),
+        .yesno-button.btn-group > .btn,
+        .gender-button.btn-group > .btn:not(:last-child),
+        .gender-button.btn-group > .btn {
+            border-radius: {{ cornerradius }};
+        }
+
+        .input-group:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu),
+        .input-group:not(.has-validation) > .dropdown-toggle:nth-last-child(n+3) {
+            border-top-left-radius: {{ cornerradius }};
+            border-bottom-left-radius: {{ cornerradius }};
+        }
+
+        .input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+            border-top-right-radius: {{ cornerradius }};
+            border-bottom-right-radius: {{ cornerradius }};
+        }
+    {% endif %}
+</style>
+{#
+  Le thème étendu peut conserver le layout_global.twig de fruity_twentythree.
+  On pose donc les marqueurs de palette depuis cette sous-vue, effectivement
+  résolue dans le thème enfant, au lieu de dépendre uniquement du layout.
+#}
+<script>
+(function () {
+    'use strict';
+    var palette = '{{ fasPalette }}';
+    var bodyBackground = '{{ fasBodyBackground }}';
+    var fontColor = '{{ fasFontColor }}';
+    var questionBackground = '{{ fasQuestionBackground }}';
+
+    function applyResolvedPalette() {
+        var body = document.body;
+        var index;
+        if (!body) return;
+        for (index = body.classList.length - 1; index >= 0; index -= 1) {
+            if (body.classList[index].indexOf('fas-palette-') === 0) body.classList.remove(body.classList[index]);
+        }
+        body.classList.add('fruity-allysurvey-rgaa', 'fas-palette-' + palette);
+        body.setAttribute('data-fas-color-palette', palette);
+        body.setAttribute('data-fas-theme-version', '2.0.32');
+        body.setAttribute('data-fas-body-background', bodyBackground);
+        body.setAttribute('data-fas-font-color', fontColor);
+        body.setAttribute('data-fas-question-background', questionBackground);
+        document.documentElement.setAttribute('data-fas-resolved-palette', palette);
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', applyResolvedPalette);
+    else applyResolvedPalette();
+}());
+</script>

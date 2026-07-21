@@ -1,0 +1,26 @@
+{# Fruity AllySurvey - en-tête permanent du questionnaire #}
+{% set fasTotalPages = 0 %}
+{% if aSurveyInfo.aQuestionIndex.items is defined %}
+    {% set fasTotalPages = count(aSurveyInfo.aQuestionIndex.items) %}
+{% endif %}
+
+{% if aSurveyInfo.surveyls_title is defined and aSurveyInfo.surveyls_title %}
+<section id="fas-survey-identity"
+         class="fas-survey-identity container-fluid"
+         data-fas-total-pages="{{ fasTotalPages }}"
+         aria-labelledby="fas-survey-title">
+    <div class="row justify-content-center">
+        <div class="col-12 col-xl-11 fas-survey-identity__inner">
+            <h1 id="fas-survey-title" class="fas-survey-title">
+                {{ processString(aSurveyInfo.surveyls_title, 1) }}
+            </h1>
+            {% if aSurveyInfo.format != 'A' and not aSurveyInfo.aCompleted and fasTotalPages > 0 %}
+                <p id="fas-page-indicator" class="fas-page-indicator" aria-live="polite" aria-atomic="true">
+                    <span class="fas-page-label">{{ gT('Page') }}</span>
+                    <span data-fas-current-page>1</span>/<span data-fas-total-page>{{ fasTotalPages }}</span>
+                </p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endif %}

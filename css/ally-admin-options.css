@@ -1,0 +1,49 @@
+/* FruitySurvey V2.0.32 — aperçus RVB des palettes pour themecolor et l’ancienne clé. */
+.fas-admin-palette-preview{margin:1rem 0 0;padding:1rem;border:1px solid #69707e;border-radius:.5rem;background:#f8f9fb;color:#111827}
+
+:is([aria-labelledby="lbl_simple_edit_options_themecolor"], [aria-labelledby="lbl_simple_edit_options_allycolorpalette"]) .btn-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: .5rem;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+:is([aria-labelledby="lbl_simple_edit_options_themecolor"], [aria-labelledby="lbl_simple_edit_options_allycolorpalette"]) .btn {
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 5.75rem;
+  align-items: center;
+  justify-content: center;
+  margin: 0 !important;
+  padding: .3rem;
+  border: 2px solid #69707e;
+  border-radius: .5rem !important;
+  background: #fff;
+}
+
+:is([aria-labelledby="lbl_simple_edit_options_themecolor"], [aria-labelledby="lbl_simple_edit_options_allycolorpalette"]) .fas-palette-svg-preview {
+  display: block;
+  width: 100%;
+  max-width: 12rem;
+  height: auto;
+}
+
+:is([aria-labelledby="lbl_simple_edit_options_themecolor"], [aria-labelledby="lbl_simple_edit_options_allycolorpalette"]) .btn-check:focus-visible + .btn {
+  outline: 3px solid #005ac7;
+  outline-offset: 3px;
+}
+
+:is([aria-labelledby="lbl_simple_edit_options_themecolor"], [aria-labelledby="lbl_simple_edit_options_allycolorpalette"]) .btn-check:checked + .btn {
+  border-color: #005ac7;
+  box-shadow: 0 0 0 2px #005ac7;
+}
+
+@media (max-width: 575.98px) {
+  :is([aria-labelledby="lbl_simple_edit_options_themecolor"], [aria-labelledby="lbl_simple_edit_options_allycolorpalette"]) .btn-group {
+    grid-template-columns: 1fr;
+  }
+}

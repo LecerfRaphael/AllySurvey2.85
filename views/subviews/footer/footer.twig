@@ -1,0 +1,20 @@
+{% set fasFooterText = aSurveyInfo.options.footertext|default('')|trim %}
+{% set fasFooterLogo = aSurveyInfo.options.footerlogo|default('off') %}
+{% set fasFooterImage = aSurveyInfo.options.footerimage|default('')|trim %}
+
+{% if fasFooterText or (fasFooterLogo == 'on' and fasFooterImage) %}
+    <footer class="fas-custom-footer" role="contentinfo">
+        <div class="fas-custom-footer-inner container-fluid col-12 col-xl-11">
+            {% if fasFooterLogo == 'on' and fasFooterImage %}
+                <div class="fas-custom-footer-image">
+                    {{ image(fasFooterImage, 'Universite de Lille', {"class": "fas-custom-footer-logo img-fluid"}) }}
+                </div>
+            {% endif %}
+            {% if fasFooterText %}
+                <div class="fas-custom-footer-text">
+                    {{ processString(fasFooterText, 1) }}
+                </div>
+            {% endif %}
+        </div>
+    </footer>
+{% endif %}

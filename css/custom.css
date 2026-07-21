@@ -1,0 +1,237 @@
+/******************
+    User custom CSS
+    ---------------
+
+    In this file you can add your own custom CSS
+    It will be loaded last, so you can override any other property.
+    Also, it will never be updated. So if you inheritate a core template and just add here some CSS, you'll still benefit of all the updates
+*/
+
+.fas-custom-footer {
+    background: #d4d7dd;
+    border-top: 1px solid #59606b;
+    color: #1f2937;
+    margin-top: 2rem;
+    padding: 0;
+}
+
+.fas-custom-footer-inner {
+    align-items: center;
+    display: grid;
+    gap: clamp(1.25rem, 4vw, 2.75rem);
+    grid-template-columns: minmax(8rem, 10rem) minmax(0, 1fr);
+    justify-content: stretch;
+    padding-bottom: 1.1rem;
+    padding-top: 1.1rem;
+    text-align: left;
+}
+
+.fas-custom-footer-image,
+.fas-custom-footer-text {
+    width: 100%;
+}
+
+.fas-custom-footer-image {
+    align-items: center;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.fas-custom-footer-logo,
+.fas-custom-footer-image img {
+    display: inline-block;
+    height: auto;
+    max-height: 74px;
+    max-width: min(150px, 100%);
+    width: auto;
+}
+
+.fas-custom-footer-text {
+    font-weight: 650;
+    line-height: 1.45;
+    min-width: 0;
+}
+
+.fas-custom-footer-text p,
+.fas-custom-footer-text .fas-footer-paragraph {
+    margin: 0 0 .5rem;
+}
+
+.fas-custom-footer-text p:last-child,
+.fas-custom-footer-text .fas-footer-paragraph:last-child {
+    margin-bottom: 0;
+}
+
+.modal-body .fas-modal-message {
+    margin-bottom: 1rem;
+}
+
+.fas-custom-footer-text ul,
+.fas-custom-footer-text ol {
+    margin-bottom: .5rem;
+    margin-top: .25rem;
+    padding-left: 1.5rem;
+    text-align: left;
+}
+
+.fas-custom-footer a,
+#survey-nav .dropdown-menu a,
+#survey-nav .dropdown-menu button {
+    text-decoration-thickness: .08em;
+    text-underline-offset: .18em;
+    transition: background-color .16s ease, color .16s ease, box-shadow .16s ease, text-decoration-color .16s ease;
+}
+
+.fas-custom-footer a {
+    color: #233044;
+    font-weight: 700;
+    text-decoration-color: transparent;
+}
+
+.fas-custom-footer a:hover,
+.fas-custom-footer a:focus-visible {
+    color: #005ac7;
+    text-decoration-line: underline;
+    text-decoration-color: currentColor;
+}
+
+.alert.alert-dismissible {
+    position: relative;
+    padding-right: 3.75rem;
+}
+
+.alert.alert-dismissible .btn-close {
+    position: absolute;
+    top: 50%;
+    right: .65rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding: 0;
+    margin: 0;
+    transform: translateY(-50%);
+    background-position: center;
+    background-size: .85rem;
+}
+
+.alert.alert-warning.alert-dismissible .btn-close {
+    opacity: .75;
+}
+
+.alert.alert-warning.alert-dismissible .btn-close:hover,
+.alert.alert-warning.alert-dismissible .btn-close:focus-visible {
+    opacity: 1;
+}
+
+#survey-nav .dropdown-menu {
+    border-color: var(--fas-palette-border, rgba(0, 0, 0, .16));
+    box-shadow: 0 .75rem 1.75rem rgba(0, 0, 0, .16);
+    min-width: min(24rem, calc(100vw - 2rem));
+    padding: .45rem;
+}
+
+#survey-nav .dropdown-header {
+    color: var(--fas-palette-primary2, #4b5563);
+    font-weight: 800;
+    letter-spacing: 0;
+    padding: .55rem .75rem .35rem;
+}
+
+#survey-nav .dropdown-menu .nav-link,
+#survey-nav .dropdown-menu .dropdown-item,
+#survey-nav .dropdown-menu .animate,
+#survey-nav .dropdown-menu button.nav-link,
+#survey-nav .dropdown-menu .btn-link {
+    align-items: center;
+    border-radius: .35rem;
+    color: var(--fas-palette-text, #1f2937);
+    display: flex;
+    font-weight: 700;
+    gap: .5rem;
+    line-height: 1.35;
+    margin: .1rem 0;
+    min-height: 2.5rem;
+    padding: .55rem .75rem;
+    text-align: left;
+    text-decoration: none;
+    width: 100%;
+}
+
+#survey-nav .dropdown-menu button.nav-link,
+#survey-nav .dropdown-menu .btn-link {
+    background: transparent;
+    border: 0;
+}
+
+#survey-nav .dropdown-menu .nav-link:hover,
+#survey-nav .dropdown-menu .nav-link:focus-visible,
+#survey-nav .dropdown-menu .dropdown-item:hover,
+#survey-nav .dropdown-menu .dropdown-item:focus-visible,
+#survey-nav .dropdown-menu .animate:hover,
+#survey-nav .dropdown-menu .animate:focus-visible,
+#survey-nav .dropdown-menu button.nav-link:hover,
+#survey-nav .dropdown-menu button.nav-link:focus-visible,
+#survey-nav .dropdown-menu .btn-link:hover,
+#survey-nav .dropdown-menu .btn-link:focus-visible {
+    background-color: var(--fas-palette-primary1, rgba(0, 90, 199, .12));
+    box-shadow: inset .25rem 0 0 var(--fas-palette-accent, #005ac7);
+    color: var(--fas-palette-primary2, #003d87);
+    outline: 0;
+    text-decoration: underline;
+}
+
+#survey-nav .dropdown-menu .disabled,
+#survey-nav .dropdown-menu [aria-disabled="true"] {
+    opacity: .68;
+    pointer-events: none;
+}
+
+html.fas-high-contrast .fas-custom-footer-logo,
+html.fas-high-contrast .fas-custom-footer-image img {
+    background-color: transparent;
+    filter: invert(1) !important;
+}
+
+html.fas-high-contrast .fas-custom-footer {
+    background: #000;
+    border-color: #fff;
+    color: #fff;
+}
+
+html.fas-high-contrast .fas-custom-footer a,
+html.fas-high-contrast #survey-nav .dropdown-menu .nav-link,
+html.fas-high-contrast #survey-nav .dropdown-menu .dropdown-item,
+html.fas-high-contrast #survey-nav .dropdown-menu .animate,
+html.fas-high-contrast #survey-nav .dropdown-menu button.nav-link {
+    color: #fff;
+}
+
+html.fas-high-contrast .fas-custom-footer a:hover,
+html.fas-high-contrast .fas-custom-footer a:focus-visible,
+html.fas-high-contrast #survey-nav .dropdown-menu .nav-link:hover,
+html.fas-high-contrast #survey-nav .dropdown-menu .nav-link:focus-visible,
+html.fas-high-contrast #survey-nav .dropdown-menu .dropdown-item:hover,
+html.fas-high-contrast #survey-nav .dropdown-menu .dropdown-item:focus-visible,
+html.fas-high-contrast #survey-nav .dropdown-menu .animate:hover,
+html.fas-high-contrast #survey-nav .dropdown-menu .animate:focus-visible,
+html.fas-high-contrast #survey-nav .dropdown-menu button.nav-link:hover,
+html.fas-high-contrast #survey-nav .dropdown-menu button.nav-link:focus-visible {
+    background-color: #ff0;
+    box-shadow: inset .25rem 0 0 #0ff;
+    color: #000;
+}
+
+@media (max-width: 767.98px) {
+    .fas-custom-footer {
+        text-align: center;
+    }
+
+    .fas-custom-footer-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .fas-custom-footer-image {
+        justify-content: center;
+    }
+}

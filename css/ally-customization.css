@@ -1,0 +1,13 @@
+
+body.fas-custom-enabled{--fas-accent:#1d6f42;--fas-focus:#ffbf47;--fas-content-max:1140px}.fas-custom-enabled a{accent-color:var(--fas-accent)}.fas-custom-enabled .btn-primary,.fas-custom-enabled .ls-move-btn{background-color:var(--fas-accent);border-color:var(--fas-accent)}.fas-custom-enabled :focus-visible{outline-color:var(--fas-focus)!important}.fas-custom-enabled #fas-main-content>div{max-width:var(--fas-content-max);margin-inline:auto}.fas-custom-enabled.fas-density-compact .question-container{padding-block:.55rem;margin-bottom:.65rem}.fas-custom-enabled.fas-density-spacious .question-container{padding-block:1.35rem;margin-bottom:1.5rem}.fas-custom-enabled.fas-question-flat .question-container{box-shadow:none!important;border:0!important;background:transparent!important}.fas-custom-enabled.fas-question-card .question-container{border:1px solid color-mix(in srgb,var(--fas-accent) 25%,#d7d7d7);box-shadow:0 3px 12px rgba(0,0,0,.08)}.fas-custom-enabled.fas-question-outlined .question-container{border:2px solid color-mix(in srgb,var(--fas-accent) 55%,#aaa);box-shadow:none!important}.fas-custom-enabled.fas-buttons-square .btn{border-radius:0!important}.fas-custom-enabled.fas-buttons-soft .btn{border-radius:.5rem!important}.fas-custom-enabled.fas-buttons-pill .btn{border-radius:999px!important}.fas-custom-enabled.fas-font-small{font-size:.9375rem}.fas-custom-enabled.fas-font-normal{font-size:1rem}.fas-custom-enabled.fas-font-large{font-size:1.125rem}@supports not (color:color-mix(in srgb,#000 50%,#fff)){.fas-custom-enabled.fas-question-card .question-container{border-color:#c8d8cf}.fas-custom-enabled.fas-question-outlined .question-container{border-color:var(--fas-accent)}}
+
+.fas-custom-enabled .btn-primary,
+.fas-custom-enabled .ls-move-btn,
+.fas-custom-enabled .btn-primary:hover,
+.fas-custom-enabled .ls-move-btn:hover,
+.fas-custom-enabled .btn-primary:focus,
+.fas-custom-enabled .ls-move-btn:focus,
+.fas-custom-enabled .btn-primary:active,
+.fas-custom-enabled .ls-move-btn:active {
+  color: #fff !important;
+}

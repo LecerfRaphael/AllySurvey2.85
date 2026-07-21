@@ -1,0 +1,22 @@
+/* Fruity AllySurvey V1.0 foundations */
+.fas-skip-link{position:fixed;z-index:10000;top:.5rem;left:.5rem;padding:.75rem 1rem;background:#fff;color:#111;border:2px solid currentColor;border-radius:.25rem;transform:translateY(-160%)}
+.fas-skip-link:focus{transform:translateY(0)}
+.fas-skip-link-accessibility:focus{top:3.75rem}
+.fas-focus-enhanced :focus-visible{outline:3px solid currentColor!important;outline-offset:3px!important;box-shadow:0 0 0 2px #fff!important}
+.fas-question-border .question-container{border:1px solid rgba(0,0,0,.22)}
+.fas-no-question-shadow .question-container{box-shadow:none!important}
+.fas-width-normal .container-fluid,.fas-width-normal .container{max-width:1440px}
+.fas-width-wide .container-fluid,.fas-width-wide .container{max-width:1720px}
+.fas-width-full .container-fluid,.fas-width-full .container{max-width:none}
+.fas-progress-top-container{padding-top:.75rem!important;padding-bottom:.5rem!important}
+.top-container #progressbar-top{width:100%}
+.top-container #progressbar-top[aria-valuenow="0"] .progress-bar{min-width:0!important}
+@media(max-width:1199.98px){
+  .fas-width-normal .container-fluid,.fas-width-normal .container,
+  .fas-width-wide .container-fluid,.fas-width-wide .container{max-width:100%}
+  .fas-progress-top-container{padding-top:.625rem!important;padding-bottom:.375rem!important}
+}
+@media(max-width:575.98px){
+  .fas-progress-top-container{padding-top:.5rem!important;padding-bottom:.25rem!important}
+}
+@media (prefers-reduced-motion:reduce){.fas-reduced-motion *, .fas-reduced-motion *::before,.fas-reduced-motion *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}

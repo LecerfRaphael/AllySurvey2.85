@@ -1,0 +1,253 @@
+{#
+    LimeSurvey
+    Copyright (C) 2007-2026 The LimeSurvey Project Team
+    All rights reserved.
+    License: GNU/GPL License v2 or later, see LICENSE.php
+    LimeSurvey is free software. This version may have been modified pursuant
+    to the GNU General Public License, and as distributed it includes or
+    is derivative of works licensed under the GNU General Public License or
+    other free or open source software licenses.
+    See COPYRIGHT.php for copyright notices and details.
+
+    (¯`·._.·(¯`·._.· Global Layout  ·._.·´¯)·._.·´¯)
+
+    This is the global layout that will be used to displayed most pages (less the error page)
+    If you're creating your own template, remember there is no obligation to respect the current file flow of this template.
+    This is different from the old LimeSurvey template engine, where you had to provide every one of the pstpl files.
+    Here, you must have a file called main_layout.twig (called from SurveyRuntimeHelper::run() ).
+    Other than that, you're free to organize your files and inclusions as you want.
+
+
+
+    (¯`·._.·(¯`·._.· Bootstrap ·._.·´¯)·._.·´¯)
+
+    LimeSurvey uses Bootstrap.
+    See: https://getbootstrap.com
+
+    This template is an instance of Bootswatch Theme Flatly.
+    See: https://bootswatch.com/
+
+
+
+    (¯`·._.·(¯`·._.· Twig Engine  ·._.·´¯)·._.·´¯)
+
+    The template engine uses Twig.
+    See: http://twig.sensiolabs.org/
+
+    The main variable is aSurveyInfo. It's an array containing the main information about the survey.
+    aSurveyInfo also contains other needed arrays, such as aNavigator, or aQuestionGroups (which contain aQuestions), etc.
+
+    If you want to see what is availabe in aSurveyInfo, turn debug mode on in application/config.php, and copy the following line to the end of the <body> element below:
+    {{ dump(aSurveyInfo) }}
+
+    To echo a variable, just insert                      : {{ variable }}
+    To translate a string, just insert                   : {{gT( string )}}
+
+    NOTE: aSurveyInfo should be cleaned to remove the unnecessary data.
+
+
+    (¯`·._.·(¯`·._.· Twig Engine: advanced  ·._.·´¯)·._.·´¯)
+
+    For security reason, Twig is in a sandBox.
+    About sandBox, see: http://twig.sensiolabs.org/doc/2.x/api.html#sandbox-extension
+
+    Available functions/Object Methods are defined in internal.php: components => twigRenderer
+    Eg:
+         Functions : 'include', 'dump', 'flatEllipsizeText', 'getLanguageData', 'array_flip', 'array_intersect_key', 'registerPublicCssFile', 'getAllQuestionClasses', 'getShowqnumcode', 'intval'
+
+         Methods   :
+                    - CHtml::textfield() (and: form, link, emailField, beginForm, endForm, dropDownList,htmlButton)
+                    - Survey::getAllLanguages()
+                    - LSHttpRequest::getParam()
+
+    If you need to add simple functions or static methods, just add them to internal.php.
+    If you need to add complex process, use application/core/LS_Twig_Extension.php (more help/comments there)
+
+
+    NOTE: Feel free to ask for functions, variables, etc, that you feel are missing - https://bugs.limesurvey.org/my_view_page.php
+#}
+
+<!DOCTYPE html>
+<html lang="{{ aSurveyInfo.languagecode }}" dir="{{ aSurveyInfo.dir }}" class="{{ aSurveyInfo.languagecode }} dir-{{ aSurveyInfo.dir }} {{ aSurveyInfo.class.html }}" {{ aSurveyInfo.attr.html }}>
+    {% block head %}
+    {# Headers, metadata, etc #}
+    {{ include('./subviews/header/head.twig') }}
+    {% endblock %}
+    {# Diagnostic visible only in preview by default. Preview covers inactive surveys and popup/group/question preview. #}
+    {% set fasResolvedPalette = aSurveyInfo.options.themecolor|default(aSurveyInfo.options.allycolorpalette|default('neutre')) %}
+    {% set fasIsPreview = (aSurveyInfo.active != 'Y') or aSurveyInfo.popupPreview %}
+    {% set fasDiagnosticAllowed = aSurveyInfo.options.diagnosticmode == 'on' and (aSurveyInfo.options.diagnosticvisibility|default('preview') == 'always' or fasIsPreview) %}
+
+    <body {{ aSurveyInfo.attr.body }} data-thememode="{{ aSurveyInfo.options.thememode ? aSurveyInfo.options.thememode : 'light' }}" class="{{ aSurveyInfo.class.body }} fruity-allysurvey-rgaa font-{{ aSurveyInfo.options.font }} lang-{{ aSurveyInfo.languagecode }} {{ aSurveyInfo.surveyformat }}{% if aSurveyInfo.options.brandlogo == "on" %} brand-logo{% endif %}{% if aSurveyInfo.options.enhancedfocus == "on" %} fas-focus-enhanced{% endif %}{% if aSurveyInfo.options.reducedmotion == "on" %} fas-reduced-motion{% endif %}{% if aSurveyInfo.options.questionborder == "on" %} fas-question-border{% endif %}{% if aSurveyInfo.options.questioncontainershadow == "off" %} fas-no-question-shadow{% endif %} fas-width-{{ aSurveyInfo.options.contentwidth|default("normal") }} fas-palette-{{ fasResolvedPalette }}{% if aSurveyInfo.options.accessibilitytoolbar == "on" %} fas-toolbar-enabled fas-toolbar-{{ aSurveyInfo.options.toolbarposition|default("right") }}{% endif %}{% if fasDiagnosticAllowed %} fas-diagnostic-enabled{% endif %}{% if aSurveyInfo.options.developermode == "on" %} fas-developer-enabled{% endif %}{% if aSurveyInfo.options.advancedcustomization == "on" %} fas-custom-enabled fas-density-{{ aSurveyInfo.options.allydensity|default("comfortable") }} fas-question-{{ aSurveyInfo.options.allyquestionstyle|default("card") }} fas-buttons-{{ aSurveyInfo.options.allybuttonstyle|default("soft") }} fas-font-{{ aSurveyInfo.options.allyfontsize|default("normal") }}{% endif %}"
+              data-fas-accent="{{ aSurveyInfo.options.allyaccentcolor|default('#1d6f42') }}"
+              data-fas-focus="{{ aSurveyInfo.options.allyfocuscolor|default('#ffbf47') }}"
+              data-fas-maxwidth="{{ aSurveyInfo.options.allymaxwidth|default('1140') }}"
+              data-fas-dev-codes="{{ aSurveyInfo.options.devshowcodes|default('on') }}"
+              data-fas-ls7-compat="{{ aSurveyInfo.options.ls7compatibility|default('on') }}"
+              data-fas-theme-version="2.0.32"
+              data-fas-color-palette="{{ fasResolvedPalette }}"
+              data-fas-body-background="{{ aSurveyInfo.options.bodybackgroundcolor|default('') }}"
+              data-fas-font-color="{{ aSurveyInfo.options.fontcolor|default('') }}"
+              data-fas-question-background="{{ aSurveyInfo.options.questionbackgroundcolor|default('') }}"
+              data-fas-preview="{% if fasIsPreview %}true{% else %}false{% endif %}">
+
+        {% if aSurveyInfo.options.skiplinks == "on" %}
+            {% set fasSkipIsFrench = aSurveyInfo.languagecode in ['fr', 'fr-FR', 'fr_FR', 'fr-BE', 'fr_BE', 'fr-CA', 'fr_CA'] %}
+            <a class="fas-skip-link" href="#fas-main-content">{{ fasSkipIsFrench ? 'Aller au contenu principal' : 'SKIP CONTENT' }}</a>
+            {% if aSurveyInfo.options.accessibilitytoolbar == "on" %}
+                <a class="fas-skip-link fas-skip-link-accessibility" href="#fas-accessibility-toggle">{{ fasSkipIsFrench ? "Aller aux options d'accessibilite" : 'Skip to accessibility options' }}</a>
+            {% endif %}
+        {% endif %}
+
+        {% if aSurveyInfo.options.accessibilitytoolbar == "on" %}
+            {% set fasToolbarIsFrench = aSurveyInfo.languagecode in ['fr', 'fr-FR', 'fr_FR', 'fr-BE', 'fr_BE', 'fr-CA', 'fr_CA'] %}
+            {% set fasToolbarLanguage = fasToolbarIsFrench ? 'fr' : 'en' %}
+            {% set fasToolbarOptionsLabel = fasToolbarIsFrench ? "Options d’accessibilité" : 'Accessibility options' %}
+            {% set fasToolbarLabel = fasToolbarIsFrench ? 'Accessibilité' : 'Accessibility' %}
+            {% set fasToolbarPreferencesLabel = fasToolbarIsFrench ? 'Préférences de lecture' : 'Reading preferences' %}
+            {% set fasToolbarDecreaseLabel = fasToolbarIsFrench ? 'Réduire la taille du texte' : 'Decrease text size' %}
+            {% set fasToolbarIncreaseLabel = fasToolbarIsFrench ? 'Augmenter la taille du texte' : 'Increase text size' %}
+            {% set fasToolbarContrastLabel = fasToolbarIsFrench ? 'Contraste' : 'Contrast' %}
+            {% set fasToolbarMonochromeLabel = fasToolbarIsFrench ? 'Noir et blanc' : 'Black and white' %}
+            {% set fasToolbarSpacingLabel = fasToolbarIsFrench ? 'Espacement du texte' : 'Text spacing' %}
+            {% set fasToolbarLinksLabel = fasToolbarIsFrench ? 'Souligner les liens' : 'Underline links' %}
+            {% set fasToolbarMotionLabel = fasToolbarIsFrench ? 'Réduire les animations' : 'Reduce motion' %}
+            {% set fasToolbarResetLabel = fasToolbarIsFrench ? 'Réinitialiser' : 'Reset' %}
+            <aside id="fas-accessibility-toolbar"
+                   class="fas-a11y-toolbar{% if aSurveyInfo.options.toolbarcollapsed == 'on' %} is-collapsed{% endif %}"
+                   aria-label="{{ fasToolbarOptionsLabel }}"
+                   data-position="{{ aSurveyInfo.options.toolbarposition|default('right') }}"
+                   data-fas-language="{{ fasToolbarLanguage }}"
+                   data-luciole-enabled="{{ aSurveyInfo.options.toolbarluciole|default('on') }}"
+                   data-dyslexic-enabled="{{ aSurveyInfo.options.toolbardyslexic|default('on') }}">
+                <button id="fas-accessibility-toggle" type="button" class="fas-a11y-toggle" aria-expanded="{% if aSurveyInfo.options.toolbarcollapsed == 'on' %}false{% else %}true{% endif %}" aria-controls="fas-a11y-panel">
+                    <span aria-hidden="true">♿</span>
+                    <span class="fas-a11y-toggle-label">{{ fasToolbarLabel }}</span>
+                </button>
+                <div id="fas-a11y-panel" class="fas-a11y-panel">
+                    <h2 class="fas-a11y-title">{{ fasToolbarPreferencesLabel }}</h2>
+                    <div class="fas-a11y-actions" role="group" aria-label="{{ fasToolbarPreferencesLabel }}">
+                        {% if aSurveyInfo.options.toolbartextsize == 'on' %}
+                            <button type="button" data-fas-action="text-decrease" aria-label="{{ fasToolbarDecreaseLabel }}">A−</button>
+                            <button type="button" data-fas-action="text-increase" aria-label="{{ fasToolbarIncreaseLabel }}">A+</button>
+                        {% endif %}
+                        {% if aSurveyInfo.options.toolbarcontrast == 'on' %}<button type="button" data-fas-action="contrast" aria-pressed="false">{{ fasToolbarContrastLabel }}</button>{% endif %}
+                        {% if aSurveyInfo.options.toolbarmonochrome == 'on' %}<button type="button" data-fas-action="monochrome" aria-pressed="false">{{ fasToolbarMonochromeLabel }}</button>{% endif %}
+                        {% if aSurveyInfo.options.toolbarspacing == 'on' %}<button type="button" data-fas-action="spacing" aria-pressed="false">{{ fasToolbarSpacingLabel }}</button>{% endif %}
+                        {% if aSurveyInfo.options.toolbarlinks == 'on' %}<button type="button" data-fas-action="links" aria-pressed="false">{{ fasToolbarLinksLabel }}</button>{% endif %}
+                        {% if aSurveyInfo.options.toolbarmotion == 'on' %}<button type="button" data-fas-action="motion" aria-pressed="false">{{ fasToolbarMotionLabel }}</button>{% endif %}
+                        {% if aSurveyInfo.options.toolbarluciole|default('on') == 'on' %}<button type="button" data-fas-action="luciole" aria-pressed="false">Luciole</button>{% endif %}
+                        {% if aSurveyInfo.options.toolbardyslexic|default('on') == 'on' %}<button type="button" data-fas-action="dyslexic" aria-pressed="false">Dyslexique</button>{% endif %}
+                        <button type="button" data-fas-action="reset">{{ fasToolbarResetLabel }}</button>
+                    </div>
+                    <div class="visually-hidden" id="fas-a11y-status" aria-live="polite" aria-atomic="true"></div>
+                </div>
+            </aside>
+        {% endif %}
+
+
+        {% if fasDiagnosticAllowed or aSurveyInfo.options.developermode == "on" %}
+            <nav id="fas-exclusive-tools" class="fas-exclusive-tools" aria-label="{{ gT('Theme tools') }}">
+                {% if fasDiagnosticAllowed %}
+                    <button type="button" id="fas-run-diagnostic" class="fas-tool-button" aria-controls="fas-diagnostic-panel" aria-expanded="false">{{ gT('Accessibility diagnostic') }}</button>
+                {% endif %}
+                {% if aSurveyInfo.options.developermode == "on" %}
+                    <button type="button" id="fas-toggle-developer" class="fas-tool-button" aria-pressed="false">{{ gT('Developer mode') }}</button>
+                {% endif %}
+            </nav>
+            {% if fasDiagnosticAllowed %}
+                <aside id="fas-diagnostic-panel" class="fas-diagnostic-panel" hidden aria-labelledby="fas-diagnostic-title">
+                    <div class="fas-panel-header">
+                        <h2 id="fas-diagnostic-title">{{ gT('Indicative accessibility diagnostic') }}</h2>
+                        <button type="button" id="fas-close-diagnostic" aria-label="{{ gT('Close') }}">×</button>
+                    </div>
+                    <p class="fas-diagnostic-warning">{{ gT('This automated diagnostic does not replace a complete RGAA/WCAG audit.') }}</p>
+                    <div id="fas-diagnostic-summary" aria-live="polite"></div>
+                    <ol id="fas-diagnostic-results"></ol>
+                </aside>
+            {% endif %}
+        {% endif %}
+
+        {# Notice if emcache is on or off, used by tests. #}
+        {% if aSurveyInfo.emcache %}
+            <span style="display: none;" id="__emcache_debug" value="on"></span>
+        {% else %}
+            <span style="display: none;" id="__emcache_debug" value="off"></span>
+        {% endif %}
+
+        {# This used for the pjax system #}
+        {% block pjaxbegin %}
+            <div id="beginScripts" class="script-container">
+                <###begin###>
+            </div>
+        {% endblock %}       
+
+        {# Ajaxify cannot handle an element that is a direct child of body, so => create simple wrapper section #}
+        <article id="fas-main-content" tabindex="-1">
+
+            <div id="{{ aSurveyInfo.id.dynamicreload }}"
+                 class="{% if( aSurveyInfo.options.notables == "2" ) %}no-tables-general{% elseif(aSurveyInfo.options.notables == "1") %}no-tables-mobile{% endif %}">
+            {% block body %}
+
+                {# Bootstrap Navigation Bar: the top menu #}
+                {% block nav_bar %}
+                    {{ include('./subviews/header/nav_bar.twig') }}
+                {% endblock %}
+
+                {# Titre permanent du questionnaire et pagination AllySurvey #}
+
+                {# Top Container: in this template, it contains only  #}
+                {% block progress %}
+                    {{ include('./subviews/header/progress_bar.twig') }}
+                {% endblock %}
+
+                <!-- Outer Frame Container -->
+                {% block content %}
+                    {#
+                        Content depends on the action (survey, questions, register, assesments, submit, etc)
+                        Action are in ./subviews/content/
+                    #}
+                    {% set sViewContent =  './subviews/content/' ~ aSurveyInfo.include_content ~ '.twig' %}
+                    {% include './subviews/content/outerframe.twig' with {'include_content': sViewContent } %}
+                {% endblock %}
+
+                {# Bootstrap alert modal #}
+                {{ include('./subviews/messages/bootstrap_alert_modal.twig') }}
+
+                {# Basic ThemeScript options  #}
+                {{ registerScript("BasicThemeScripts", "
+                if(window.basicThemeScripts === undefined){ 
+                    window.basicThemeScripts = new ThemeScripts(); 
+                }
+                if(window.arrayScripts === undefined){
+                    window.arrayScripts = new ArrayScripts();
+                }
+                if(window.navbarScripts === undefined){
+                    window.navbarScripts = new NavbarScripts();
+                }
+                arrayScripts.initArrayEvents();
+                navbarScripts.initNavbarEvents();
+                basicThemeScripts.initGlobal();
+                ", "POS_END") }}
+
+            {% endblock %}
+            </div>
+
+        </article>
+        {% block footer %}
+            {{ include('./subviews/footer/footer.twig') }}
+        {% endblock %}
+        {% block pjaxend %}
+            <div id="bottomScripts" class="script-container">
+                <###end###>
+            </div>
+        {% endblock %}   
+
+        {% block themescripts %}
+            <script>
+                window.basicThemeScripts.init();
+            </script>
+        {% endblock %}
+        
+    </body>
+</html>

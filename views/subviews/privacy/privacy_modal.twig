@@ -1,0 +1,179 @@
+{#
+LimeSurvey
+Copyright (C) 2007-2026 The LimeSurvey Project Team
+All rights reserved.
+License: GNU/GPL License v2 or later, see LICENSE.php
+LimeSurvey is free software. This version may have been modified pursuant
+to the GNU General Public License, and as distributed it includes or
+is derivative of works licensed under the GNU General Public License or
+other free or open source software licenses.
+See COPYRIGHT.php for copyright notices and details.
+
+(¯`·._.·(¯`·._.· Privacy with modal ·._.·´¯)·._.·´¯)
+
+Show the privacy message and the data security message will be available in a modal
+#}
+{% set describedbyprivacy = "datasecurity_notice" %}
+    {% set privacychecked = "" %}
+    {% if getPost('datasecurity_accepted') %}
+        {% set privacychecked = "checked" %}
+    {%endif %}
+{% if aSurveyInfo.datasecurity_error %}
+    <div class="ls-privacy-block">
+        <div class="{{ aSurveyInfo.class.activealert }} alert alert-danger alert-dismissible alert-dismissible {% if not aSurveyInfo.datasecuritynotaccepted %}ls-js-hidden {% endif %}" {{ aSurveyInfo.attr.activealert }}
+             id="datasecurity_error">
+            <button type="button" {{ aSurveyInfo.attr.activealertbutton }} class="{{ aSurveyInfo.class.activealertbutton }} btn-close" aria-label="{{ gT('Close') }}"></button>
+            {{ aSurveyInfo.datasecurity_error }}
+        </div>
+        {% if aSurveyInfo.datasecuritynotaccepted %}
+            {% set describedbyprivacy = "datasecurity_error " ~ describedbyprivacy %}
+        {% endif %}
+    </div>
+{% endif %}
+<div class="ls-privacy-block">
+    <div class="row row-cols-lg-auto align-items-center datasecurity-checkbox-container">
+        <div class="col-12 checkbox-item">
+            <input required class="{{ aSurveyInfo.class.privacydataseccheckbox }} form-check-input" {{ privacychecked }} type="checkbox" name="datasecurity_accepted" id="datasecurity_accepted" aria-describedby="{{ describedbyprivacy }}"/>
+            <label for="datasecurity_accepted"
+                   class="control-label checkbox-label form-check-label datasecurity-checkbox-label {{ aSurveyInfo.class.privacydataseccheckboxlabel }}">
+                {{ aSurveyInfo.datasecurity_notice_label }}
+            </label>
+        </div>
+    </div>
+</div>
+<div id="data-security-modal-{{ aSurveyInfo.sid }}" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title h5">{{ gT('Privacy policy') }}</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ gT('Close') }}"></button>
+            </div>
+            <div id="datasecurity_notice" class="modal-body {{ aSurveyInfo.class.privacydatasecmodalbody }}">
+                {{ aSurveyInfo.datasecurity_notice }}
+            </div>
+            <div class="modal-footer ls-no-js-hidden">
+                <button type="button" class="btn btn-primary" onclick="var cb=document.getElementById('datasecurity_accepted'); if(cb){cb.checked=true; cb.dispatchEvent(new Event('change',{bubbles:true}));} if(window.jQuery){$('#datasecurity_accepted').prop('checked',true).trigger('change');}" data-bs-dismiss="modal">
+                    {{ gT("Accept") }}
+                </button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    {{ gT("Close") }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#datasecurity_accepted").closest("form").find("button[type='submit']").on("click", function() {
+            if (!$('#datasecurity_accepted').prop('checked')) {
+                /* dynamic show error */
+                $('#datasecurity_error').removeClass('ls-js-hidden');
+                if ($('#datasecurity_error').length) {
+                    /* add it in aria and role */
+                    $('#datasecurity_error').attr('role', 'alert');
+                    $('#datasecurity_accepted').attr('aria-describedby', "datasecurity_error datasecurity_notice");
+                }
+            }
+        });
+    });
+    $('#datasecurity_accepted').on('change', function () {
+        if ($('#datasecurity_accepted').prop('checked')) {
+            /* dynamic hide error */
+            $('#datasecurity_error').addClass('ls-js-hidden');
+        }
+    });
+</script>
+<script>
+    (function () {
+        function ready(fn) {
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", fn);
+            } else {
+                fn();
+            }
+        }
+
+        function findPrivacyCheckbox() {
+            return document.getElementById("datasecurity_accepted") ||
+                document.querySelector("input[name='datasecurity_accepted']");
+        }
+
+        function findNextButtons(checkbox) {
+            var form = checkbox && (checkbox.form || checkbox.closest("form"));
+            var selector = [
+                "#ls-button-submit",
+                "#ls-button-next",
+                "button[name='move'][value='movenext']",
+                "input[type='submit'][name='move'][value='movenext']",
+                "button[name='move'][value='movesubmit']",
+                "input[type='submit'][name='move'][value='movesubmit']",
+                ".ls-move-next-btn",
+                ".ls-move-submit-btn"
+            ].join(",");
+            var buttons = Array.prototype.slice.call((form || document).querySelectorAll(selector));
+            if (!buttons.length && form) {
+                buttons = Array.prototype.slice.call(document.querySelectorAll(selector));
+            }
+            return buttons;
+        }
+
+        function showPrivacyError(checkbox) {
+            var error = document.getElementById("datasecurity_error");
+            if (error) {
+                error.classList.remove("ls-js-hidden");
+                error.setAttribute("role", "alert");
+                var describedBy = (checkbox.getAttribute("aria-describedby") || "").split(/\s+/).filter(Boolean);
+                if (describedBy.indexOf("datasecurity_error") === -1) {
+                    describedBy.unshift("datasecurity_error");
+                }
+                checkbox.setAttribute("aria-describedby", describedBy.join(" "));
+            }
+            checkbox.focus();
+        }
+
+        function syncPrivacyNextButton() {
+            var checkbox = findPrivacyCheckbox();
+            if (!checkbox) return;
+            var blocked = !checkbox.checked;
+            findNextButtons(checkbox).forEach(function (button) {
+                button.disabled = blocked;
+                button.setAttribute("aria-disabled", blocked ? "true" : "false");
+                button.classList.toggle("ls-a11y-disabled-until-privacy", blocked);
+            });
+        }
+
+        ready(function () {
+            var checkbox = findPrivacyCheckbox();
+            if (!checkbox) return;
+
+            syncPrivacyNextButton();
+            checkbox.addEventListener("change", syncPrivacyNextButton, true);
+            checkbox.addEventListener("input", syncPrivacyNextButton, true);
+
+            document.addEventListener("click", function (event) {
+                var button = event.target && event.target.closest && event.target.closest("#ls-button-submit, #ls-button-next, .ls-move-next-btn, .ls-move-submit-btn, button[name='move'], input[type='submit'][name='move']");
+                checkbox = findPrivacyCheckbox();
+                if (!button || !checkbox || checkbox.checked) return;
+                event.preventDefault();
+                event.stopPropagation();
+                if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+                syncPrivacyNextButton();
+                showPrivacyError(checkbox);
+            }, true);
+
+            document.addEventListener("submit", function (event) {
+                checkbox = findPrivacyCheckbox();
+                if (!checkbox || checkbox.checked) return;
+                event.preventDefault();
+                event.stopPropagation();
+                if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+                syncPrivacyNextButton();
+                showPrivacyError(checkbox);
+            }, true);
+
+            window.setTimeout(syncPrivacyNextButton, 0);
+            window.setTimeout(syncPrivacyNextButton, 250);
+            window.setInterval(syncPrivacyNextButton, 500);
+        });
+    }());
+</script>

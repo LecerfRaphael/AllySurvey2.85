@@ -1,0 +1,190 @@
+/* =========================================================
+   Fruity AllySurvey — classement accessible
+   Rend visible l'interface native en listes déroulantes créée
+   par files/accessibilite.js et neutralise le glisser-déposer.
+========================================================= */
+
+.question-container.ranking.ls-ranking-a11y-enabled .select-sortable-lists .select-list,
+.question-container.ls-ranking-a11y-enabled .select-sortable-lists .select-list,
+fieldset.ranking.ls-ranking-a11y-enabled .select-sortable-lists .select-list,
+fieldset.ls-ranking-a11y-enabled .select-sortable-lists .select-list {
+  position: static !important;
+  inset: auto !important;
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+  clip: auto !important;
+  clip-path: none !important;
+  white-space: normal !important;
+  margin: 1rem 0 !important;
+  padding: 1rem !important;
+  border: 1px solid #d8dee9 !important;
+  border-radius: .75rem !important;
+  background: #fff !important;
+  color: #1a1a1a !important;
+}
+
+.question-container.ranking.ls-ranking-a11y-enabled .select-sortable-lists .ls-no-js-hidden,
+.question-container.ls-ranking-a11y-enabled .select-sortable-lists .ls-no-js-hidden,
+fieldset.ranking.ls-ranking-a11y-enabled .select-sortable-lists .ls-no-js-hidden,
+fieldset.ls-ranking-a11y-enabled .select-sortable-lists .ls-no-js-hidden {
+  display: none !important;
+}
+
+.question-container.ls-ranking-a11y-enabled .select-item,
+fieldset.ls-ranking-a11y-enabled .select-item {
+  display: grid !important;
+  grid-template-columns: minmax(10rem, 1fr) minmax(14rem, 2fr) !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  margin: 0 0 1rem !important;
+}
+
+.question-container.ls-ranking-a11y-enabled .select-item:last-child,
+fieldset.ls-ranking-a11y-enabled .select-item:last-child {
+  margin-bottom: 0 !important;
+}
+
+.question-container.ls-ranking-a11y-enabled .select-item label,
+fieldset.ls-ranking-a11y-enabled .select-item label {
+  display: block !important;
+  width: auto !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-weight: 700 !important;
+  color: #1a1a1a !important;
+}
+
+.question-container.ls-ranking-a11y-enabled .select-item .col-md-8,
+.question-container.ls-ranking-a11y-enabled .select-item .col-md-4,
+fieldset.ls-ranking-a11y-enabled .select-item .col-md-8,
+fieldset.ls-ranking-a11y-enabled .select-item .col-md-4 {
+  width: auto !important;
+  max-width: none !important;
+  flex: 1 1 auto !important;
+  padding: 0 !important;
+}
+
+.question-container.ls-ranking-a11y-enabled select.form-select,
+.question-container.ls-ranking-a11y-enabled select,
+fieldset.ls-ranking-a11y-enabled select.form-select,
+fieldset.ls-ranking-a11y-enabled select {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 2.75rem !important;
+}
+
+.question-container.ls-ranking-a11y-enabled select.form-select:focus,
+.question-container.ls-ranking-a11y-enabled select:focus,
+fieldset.ls-ranking-a11y-enabled select.form-select:focus,
+fieldset.ls-ranking-a11y-enabled select:focus {
+  outline: 3px solid var(--ls-a11y-focus-color, #b33a00) !important;
+  outline-offset: 2px !important;
+  border-color: var(--ls-a11y-focus-color, #b33a00) !important;
+  box-shadow: 0 0 0 3px var(--ls-a11y-focus-shadow, rgba(179, 58, 0, .30)) !important;
+}
+
+.ls-ranking-a11y-help {
+  margin: .75rem 0 1rem !important;
+  padding: .75rem 1rem !important;
+  border: 1px solid #e5b9bc !important;
+  border-left: 4px solid #b33339 !important;
+  border-radius: .4rem !important;
+  background: #fff6f6 !important;
+  color: #1a1a1a !important;
+  line-height: 1.45 !important;
+}
+
+.ls-ranking-a11y-help strong {
+  color: #941b23 !important;
+}
+
+/* Modes contraste de la barre V1.1/V2 */
+body.a11y-contrast .question-container.ranking.ls-ranking-a11y-enabled .select-sortable-lists .select-list,
+body.a11y-contrast .question-container.ls-ranking-a11y-enabled .select-sortable-lists .select-list,
+body.fas-contrast .question-container.ranking.ls-ranking-a11y-enabled .select-sortable-lists .select-list,
+body.fas-contrast .question-container.ls-ranking-a11y-enabled .select-sortable-lists .select-list,
+html.fas-contrast .question-container.ranking.ls-ranking-a11y-enabled .select-sortable-lists .select-list,
+html.fas-contrast .question-container.ls-ranking-a11y-enabled .select-sortable-lists .select-list {
+  background: #121212 !important;
+  color: #fff !important;
+  border: 2px solid #fff !important;
+}
+
+body.a11y-contrast .question-container.ls-ranking-a11y-enabled .select-item label,
+body.fas-contrast .question-container.ls-ranking-a11y-enabled .select-item label,
+html.fas-contrast .question-container.ls-ranking-a11y-enabled .select-item label {
+  color: #fff !important;
+}
+
+body.a11y-contrast .question-container.ls-ranking-a11y-enabled select,
+body.fas-contrast .question-container.ls-ranking-a11y-enabled select,
+html.fas-contrast .question-container.ls-ranking-a11y-enabled select {
+  background: #000 !important;
+  color: #fff !important;
+  border: 2px solid #fff !important;
+}
+
+body.a11y-contrast .question-container.ls-ranking-a11y-enabled select:focus,
+body.fas-contrast .question-container.ls-ranking-a11y-enabled select:focus,
+html.fas-contrast .question-container.ls-ranking-a11y-enabled select:focus {
+  outline: 3px solid #ffeb00 !important;
+  border-color: #ffeb00 !important;
+  box-shadow: none !important;
+}
+
+body.a11y-contrast .ls-ranking-a11y-help,
+body.fas-contrast .ls-ranking-a11y-help,
+html.fas-contrast .ls-ranking-a11y-help {
+  background: #000 !important;
+  color: #fff !important;
+  border: 2px solid #ffeb00 !important;
+  border-left-width: 5px !important;
+}
+
+body.a11y-contrast .ls-ranking-a11y-help strong,
+body.fas-contrast .ls-ranking-a11y-help strong,
+html.fas-contrast .ls-ranking-a11y-help strong {
+  color: #ffeb00 !important;
+}
+
+@media (max-width: 768px) {
+  .question-container.ls-ranking-a11y-enabled .select-item,
+  fieldset.ls-ranking-a11y-enabled .select-item {
+    display: block !important;
+  }
+
+  .question-container.ls-ranking-a11y-enabled .select-item label,
+  fieldset.ls-ranking-a11y-enabled .select-item label {
+    margin-bottom: .4rem !important;
+  }
+}
+
+/* Nom actuel du mode contraste : supprime les surfaces blanches du classement. */
+html.fas-high-contrast:root body .question-container.ranking.ls-ranking-a11y-enabled .select-sortable-lists .select-list,
+html.fas-high-contrast:root body .question-container.ls-ranking-a11y-enabled .select-sortable-lists .select-list,
+html.fas-high-contrast:root body fieldset.ranking.ls-ranking-a11y-enabled .select-sortable-lists .select-list,
+html.fas-high-contrast:root body fieldset.ls-ranking-a11y-enabled .select-sortable-lists .select-list,
+html.fas-high-contrast:root body .question-container.ls-ranking-a11y-enabled .select-item,
+html.fas-high-contrast:root body fieldset.ls-ranking-a11y-enabled .select-item,
+html.fas-high-contrast:root body .ls-ranking-a11y-help {
+  background:#000!important;
+  color:#fff!important;
+  border-color:#fff!important;
+}
+html.fas-high-contrast:root body .question-container.ls-ranking-a11y-enabled .select-item label,
+html.fas-high-contrast:root body fieldset.ls-ranking-a11y-enabled .select-item label,
+html.fas-high-contrast:root body .ls-ranking-a11y-help strong {
+  background:#000!important;
+  color:#fff!important;
+}
+html.fas-high-contrast:root body .question-container.ls-ranking-a11y-enabled select,
+html.fas-high-contrast:root body fieldset.ls-ranking-a11y-enabled select {
+  background:#000!important;
+  color:#fff!important;
+  border-color:#fff!important;
+}

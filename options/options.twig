@@ -1,0 +1,178 @@
+<div class="fas-theme-options">
+    <style>
+        .fas-theme-options .nav-tabs { margin-bottom: 1rem; }
+        .fas-theme-options .tab-pane { padding: 1rem; background: #fff; }
+        .fas-theme-options .form-label { font-weight: 700; }
+        .fas-theme-options textarea[name="footertext"] {
+            min-height: 14rem;
+            font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+            white-space: pre-wrap;
+        }
+        .fas-theme-options .fas-option-row { row-gap: 1rem; }
+        .fas-theme-options .btn-group { flex-wrap: wrap; }
+        .fas-theme-options .fas-footer-upload { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; margin-top: .65rem; }
+        .fas-theme-options .fas-footer-upload .progress { flex: 1 1 14rem; min-width: 12rem; margin: 0; }
+        .fas-theme-options .fas-footer-upload-help { color: #4b5563; font-size: .9rem; }
+        .fas-theme-options .fas-footer-upload-holder { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+        .fas-theme-options label.btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; white-space: normal; }
+        .fas-theme-options .fas-palette-button-group { display: grid; grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr)); gap: .55rem; width: 100%; }
+        .fas-theme-options .fas-palette-button-group .btn {
+            align-items: center;
+            background: #fff;
+            border: 2px solid #7c8796;
+            border-radius: .45rem !important;
+            color: #111827;
+            display: flex;
+            flex-direction: column;
+            font-weight: 800;
+            gap: .35rem;
+            justify-content: center;
+            line-height: 1.15;
+            margin: 0;
+            min-height: 5rem;
+            padding: .45rem .55rem;
+            text-align: center;
+        }
+        .fas-theme-options .fas-palette-button-group > .btn,
+        .fas-theme-options .fas-palette-button-group > .btn:not(:first-child),
+        .fas-theme-options .fas-palette-button-group > .btn:not(:last-child) {
+            border-radius: .45rem !important;
+        }
+        .fas-theme-options .fas-palette-button-group .btn-check:checked + .btn {
+            background: #fff;
+            border-color: #005ac7;
+            box-shadow: 0 0 0 .2rem #005ac7;
+            color: #111827;
+        }
+        .fas-theme-options .fas-palette-swatch { display: grid; grid-template-columns: repeat(3, 1fr); gap: .18rem; width: 8.25rem; height: 2.15rem; }
+        .fas-theme-options .fas-palette-swatch span { border: 1px solid #4b5563; border-radius: .2rem; min-width: 0; }
+        .fas-theme-options .fas-palette-swatch span:first-child { border-radius: .3rem .2rem .2rem .3rem; }
+        .fas-theme-options .fas-palette-swatch span:last-child { border-radius: .2rem .3rem .3rem .2rem; }
+        .fas-theme-options .fas-corner-swatch { display: inline-block; width: 1.5rem; height: 1rem; border: 2px solid currentColor; border-right: 0; flex: 0 0 1.5rem; }
+        .fas-theme-options .fas-corner-1 { border-radius: 0; }
+        .fas-theme-options .fas-corner-2 { border-radius: .25rem 0 0 .25rem; }
+        .fas-theme-options .fas-corner-3 { border-radius: 1rem 0 0 1rem; }
+        .fas-theme-options .fas-inherit-panel,
+        .fas-theme-options .fas-custom-panel {
+            align-items: center;
+            background: #eef4ff;
+            border: 2px solid #005ac7;
+            border-radius: .45rem;
+            color: #111827;
+            display: none;
+            gap: 1rem;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding: .85rem 1rem;
+        }
+        .fas-theme-options.is-inherited .fas-inherit-panel { display: flex; }
+        .fas-theme-options.is-customized .fas-custom-panel { display: flex; }
+        .fas-theme-options .fas-inherit-panel p,
+        .fas-theme-options .fas-custom-panel p { margin: 0; }
+        .fas-theme-options.is-inherited .fas-option-row {
+            opacity: .72;
+        }
+    </style>
+
+    <div class="fas-inherit-panel" role="status">
+        <p>Le questionnaire herite actuellement des reglages du theme general.</p>
+        <button type="button" class="btn btn-primary" id="fas-customize-survey-options">Personnaliser le questionnaire</button>
+    </div>
+
+    <div class="fas-custom-panel" role="status">
+        <p>Le questionnaire utilise des reglages personnalises.</p>
+        <button type="button" class="btn btn-outline-secondary" id="fas-return-inherit-options">Revenir a l'heritage du theme general</button>
+    </div>
+
+    <ul class="nav nav-tabs" role="tablist">
+        {% for category in aOptionAttributes.categories %}
+            <li class="nav-item" role="presentation">
+                <button class="nav-link{% if loop.first %} active{% endif %}" type="button" data-bs-toggle="tab" data-bs-target="#fas-option-category-{{ loop.index }}" role="tab" aria-selected="{% if loop.first %}true{% else %}false{% endif %}">
+                    {{ category }}
+                </button>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="tab-content">
+        {% for category in aOptionAttributes.categories %}
+            <div class="tab-pane{% if loop.first %} active{% endif %}" id="fas-option-category-{{ loop.index }}" role="tabpanel">
+                <div class="row fas-option-row">
+                    {% for key, attribute in aOptionAttributes.optionAttributes %}
+                        {% if attribute.category == category %}
+                            {% set width = attribute.width|default('4') %}
+                            {% set parent = attribute.parent|default('') %}
+                            <div class="col-12 col-lg-{{ width }}">
+                                <label for="simple_edit_options_{{ key }}" class="form-label">{{ attribute.title|default(key) }}</label>
+
+                                {% if attribute.type == 'buttons' %}
+                                    {% set values = attribute.options|default('')|split('|') %}
+                                    {% set labels = attribute.optionlabels|default('')|split('|') %}
+                                    <div class="col-12">
+                                        <div class="btn-group{% if key == 'themecolor' %} fas-palette-button-group{% endif %}" role="group">
+                                            {% for value in values %}
+                                                {% set rawLabel = labels[loop.index0]|default(value) %}
+                                                {% set displayLabel = rawLabel == 'Yes' ? 'Oui' : (rawLabel == 'No' ? 'Non' : rawLabel) %}
+                                                <input id="{{ key }}_{{ value }}" type="radio" name="{{ key }}" value="{{ value }}" class="btn-check selector_option_radio_field simple_edit_options_{{ key }}"{% if oParentOptions[key]|default('') == value %} data-inherit-checked="1"{% endif %}>
+                                                <label for="{{ key }}_{{ value }}" class="btn btn-outline-secondary">{{ displayLabel }}</label>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                {% elseif attribute.type == 'textarea' or key == 'footertext' %}
+                                    <div class="col-12">
+                                        <textarea class="form-control selector-text-input selector_text_option_value_field simple_edit_options_{{ key }}" id="simple_edit_options_{{ key }}" name="{{ key }}" rows="{{ attribute.rows|default('10') }}" data-inherit-value="{{ oParentOptions[key]|default('') }}"{% if parent %} data-parent="{{ parent }}"{% endif %}></textarea>
+                                    </div>
+
+                                {% elseif attribute.type == 'text' or attribute.type == 'duration' %}
+                                    <div class="col-12">
+                                        <input type="text" class="form-control selector-text-input selector_text_option_value_field simple_edit_options_{{ key }}{% if parent %} selector_radio_childfield{% endif %}" id="simple_edit_options_{{ key }}" name="{{ key }}" data-inherit-value="{{ oParentOptions[key]|default('') }}"{% if parent %} data-parent="{{ parent }}"{% endif %}>
+                                    </div>
+
+                                {% elseif attribute.type == 'colorpicker' %}
+                                    <div class="input-group">
+                                        <input type="text" class="form-control selector_option_value_field selector__color-picker simple_edit_options_{{ key }}" id="simple_edit_options_{{ key }}" name="{{ key }}" data-inherit-value="{{ oParentOptions[key]|default('') }}">
+                                        <input type="color" class="form-control form-control-color selector__colorpicker-preview" aria-label="{{ attribute.title|default(key) }}">
+                                    </div>
+
+                                {% elseif attribute.type == 'imagefile' or (category == 'Images' and attribute.type == 'dropdown') %}
+                                    <div class="col-12">
+                                        <select class="form-select selector_option_value_field selector_image_selector{% if parent %} selector_radio_childfield{% endif %}" id="simple_edit_options_{{ key }}" name="{{ key }}" data-inherit-value="{{ oParentOptions[key]|default('') }}"{% if parent %} data-parent="{{ parent }}"{% endif %}>
+                                            {% for imageKey, image in templateConfiguration.imageFileList %}
+                                                <option data-lightbox-src="{{ image.preview }}" value="{{ image.filepath }}">{{ image.filename }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <button type="button" class="btn btn-outline-secondary selector__open_lightbox mt-2" data-bs-target="#simple_edit_options_{{ key }}">Prévisualiser l'image</button>
+                                        {% if key == 'footerimage' %}
+                                            <div class="fas-footer-upload">
+                                                <span id="fileselector_frontend">
+                                                    <label class="btn btn-outline-secondary" for="fas_footer_upload_image">
+                                                        <input class="d-none" id="fas_footer_upload_image" name="fas_footer_upload_image" type="file" accept="image/*">
+                                                        Envoyer un fichier
+                                                    </label>
+                                                </span>
+                                                <span class="fas-footer-upload-help">Le fichier sera ajouté au dossier files du thème.</span>
+                                                <div class="progress">
+                                                    <div id="upload_progress_frontend" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                                                        <span class="visually-hidden">0%</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                {% else %}
+                                    <div class="col-12">
+                                        <select class="form-select selector_option_value_field{% if parent %} selector_radio_childfield{% endif %}" id="simple_edit_options_{{ key }}" name="{{ key }}" data-inherit-value="{{ oParentOptions[key]|default('') }}"{% if parent %} data-parent="{{ parent }}"{% endif %}>
+                                            {{ attribute.dropdownoptions|raw }}
+                                        </select>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

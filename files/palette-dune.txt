@@ -1,0 +1,8 @@
+<svg class="fas-palette-svg-preview" xmlns="http://www.w3.org/2000/svg" width="168" height="74" viewBox="0 0 168 74" role="img" aria-labelledby="t-dune">
+<title id="t-dune">9 Dune: #FAF0E1, #827561, #6F6452</title>
+<rect x="1" y="1" width="166" height="72" rx="7" fill="#FFFFFF" stroke="#69707E"/>
+<rect x="8" y="8" width="48" height="36" rx="4" fill="#FAF0E1"/>
+<rect x="60" y="8" width="48" height="36" rx="4" fill="#827561"/>
+<rect x="112" y="8" width="48" height="36" rx="4" fill="#6F6452"/>
+<text x="84" y="61" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="700" fill="#111827">9 Dune</text>
+</svg>

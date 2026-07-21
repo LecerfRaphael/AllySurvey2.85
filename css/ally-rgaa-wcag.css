@@ -1,0 +1,305 @@
+/** Fruity AllySurvey V1.2 — compléments RGAA 4.1 / WCAG 2.2 pour Fruity TwentyThree. */
+
+/* Focus visible robuste sans masquer les styles natifs. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 3px solid #005fcc !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 4px rgba(0,95,204,.22) !important;
+}
+
+/* Les contenus destinés uniquement aux lecteurs d’écran restent disponibles. */
+.fas-sr-only,
+.ls-a11y-visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0,0,0,0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Messages et erreurs : lisibilité, association visuelle et reflow. */
+.question-container .ls-question-message,
+.question-container .question-valid-container,
+.question-container .alert-danger,
+.question-container .text-danger {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+/* Matrices/tableaux : défilement local et conservation du sens à 320 px. */
+.fruity-allysurvey-rgaa .table-responsive,
+.fruity-allysurvey-rgaa .ls-answers,
+.fruity-allysurvey-rgaa .array-flexible-row,
+.fruity-allysurvey-rgaa .array-multi-flexi {
+  max-width: 100%;
+}
+.fruity-allysurvey-rgaa table {
+  border-collapse: collapse;
+}
+.fruity-allysurvey-rgaa th,
+.fruity-allysurvey-rgaa td {
+  overflow-wrap: anywhere;
+}
+
+/* Contrôles tactiles : cible minimale recommandée sans imposer une hauteur aux liens inline. */
+.fruity-allysurvey-rgaa button,
+.fruity-allysurvey-rgaa .btn,
+.fruity-allysurvey-rgaa input[type="button"],
+.fruity-allysurvey-rgaa input[type="submit"],
+.fruity-allysurvey-rgaa input[type="reset"] {
+  min-height: 2.75rem;
+}
+
+/* Zones de texte limitées : utilisables au clavier et en zoom. */
+.limit-text-window {
+  max-height: 40rem;
+  padding: 1rem .5rem;
+  overflow: auto;
+  border-block: 1px solid #dedede;
+}
+.limit-text-window:focus-visible {
+  outline: 3px solid #005fcc;
+  outline-offset: 3px;
+}
+
+/* Éviter la disparition des libellés/indications lors du reflow. */
+.fruity-allysurvey-rgaa label,
+.fruity-allysurvey-rgaa legend,
+.fruity-allysurvey-rgaa .question-text,
+.fruity-allysurvey-rgaa .help-block {
+  overflow-wrap: anywhere;
+}
+
+/* Respect du choix système et de l’option de barre. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+html.fas-motion-reduced *,
+html.fas-motion-reduced *::before,
+html.fas-motion-reduced *::after {
+  animation-duration: .01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: .01ms !important;
+  transition-delay: 0ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Impression : ne pas imprimer les régions techniques. */
+@media print {
+  #fas-accessibility-toolbar,
+  #ls-a11y-status,
+  #ls-a11y-alert { display: none !important; }
+}
+
+/* =========================================================
+   V2.0.2 — Feedback visible des questions obligatoires
+   ========================================================= */
+.ls-tip-anchor {
+  position: relative;
+}
+
+.ls-tip-right {
+  display: block !important;
+  width: fit-content;
+  max-width: min(100%, 48rem);
+  margin: .75rem 0 1rem 5px;
+  padding: .75rem 1rem;
+  border: 2px solid #b42318;
+  border-radius: .375rem;
+  background: #fff4f2;
+  color: #7a271a;
+  font-weight: 700;
+  line-height: 1.45;
+  box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .12);
+  z-index: 2;
+}
+
+.ls-tip-right::before {
+  content: "⚠ ";
+  speak: never;
+}
+
+.ls-tip-error {
+  outline: 3px solid transparent;
+  box-shadow: 0 0 0 3px rgba(180, 35, 24, .22);
+}
+
+.ls-tip-error input[aria-invalid="true"],
+.ls-tip-error select[aria-invalid="true"],
+.ls-tip-error textarea[aria-invalid="true"],
+.ls-tip-error .bootstrap-select > button[aria-invalid="true"] {
+  border-color: #b42318 !important;
+  box-shadow: 0 0 0 .2rem rgba(180, 35, 24, .2) !important;
+}
+
+html.fas-contrast .ls-tip-right,
+body.fas-contrast .ls-tip-right,
+html[data-fas-contrast="true"] .ls-tip-right,
+body[data-fas-contrast="true"] .ls-tip-right {
+  border-color: #fff !important;
+  background: #000 !important;
+  color: #fff !important;
+  box-shadow: 0 0 0 3px #ff0 !important;
+}
+
+@media (max-width: 767.98px) {
+  .ls-tip-right {
+    width: calc(100% - 5px);
+    max-width: calc(100% - 5px);
+  }
+}
+
+/* =========================================================
+   V2.0.33 — Popup accessible d'expiration de session
+   ========================================================= */
+.ls-a11y-session-timeout[hidden] {
+  display: none !important;
+}
+
+.ls-a11y-session-timeout {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.ls-a11y-session-timeout__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, .55);
+}
+
+.ls-a11y-session-timeout__panel {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 38rem);
+  max-height: calc(100vh - 2rem);
+  overflow: auto;
+  padding: 1.5rem;
+  border: 3px solid var(--ls-a11y-focus-color, #005fcc);
+  border-radius: .5rem;
+  background: #fff;
+  color: #1f2937;
+  box-shadow: 0 1.25rem 3rem rgba(0, 0, 0, .35);
+}
+
+.ls-a11y-session-timeout__panel h2 {
+  margin: 0 0 .75rem;
+  color: inherit;
+  font-size: 1.5rem;
+  line-height: 1.25;
+}
+
+.ls-a11y-session-timeout__panel p {
+  margin: 0 0 1rem;
+  line-height: 1.5;
+}
+
+#ls-a11y-session-timeout-countdown {
+  font-weight: 700;
+}
+
+.ls-a11y-session-timeout__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  margin-top: 1.25rem;
+}
+
+.ls-a11y-session-timeout__actions .btn {
+  min-width: 10rem;
+}
+
+html.ls-a11y-session-timeout-open,
+html.ls-a11y-session-timeout-open body {
+  overflow: hidden;
+}
+
+html.fas-contrast .ls-a11y-session-timeout__panel,
+body.fas-contrast .ls-a11y-session-timeout__panel,
+html[data-fas-contrast="true"] .ls-a11y-session-timeout__panel,
+body[data-fas-contrast="true"] .ls-a11y-session-timeout__panel {
+  border-color: #ff0 !important;
+  background: #000 !important;
+  color: #fff !important;
+  box-shadow: 0 0 0 3px #fff, 0 1.25rem 3rem rgba(255, 255, 255, .2) !important;
+}
+
+@media (max-width: 575.98px) {
+  .ls-a11y-session-timeout {
+    align-items: flex-start;
+    padding-top: 2rem;
+  }
+
+  .ls-a11y-session-timeout__panel {
+    padding: 1rem;
+  }
+
+  .ls-a11y-session-timeout__actions {
+    display: grid;
+  }
+
+  .ls-a11y-session-timeout__actions .btn {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+/* Bouton Suivant bloque tant que la politique de confidentialite n'est pas acceptee. */
+.ls-a11y-disabled-until-privacy,
+.ls-a11y-disabled-until-privacy:disabled {
+  cursor: not-allowed !important;
+  opacity: .5 !important;
+  filter: grayscale(1) saturate(.2) brightness(1.08);
+  background: #8f96a3 !important;
+  border-color: #7a8190 !important;
+  color: #f5f7fa !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  transform: none !important;
+}
+
+.ls-a11y-disabled-until-privacy:hover,
+.ls-a11y-disabled-until-privacy:focus,
+.ls-a11y-disabled-until-privacy:active {
+  background: #8f96a3 !important;
+  border-color: #7a8190 !important;
+  color: #f5f7fa !important;
+  filter: grayscale(1) saturate(.2) brightness(1.08);
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.ls-move-next-btn:not(:disabled):not(.disabled):not(.ls-a11y-disabled-until-privacy),
+.ls-move-submit-btn:not(:disabled):not(.disabled):not(.ls-a11y-disabled-until-privacy),
+#ls-button-submit:not(:disabled):not(.disabled):not(.ls-a11y-disabled-until-privacy) {
+  transition: background-color .16s ease, border-color .16s ease, box-shadow .16s ease, transform .16s ease, filter .16s ease;
+}
+
+.ls-move-next-btn:not(:disabled):not(.disabled):not(.ls-a11y-disabled-until-privacy):hover,
+.ls-move-submit-btn:not(:disabled):not(.disabled):not(.ls-a11y-disabled-until-privacy):hover,
+#ls-button-submit:not(:disabled):not(.disabled):not(.ls-a11y-disabled-until-privacy):hover {
+  filter: brightness(1.08) saturate(1.12);
+  transform: translateY(-1px);
+  box-shadow: 0 .45rem 1rem rgba(0, 0, 0, .22) !important;
+}
+
+.ls-move-next-btn:not(:disabled):not(.disabled):not(.ls-a11y-disabled-until-privacy):active,
+.ls-move-submit-btn:not(:disabled):not(.disabled):not(.ls-a11y-disabled-until-privacy):active,
+#ls-button-submit:not(:disabled):not(.disabled):not(.ls-a11y-disabled-until-privacy):active {
+  transform: translateY(0);
+  box-shadow: 0 .2rem .45rem rgba(0, 0, 0, .2) !important;
+}

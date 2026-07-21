@@ -1,0 +1,60 @@
+/* Fruity AllySurvey V2.0 — LimeSurvey 7 compatibility layer */
+.fas-ls7-ready body { min-width: 0; }
+.fas-ls7-ready #fas-main-content { min-width: 0; outline: 0; }
+.fas-ls7-ready .question-container,
+.fas-ls7-ready .ls-answers,
+.fas-ls7-ready .table-responsive { min-width: 0; max-width: 100%; }
+.fas-ls7-ready .table-responsive { overflow-x: auto; overscroll-behavior-inline: contain; }
+.fas-ls7-ready :where(.btn, button, [role="button"]):focus-visible {
+  outline: 3px solid var(--fas-focus, #ffbf47);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fas-ls7-ready *, .fas-ls7-ready *::before, .fas-ls7-ready *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* V2.0.3 — identité permanente du questionnaire et compteur de pages */
+.fas-survey-identity {
+  margin-top: 4.75rem;
+  padding-top: 1rem;
+  padding-bottom: .5rem;
+}
+.fas-survey-identity__inner {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.fas-survey-title {
+  margin: 0;
+  font-size: clamp(1.5rem, 2.2vw, 2.25rem);
+  line-height: 1.2;
+  font-weight: 700;
+  color: var(--bs-body-color, #212529);
+}
+.fas-page-indicator {
+  margin: 0;
+  padding: .35rem .7rem;
+  border: 1px solid currentColor;
+  border-radius: .5rem;
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--bs-body-color, #212529);
+  background: var(--bs-body-bg, #fff);
+}
+body.fas-high-contrast .fas-survey-title,
+body.fas-high-contrast .fas-page-indicator {
+  color: #fff !important;
+  background: #000 !important;
+  border-color: #fff !important;
+}
+@media (max-width: 767.98px) {
+  .fas-survey-identity { margin-top: 4.25rem; }
+  .fas-survey-identity__inner { align-items: flex-start; }
+}

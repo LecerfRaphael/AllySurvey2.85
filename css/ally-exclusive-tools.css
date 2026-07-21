@@ -1,0 +1,32 @@
+
+.fas-exclusive-tools{position:fixed;z-index:1055;right:1rem;bottom:1rem;display:flex;gap:.5rem;flex-wrap:wrap;justify-content:flex-end}.fas-tool-button{border:2px solid currentColor;background:#fff;color:#222;padding:.55rem .8rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.18)}.fas-tool-button:focus-visible,.fas-diagnostic-panel button:focus-visible{outline:3px solid var(--fas-focus,#ffbf47);outline-offset:3px}.fas-diagnostic-panel{position:fixed;z-index:1060;right:1rem;bottom:4.5rem;width:min(42rem,calc(100vw - 2rem));max-height:75vh;overflow:auto;background:#fff;color:#222;border:3px solid #222;padding:1rem;box-shadow:0 8px 28px rgba(0,0,0,.32)}.fas-panel-header{display:flex;align-items:start;justify-content:space-between;gap:1rem}.fas-panel-header h2{font-size:1.25rem;margin:0}.fas-panel-header button{font-size:1.5rem;line-height:1;border:0;background:transparent}.fas-diagnostic-warning{padding:.65rem;background:#fff4ce;border-left:4px solid #8a6d00}.fas-diagnostic-summary{font-weight:700;margin:.75rem 0}.fas-diagnostic-results{padding-left:1.5rem}.fas-diagnostic-results li{margin:.55rem 0}.fas-check-pass{color:#146c43}.fas-check-fail{color:#b02a37}.fas-check-warn{color:#7a4d00}.fas-dev-badge{display:inline-block;margin:.25rem 0 .4rem;padding:.18rem .45rem;background:#111;color:#fff;font:600 .78rem/1.3 ui-monospace,monospace;border-radius:.2rem}.fas-dev-outline{outline:2px dashed #8a2be2!important;outline-offset:3px}.fas-dev-inspector{position:fixed;z-index:1070;left:1rem;bottom:1rem;max-width:min(34rem,calc(100vw - 2rem));background:#111;color:#fff;padding:.75rem;font:400 .8rem/1.45 ui-monospace,monospace;white-space:pre-wrap;box-shadow:0 5px 20px rgba(0,0,0,.4)}@media(max-width:700px){.fas-exclusive-tools{left:1rem;right:1rem}.fas-tool-button{flex:1}.fas-diagnostic-panel{left:1rem;right:1rem;width:auto}}
+
+/* V2.0.8 - localisation des erreurs par question */
+.fas-diagnostic-locations{margin:.55rem 0 0;padding-left:1.25rem}
+.fas-diagnostic-location{background:transparent;border:0;color:var(--fas-accent,#1d6f42);font:inherit;text-align:left;text-decoration:underline;padding:.2rem 0;cursor:pointer}
+.fas-diagnostic-location:hover,.fas-diagnostic-location:focus-visible{text-decoration-thickness:.2em}
+.fas-diagnostic-highlight{outline:4px solid #c70000!important;outline-offset:4px;box-shadow:0 0 0 8px rgba(199,0,0,.18)!important}
+
+/* LimeSurvey 7 editor: keep exclusive tools above the React administration shell. */
+#fas-exclusive-tools.fas-exclusive-tools,
+.fas-exclusive-tools.fas-exclusive-tools--ready{
+  position:fixed!important;
+  right:1rem!important;
+  bottom:1rem!important;
+  z-index:2147483000!important;
+  display:flex!important;
+  visibility:visible!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+}
+#fas-exclusive-tools .fas-tool-button{
+  position:relative;
+  z-index:1;
+  min-height:2.75rem;
+  border:2px solid #222;
+  background:#fff;
+  color:#222;
+}
+#fas-diagnostic-panel.fas-diagnostic-panel{
+  z-index:2147483001!important;
+}

@@ -1,0 +1,23 @@
+<svg class="fas-palette-svg-preview" xmlns="http://www.w3.org/2000/svg" width="168" height="74" viewBox="0 0 168 74" role="img" aria-labelledby="t-neutre">
+<style>
+[aria-labelledby="lbl_simple_edit_options_themecolor"] .btn-group,
+[aria-labelledby="lbl_simple_edit_options_allycolorpalette"] .btn-group{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(192px,1fr))!important;gap:8px;width:100%!important;max-width:100%;min-width:0}
+[aria-labelledby="lbl_simple_edit_options_themecolor"] .btn,
+[aria-labelledby="lbl_simple_edit_options_allycolorpalette"] .btn{display:flex;align-items:center;justify-content:center;box-sizing:border-box;width:100%;min-width:0;min-height:92px;margin:0!important;padding:5px;border:2px solid #69707e;border-radius:8px!important;background:#fff;white-space:normal}
+[aria-labelledby="lbl_simple_edit_options_themecolor"] .fas-palette-svg-preview,
+[aria-labelledby="lbl_simple_edit_options_allycolorpalette"] .fas-palette-svg-preview{display:block;width:100%;max-width:192px;height:auto}
+[aria-labelledby="lbl_simple_edit_options_themecolor"] .btn-check:focus-visible+.btn,
+[aria-labelledby="lbl_simple_edit_options_allycolorpalette"] .btn-check:focus-visible+.btn{outline:3px solid #005ac7;outline-offset:2px}
+[aria-labelledby="lbl_simple_edit_options_themecolor"] .btn-check:checked+.btn,
+[aria-labelledby="lbl_simple_edit_options_allycolorpalette"] .btn-check:checked+.btn{border-color:#005ac7;box-shadow:0 0 0 2px #005ac7}
+[aria-labelledby="lbl_simple_edit_options_themecolor"] .btn-check:checked+.btn .fas-palette-svg-preview text,
+[aria-labelledby="lbl_simple_edit_options_allycolorpalette"] .btn-check:checked+.btn .fas-palette-svg-preview text{fill:#000!important;stroke:#fff;stroke-width:1.2px;paint-order:stroke;font-weight:900}
+@media(max-width:575px){[aria-labelledby="lbl_simple_edit_options_themecolor"] .btn-group,[aria-labelledby="lbl_simple_edit_options_allycolorpalette"] .btn-group{grid-template-columns:1fr!important}}
+</style>
+<title id="t-neutre">1 Neutre: #D2D4DB, #4B5563, #9500FF</title>
+<rect x="1" y="1" width="166" height="72" rx="7" fill="#FFFFFF" stroke="#69707E"/>
+<rect x="8" y="8" width="48" height="36" rx="4" fill="#D2D4DB"/>
+<rect x="60" y="8" width="48" height="36" rx="4" fill="#4B5563"/>
+<rect x="112" y="8" width="48" height="36" rx="4" fill="#9500FF"/>
+<text x="84" y="61" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="700" fill="#111827">1 Neutre</text>
+</svg>
