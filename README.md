@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <p align="center">
   <strong>✨ AllySurvey V2.85 autonome — Des questionnaires LimeSurvey plus simples, plus clairs, plus accessibles</strong><br>
   Université de Lille • Direction du numérique — Service DAWAM<br>
@@ -426,3 +427,7 @@ Ce projet s’inscrit dans une démarche collective : rendre les questionnaires 
   <strong>♿ Libre, clair et accessible : c’est possible.</strong><br>
   #AccessibilitéNumérique #LimeSurvey #OpenSource #UniversitéDeLille #RGAA #WCAG #APRANESR
 </p>
+=======
+# AllySurvey2.85
+AllySurvey V285 RGAA WCAG Autonome
+>>>>>>> 0e95ada2ab19fd822b4f9ace7807b15ad607df46
