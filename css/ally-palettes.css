@@ -856,3 +856,67 @@ body[data-fas-color-palette="hyperion"] .bootstrap-select .dropdown-item.active 
 body[data-fas-color-palette="hyperion"] .bootstrap-select .dropdown-item[aria-selected="true"] * {
   color: inherit !important;
 }
+
+body #fas-main-content .answer-container .bootstrap-select.form-control.list-question-select,
+body #fas-main-content .answer-container .bootstrap-select.ls-a11y-bs-width-auto {
+  width: fit-content !important;
+  min-width: min(12rem, 100%) !important;
+  max-width: 100% !important;
+  overflow: visible !important;
+}
+
+body #fas-main-content .answer-container .bootstrap-select.form-control.list-question-select > .dropdown-toggle,
+body #fas-main-content .answer-container .bootstrap-select.ls-a11y-bs-width-auto > .dropdown-toggle {
+  width: 100% !important;
+  min-width: min(12rem, 100%) !important;
+  max-width: 100% !important;
+}
+
+body #fas-main-content .answer-container .bootstrap-select:has(> select[data-native-select-restored="1"]) > select {
+  display: block !important;
+  visibility: visible !important;
+  position: static !important;
+  left: auto !important;
+  top: auto !important;
+  width: auto !important;
+  min-width: min(12rem, 100%) !important;
+  max-width: 100% !important;
+  opacity: 1 !important;
+}
+
+body #fas-main-content .answer-container .bootstrap-select:has(> select[data-native-select-restored="1"]) > .dropdown-toggle,
+body #fas-main-content .answer-container .bootstrap-select:has(> select[data-native-select-restored="1"]) > .dropdown-menu {
+  display: none !important;
+}
+
+/* Correctif local : bootstrap-select applique parfois le survol au <li> parent. */
+body #fas-main-content .answer-container .bootstrap-select .dropdown-menu > li:hover > a.dropdown-item,
+body #fas-main-content .answer-container .bootstrap-select .dropdown-menu > li:focus-within > a.dropdown-item,
+body #fas-main-content .answer-container .bootstrap-select .dropdown-menu > li.active > a.dropdown-item,
+body #fas-main-content .answer-container .bootstrap-select .dropdown-menu > li.selected > a.dropdown-item {
+  background-color: var(--fas-palette-primary2, var(--fas-accent, #005ac7)) !important;
+  color: var(--fas-palette-on-primary, #fff) !important;
+}
+
+body #fas-main-content .answer-container .bootstrap-select .dropdown-menu > li:hover > a.dropdown-item *,
+body #fas-main-content .answer-container .bootstrap-select .dropdown-menu > li:focus-within > a.dropdown-item *,
+body #fas-main-content .answer-container .bootstrap-select .dropdown-menu > li.active > a.dropdown-item *,
+body #fas-main-content .answer-container .bootstrap-select .dropdown-menu > li.selected > a.dropdown-item * {
+  color: inherit !important;
+}
+
+/* Correctif local : ne pas couper les titres au milieu des mots. */
+body #fas-main-content h1,
+body #fas-main-content .h1,
+body #fas-main-content .survey-name,
+body #fas-main-content .large-heading,
+body #fas-main-content .fas-survey-title,
+body .survey-name.large-heading,
+body #fas-survey-title {
+  -webkit-hyphens: none !important;
+  -ms-hyphens: none !important;
+  hyphens: none !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  word-wrap: normal !important;
+}

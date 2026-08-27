@@ -26,6 +26,8 @@
     {% set fasBodyBackground = aSurveyInfo.options.bodybackgroundcolor|default('') %}
     {% set fasFontColor = aSurveyInfo.options.fontcolor|default('') %}
     {% set fasQuestionBackground = aSurveyInfo.options.questionbackgroundcolor|default('') %}
+    {% set fasCustomAccent = aSurveyInfo.options.allyaccentcolor|default('#1d6f42') %}
+    {% set fasCustomFocus = aSurveyInfo.options.allyfocuscolor|default('#ffbf47') %}
     {% if fasPalette == 'industrie' %}{% set fasPrimary1 = '#96A2F5' %}{% set fasPrimary2 = '#454F91' %}{% set fasAccent = '#5A55AF' %}
     {% elseif fasPalette == 'pinklady' %}{% set fasPrimary1 = '#FE7DB1' %}{% set fasPrimary2 = '#B72962' %}{% set fasAccent = '#89586C' %}
     {% elseif fasPalette == 'brique' %}{% set fasPrimary1 = '#FC8670' %}{% set fasPrimary2 = '#B14937' %}{% set fasAccent = '#8C584F' %}
@@ -39,6 +41,7 @@
     {% elseif fasPalette == 'vulcain' %}{% set fasPrimary1 = '#D15C64' %}{% set fasPrimary2 = '#941B23' %}{% set fasAccent = '#944C53' %}
     {% elseif fasPalette == 'orangesanguine' %}{% set fasPrimary1 = '#E67339' %}{% set fasPrimary2 = '#4D1900' %}{% set fasAccent = '#8C5D45' %}
     {% elseif fasPalette == 'highcontrast' %}{% set fasPrimary1 = '#FFFF00' %}{% set fasPrimary2 = '#FFFF00' %}{% set fasAccent = '#00FFFF' %}{% set fasOnPrimary = '#000000' %}
+    {% elseif fasPalette == 'custom' %}{% set fasPrimary1 = fasCustomAccent %}{% set fasPrimary2 = fasCustomAccent %}{% set fasAccent = fasCustomFocus %}
     {% endif %}
 
     {# Les couleurs du questionnaire surchargent les surfaces de la palette, quelle que soit la palette choisie. #}
@@ -55,7 +58,6 @@
       --fas-question-background: {{ fasQuestionBackground }} !important;
       {% endif %}
     }
-    {% if fasPalette != 'custom' %}
     :root, body {
       --fas-palette-primary1: {{ fasPrimary1 }} !important;
       --fas-palette-primary2: {{ fasPrimary2 }} !important;
@@ -79,7 +81,30 @@
     body .top-container, body header, body footer {border-color: var(--fas-palette-primary2) !important;}
     body a {color: var(--fas-palette-primary2) !important;}
     body input:focus, body select:focus, body textarea:focus {border-color: var(--fas-palette-accent) !important;box-shadow:0 0 0 .2rem color-mix(in srgb, var(--fas-palette-accent) 30%, transparent) !important;}
-    {% endif %}
+
+    body #fas-main-content .answer-container .bootstrap-select .dropdown-item:hover,
+    body #fas-main-content .answer-container .bootstrap-select .dropdown-item:focus,
+    body #fas-main-content .answer-container .bootstrap-select .dropdown-item.active,
+    body #fas-main-content .answer-container .bootstrap-select .dropdown-item.selected,
+    body #fas-main-content .answer-container .bootstrap-select .dropdown-item[aria-selected="true"],
+    body #fas-main-content .answer-container .bootstrap-select .dropdown-menu > li:hover > a.dropdown-item,
+    body #fas-main-content .answer-container .bootstrap-select .dropdown-menu > li:focus-within > a.dropdown-item,
+    body #fas-main-content .answer-container .bootstrap-select .dropdown-menu > li.active > a.dropdown-item,
+    body #fas-main-content .answer-container .bootstrap-select .dropdown-menu > li.selected > a.dropdown-item {
+      background-color: var(--fas-palette-primary2) !important;
+      color: var(--fas-palette-on-primary) !important;
+    }
+    body #fas-main-content .answer-container .bootstrap-select .dropdown-item:hover *,
+    body #fas-main-content .answer-container .bootstrap-select .dropdown-item:focus *,
+    body #fas-main-content .answer-container .bootstrap-select .dropdown-item.active *,
+    body #fas-main-content .answer-container .bootstrap-select .dropdown-item.selected *,
+    body #fas-main-content .answer-container .bootstrap-select .dropdown-item[aria-selected="true"] *,
+    body #fas-main-content .answer-container .bootstrap-select .dropdown-menu > li:hover > a.dropdown-item *,
+    body #fas-main-content .answer-container .bootstrap-select .dropdown-menu > li:focus-within > a.dropdown-item *,
+    body #fas-main-content .answer-container .bootstrap-select .dropdown-menu > li.active > a.dropdown-item *,
+    body #fas-main-content .answer-container .bootstrap-select .dropdown-menu > li.selected > a.dropdown-item * {
+      color: inherit !important;
+    }
 
     {% if (aSurveyInfo.options.backgroundimage == "on" and imageSrc(aSurveyInfo.options.backgroundimagefile )) %}
         body {

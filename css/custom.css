@@ -39,11 +39,12 @@
 
 .fas-custom-footer-logo,
 .fas-custom-footer-image img {
-    display: inline-block;
-    height: auto;
-    max-height: 74px;
-    max-width: min(150px, 100%);
-    width: auto;
+    display: inline-block !important;
+    height: auto !important;
+    max-height: 74px !important;
+    max-width: min(150px, 100%) !important;
+    object-fit: contain !important;
+    width: auto !important;
 }
 
 .fas-custom-footer-text {
@@ -234,4 +235,20 @@ html.fas-high-contrast #survey-nav .dropdown-menu button.nav-link:focus-visible 
     .fas-custom-footer-image {
         justify-content: center;
     }
+}
+
+/* Correctif local : ne pas couper les titres au milieu des mots. */
+body #fas-main-content h1,
+body #fas-main-content .h1,
+body #fas-main-content .survey-name,
+body #fas-main-content .large-heading,
+body #fas-main-content .fas-survey-title,
+body .survey-name.large-heading,
+body #fas-survey-title {
+    -webkit-hyphens: none !important;
+    -ms-hyphens: none !important;
+    hyphens: none !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+    word-wrap: normal !important;
 }

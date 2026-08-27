@@ -771,27 +771,14 @@
     removeRequiredFromMultipleOptMandatoryFieldsets(document);
     removeAlertRoleOnQuestionHelp(document);
 
-    if (window.LSA11yObserverHub) {
-      window.LSA11yObserverHub.register({
-        id: "required-cleanup",
-        interest: "any",
-        onMutations: function () {
-          removeRequiredFromHiddenInputs(document);
-          removeRequiredFromOtherTextInputs(document);
-          removeRequiredFromMultipleOptMandatoryFieldsets(document);
-          removeAlertRoleOnQuestionHelp(document);
-        }
-      });
-    } else {
-      // Repli si ally-observer-hub.js n'est pas chargé (ordre de config.xml modifié).
-      var observer = new MutationObserver(function () {
-        removeRequiredFromHiddenInputs(document);
-        removeRequiredFromOtherTextInputs(document);
-        removeRequiredFromMultipleOptMandatoryFieldsets(document);
-        removeAlertRoleOnQuestionHelp(document);
-      });
-      observer.observe(document.body, { childList: true, subtree: true });
-    }
+    var observer = new MutationObserver(function () {
+      removeRequiredFromHiddenInputs(document);
+      removeRequiredFromOtherTextInputs(document);
+      removeRequiredFromMultipleOptMandatoryFieldsets(document);
+      removeAlertRoleOnQuestionHelp(document);
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
 
     document.addEventListener("pjax:success", function () {
       removeAlertRoleOnQuestionHelp(document);
@@ -926,27 +913,23 @@
     updateRequiredForInputsSelectsAndRadios(document);
     validateRadioRequirementsInTable(document);
 
-    var runRequiredInputsUpdate = function () {
-      updateRequiredForInputsSelectsAndRadios(document);
-      validateRadioRequirementsInTable(document);
-    };
+    var observer = new MutationObserver(function (mutations) {
+      var need = false;
+      mutations.forEach(function (m) {
+        if (m.type === "attributes" || m.type === "childList") need = true;
+      });
+      if (need) {
+        updateRequiredForInputsSelectsAndRadios(document);
+        validateRadioRequirementsInTable(document);
+      }
+    });
 
-    if (window.LSA11yObserverHub) {
-      window.LSA11yObserverHub.register({
-        id: "required-inputs-selects-radios",
-        interest: "addedNodesOrAttributes",
-        attributeFilter: ["class", "style"],
-        onMutations: runRequiredInputsUpdate
-      });
-    } else {
-      var observer = new MutationObserver(runRequiredInputsUpdate);
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-        attributeFilter: ["class", "style"]
-      });
-    }
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["class", "style"]
+    });
   }
 
   /* =========================================================
@@ -1033,29 +1016,26 @@
   function initListRadioRequiredObserver() {
     applyRequiredRadiosFieldsets(document);
 
-    if (window.LSA11yObserverHub) {
-      window.LSA11yObserverHub.register({
-        id: "required-radios-fieldsets",
-        interest: "addedNodesOrAttributes",
-        attributeFilter: ["class", "style"],
-        onMutations: function () {
-          applyRequiredRadiosFieldsets(document);
-        }
-      });
-    } else {
-      var observer = new MutationObserver(function () {
-        applyRequiredRadiosFieldsets(document);
-      });
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-        attributeFilter: ["class", "style"]
-      });
-      // Repli uniquement : sans le hub, on garde un filet de sécurité ponctuel.
-      setTimeout(function () { applyRequiredRadiosFieldsets(document); }, 300);
-      setTimeout(function () { applyRequiredRadiosFieldsets(document); }, 1000);
-    }
+    var observer = new MutationObserver(function () {
+      applyRequiredRadiosFieldsets(document);
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["class", "style"]
+    });
+
+    setTimeout(function () {
+      applyRequiredRadiosFieldsets(document);
+    }, 300);
+    setTimeout(function () {
+      applyRequiredRadiosFieldsets(document);
+    }, 1000);
+    setTimeout(function () {
+      applyRequiredRadiosFieldsets(document);
+    }, 2000);
   }
 
   /* =========================================================
@@ -1086,30 +1066,20 @@
   function initUnhideRelevantWatcher() {
     document.querySelectorAll('fieldset[id^="question"], div[id^="question"]').forEach(unhideIfRelevant);
 
-    var handleUnhideMutations = function (mutations) {
-      mutations.forEach(function (m) {
+    var mo = new MutationObserver(function (muts) {
+      muts.forEach(function (m) {
         if (m.type !== "attributes" || m.attributeName !== "class") return;
         var el = m.target;
         if (!el.id || !/^question/.test(el.id)) return;
         unhideIfRelevant(el);
       });
-    };
+    });
 
-    if (window.LSA11yObserverHub) {
-      window.LSA11yObserverHub.register({
-        id: "unhide-relevant-questions",
-        interest: "attributes",
-        attributeFilter: ["class"],
-        onMutations: handleUnhideMutations
-      });
-    } else {
-      var mo = new MutationObserver(handleUnhideMutations);
-      mo.observe(document.body, {
-        subtree: true,
-        attributes: true,
-        attributeFilter: ["class"]
-      });
-    }
+    mo.observe(document.body, {
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["class"]
+    });
   }
 
 
@@ -1139,30 +1109,25 @@
     updateRequiredAttributes(document);
     updateRadioRequiredAttributes(document);
 
-    if (window.LSA11yObserverHub) {
-      // Les deux anciens observers écoutaient les mêmes mutations (class/style
-      // sur document.body) : un seul enregistrement suffit, il appelle les deux mises à jour.
-      window.LSA11yObserverHub.register({
-        id: "row-required-text-and-radio",
-        interest: "addedNodesOrAttributes",
-        attributeFilter: ["class", "style"],
-        onMutations: function () {
-          updateRequiredAttributes(document);
-          updateRadioRequiredAttributes(document);
-        }
-      });
-    } else {
-      var observer = new MutationObserver(function () {
-        updateRequiredAttributes(document);
-        updateRadioRequiredAttributes(document);
-      });
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-        attributeFilter: ["class", "style"]
-      });
-    }
+    var observer = new MutationObserver(function () {
+      updateRequiredAttributes(document);
+    });
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["class", "style"]
+    });
+
+    var observer2 = new MutationObserver(function () {
+      updateRadioRequiredAttributes(document);
+    });
+    observer2.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["class"]
+    });
   }
 
   /* =========================================================
@@ -1240,34 +1205,21 @@
       suppressLegacyDatePopups();
     }, 600);
 
-    if (window.__LS_A11Y_DATE_PICKER_CLEANUP_OBSERVER__) return;
+    if (window.__LS_A11Y_DATE_PICKER_CLEANUP_OBSERVER__ || typeof MutationObserver === "undefined") return;
     window.__LS_A11Y_DATE_PICKER_CLEANUP_OBSERVER__ = true;
 
-    var checkAddedNodesForDatePickers = function (mutations, addedNodes) {
-      var shouldClean = addedNodes.some(function (node) {
-        return (node.matches && node.matches(".tempus-dominus-widget, .date-container, .input-group-addon")) ||
-          (node.querySelector && node.querySelector(".tempus-dominus-widget, .date-container, .input-group-addon"));
-      });
-      if (shouldClean) hideNativePickers(document);
-    };
-
-    if (window.LSA11yObserverHub) {
-      window.LSA11yObserverHub.register({
-        id: "date-picker-cleanup",
-        interest: "addedNodes",
-        onMutations: checkAddedNodesForDatePickers
-      });
-    } else if (typeof MutationObserver !== "undefined") {
-      new MutationObserver(function (mutations) {
-        var addedNodes = [];
-        mutations.forEach(function (m) {
-          Array.prototype.forEach.call(m.addedNodes || [], function (n) {
-            if (n.nodeType === 1) addedNodes.push(n);
-          });
+    new MutationObserver(function (mutations) {
+      var shouldClean = mutations.some(function (mutation) {
+        return Array.prototype.slice.call(mutation.addedNodes || []).some(function (node) {
+          return node.nodeType === 1 && (
+            (node.matches && node.matches(".tempus-dominus-widget, .date-container, .input-group-addon")) ||
+            (node.querySelector && node.querySelector(".tempus-dominus-widget, .date-container, .input-group-addon"))
+          );
         });
-        checkAddedNodesForDatePickers(mutations, addedNodes);
-      }).observe(document.documentElement, { childList: true, subtree: true });
-    }
+      });
+
+      if (shouldClean) hideNativePickers(document);
+    }).observe(document.documentElement, { childList: true, subtree: true });
   }
 
   /* =========================================================
@@ -1596,23 +1548,14 @@
       run((e && e.target) ?e.target : document);
     });
 
-    if (window.LSA11yObserverHub) {
-      // Le hub coalesce déjà les mutations sur une frame ; plus besoin du
-      // debounce setTimeout(60) fait précédemment ici au cas par cas.
-      window.LSA11yObserverHub.register({
-        id: "autocomplete-type-conversion",
-        interest: "addedNodes",
-        onMutations: function () { run(document); }
-      });
-    } else {
-      var mo = new MutationObserver(function (muts) {
-        if (muts.some(function (m) { return m.addedNodes && m.addedNodes.length; })) {
-          clearTimeout(run._t);
-          run._t = setTimeout(run, 60);
-        }
-      });
-      mo.observe(document.body, { childList: true, subtree: true });
-    }
+    var mo = new MutationObserver(function (muts) {
+      if (muts.some(function (m) { return m.addedNodes && m.addedNodes.length; })) {
+        clearTimeout(run._t);
+        run._t = setTimeout(run, 60);
+      }
+    });
+
+    mo.observe(document.body, { childList: true, subtree: true });
   }
 
   /* =========================================================
@@ -1881,126 +1824,13 @@
   }
 
   /* =========================================================
-     7.5b — Politique de confidentialité : bloquer Suivant
-  ========================================================= */
-  function initDataSecurityNextGate(root) {
-    root = root || document;
-
-    function getCheckbox(scope) {
-      return (scope || document).querySelector("#datasecurity_accepted, input[name='datasecurity_accepted']");
-    }
-
-    function getForm(checkbox) {
-      return (checkbox && checkbox.form) || (checkbox && checkbox.closest && checkbox.closest("form")) || document.querySelector("form");
-    }
-
-    function isRequiredCheckboxActive(checkbox) {
-      return !!(checkbox && checkbox.required && !checkbox.disabled);
-    }
-
-    function nextButtons(form) {
-      var scope = form || document;
-      return Array.prototype.slice.call(scope.querySelectorAll(
-        'button[name="move"][value="movenext"],' +
-          'input[type="submit"][name="move"][value="movenext"],' +
-          'button[name="move"][value="movesubmit"],' +
-          'input[type="submit"][name="move"][value="movesubmit"],' +
-          '#ls-button-next,' +
-          '#ls-button-submit,' +
-          '.ls-move-next-btn,' +
-          '.ls-move-submit-btn'
-      ));
-    }
-
-    function showDataSecurityError(checkbox) {
-      var error = document.getElementById("datasecurity_error");
-      if (error) {
-        error.classList.remove("ls-js-hidden");
-        error.setAttribute("role", "alert");
-        var describedBy = (checkbox.getAttribute("aria-describedby") || "").split(/\s+/).filter(Boolean);
-        if (describedBy.indexOf("datasecurity_error") === -1) describedBy.unshift("datasecurity_error");
-        checkbox.setAttribute("aria-describedby", describedBy.join(" "));
-      }
-      try { checkbox.focus({ preventScroll: false }); } catch (e) { checkbox.focus(); }
-      if (typeof announceA11y === "function") {
-        announceA11y("Vous devez valider la politique de confidentialite avant de continuer.", "alert", {
-          dedupeKey: "datasecurity-required"
-        });
-      }
-    }
-
-    function updateState(scope) {
-      var checkbox = getCheckbox(scope) || getCheckbox(document);
-      if (!isRequiredCheckboxActive(checkbox)) return true;
-
-      var form = getForm(checkbox);
-      var blocked = !checkbox.checked;
-      nextButtons(form).forEach(function (button) {
-        button.disabled = blocked;
-        button.setAttribute("aria-disabled", blocked ? "true" : "false");
-        button.classList.toggle("ls-a11y-disabled-until-privacy", blocked);
-      });
-
-      if (!blocked) {
-        var error = document.getElementById("datasecurity_error");
-        if (error) error.classList.add("ls-js-hidden");
-      }
-
-      return !blocked;
-    }
-
-    updateState(root);
-
-    if (window.__LS_DATASECURITY_NEXT_GATE__) return;
-    window.__LS_DATASECURITY_NEXT_GATE__ = true;
-
-    document.addEventListener("change", function (event) {
-      if (event.target && (event.target.id === "datasecurity_accepted" || event.target.name === "datasecurity_accepted")) {
-        updateState(document);
-      }
-    }, true);
-
-    document.addEventListener("click", function (event) {
-      var button = event.target && event.target.closest && event.target.closest(
-        'button[name="move"][value="movenext"], input[type="submit"][name="move"][value="movenext"], ' +
-        'button[name="move"][value="movesubmit"], input[type="submit"][name="move"][value="movesubmit"], ' +
-        '#ls-button-next, #ls-button-submit, .ls-move-next-btn, .ls-move-submit-btn'
-      );
-      if (!button) return;
-
-      var checkbox = getCheckbox(document);
-      if (!isRequiredCheckboxActive(checkbox) || checkbox.checked) return;
-
-      event.preventDefault();
-      event.stopPropagation();
-      if (event.stopImmediatePropagation) event.stopImmediatePropagation();
-      updateState(document);
-      showDataSecurityError(checkbox);
-    }, true);
-
-    document.addEventListener("submit", function (event) {
-      var form = event.target;
-      if (!form || !form.matches || !form.matches("form")) return;
-
-      var checkbox = getCheckbox(form);
-      if (!isRequiredCheckboxActive(checkbox) || checkbox.checked) return;
-
-      event.preventDefault();
-      event.stopPropagation();
-      if (event.stopImmediatePropagation) event.stopImmediatePropagation();
-      updateState(form);
-      showDataSecurityError(checkbox);
-    }, true);
-  }
-
-  /* =========================================================
      7.6 — aria-live sur la modal Bootstrap de LS
   ========================================================= */
   function initBootstrapAlertModalAriaLive() {
     var MODAL_ID = "bootstrap-alert-box-modal";
 
     function cleanText(txt) {
-      return LSA11yTextUtils.cleanText(txt);
+      return String(txt || "").replace(/\s+/g, " ").trim();
     }
 
     function modalMessage(el) {
@@ -2201,23 +2031,13 @@
 
       if (window.jQuery) jQuery(document).on("ajaxComplete", () => init());
 
-      if (window.LSA11yObserverHub) {
-        window.LSA11yObserverHub.register({
-          id: "multiple-opt-comments",
-          interest: "addedNodes",
-          onMutations: (mutations, addedNodes) => {
-            addedNodes.forEach((n) => init(n));
+      new MutationObserver((muts) => {
+        for (const m of muts) {
+          for (const n of m.addedNodes || []) {
+            if (n && n.nodeType === 1) init(n);
           }
-        });
-      } else {
-        new MutationObserver((muts) => {
-          for (const m of muts) {
-            for (const n of m.addedNodes || []) {
-              if (n && n.nodeType === 1) init(n);
-            }
-          }
-        }).observe(document.documentElement, { childList: true, subtree: true });
-      }
+        }
+      }).observe(document.documentElement, { childList: true, subtree: true });
 
       let tries = 0;
       const t = setInterval(() => {
@@ -2235,11 +2055,14 @@
     root = root || document;
 
     function cleanText(value) {
-      return LSA11yTextUtils.cleanText(value);
+      return String(value || "").replace(/\s+/g, " ").trim();
     }
 
     function normaliseIdPart(value) {
-      return LSA11yTextUtils.normaliseIdPart(value, "upload");
+      return String(value || "")
+        .replace(/[^a-zA-Z0-9_-]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .slice(0, 80) || "upload";
     }
 
     function ensureId(el, prefix) {
@@ -2260,14 +2083,30 @@
     }
 
     function questionOf(el) {
-      return LSA11yTextUtils.questionOf(el);
+      return el && el.closest(
+        "fieldset[id^='question'], div[id^='question'], .question-container, .questionnaire-container"
+      );
     }
 
     function questionTitle(question) {
-      return LSA11yTextUtils.questionTitle(question, {
-        fallback: "Ajouter un fichier",
-        stripStars: "all"
-      });
+      if (!question) return "Ajouter un fichier";
+      var selectors = [
+        ".ls-label-question",
+        ".question-title-container .ls-label-question",
+        ".question-title-container",
+        ".question-text",
+        ".question-title",
+        "legend",
+        "label"
+      ];
+
+      for (var i = 0; i < selectors.length; i++) {
+        var node = question.querySelector(selectors[i]);
+        var text = cleanText(node && node.textContent).replace(/\*/g, "").trim();
+        if (text) return text;
+      }
+
+      return "Ajouter un fichier";
     }
 
     function formatAcceptList(input) {
@@ -2379,15 +2218,35 @@
     root = root || document;
 
     function cleanText(value) {
-      return LSA11yTextUtils.cleanText(value, { stripStars: "all" });
+      return String(value || "").replace(/\*/g, "").replace(/\s+/g, " ").trim();
     }
 
     function questionOf(el) {
-      return LSA11yTextUtils.questionOf(el);
+      return el && el.closest(
+        "fieldset[id^='question'], div[id^='question'], .question-container, .questionnaire-container"
+      );
     }
 
     function questionTitle(question) {
-      return LSA11yTextUtils.questionTitle(question, { fallback: "Curseur" });
+      if (!question) return "Curseur";
+
+      var selectors = [
+        ".ls-label-question",
+        ".question-title-container .ls-label-question",
+        ".question-title-container",
+        ".question-text",
+        ".question-title",
+        "legend",
+        "label"
+      ];
+
+      for (var i = 0; i < selectors.length; i++) {
+        var node = question.querySelector(selectors[i]);
+        var text = cleanText(node && node.textContent);
+        if (text) return text;
+      }
+
+      return "Curseur";
     }
 
     function numberFrom(value, fallback) {
@@ -2559,7 +2418,7 @@
     root = root || document;
 
     function cleanText(value) {
-      return LSA11yTextUtils.cleanText(value);
+      return String(value || "").replace(/\s+/g, " ").trim();
     }
 
     function enhanceEquation(question) {
@@ -2612,25 +2471,39 @@
     }
 
 function questionTitle(q) {
-  return LSA11yTextUtils.questionTitle(q, {
-    fallback: "cette question",
-    stripStars: "first",
-    selectors: [
-      ".ls-label-question",
-      ".question-title-container .ls-label-question",
-      ".question-title-container",
-      ".question-text",
-      ".question-title",
-      "legend .ls-label-question",
-      "legend",
-      "label.ls-label-question",
-      ":scope > label"
-    ]
-  });
+  if (!q) return "cette question";
+
+  var candidates = [
+    ".ls-label-question",
+    ".question-title-container .ls-label-question",
+    ".question-title-container",
+    ".question-text",
+    ".question-title",
+    "legend .ls-label-question",
+    "legend",
+    "label.ls-label-question",
+    ":scope > label"
+  ];
+
+  for (var i = 0; i < candidates.length; i++) {
+    var node = q.querySelector(candidates[i]);
+
+    if (node && node.textContent && node.textContent.trim()) {
+      return node.textContent
+        .replace("*", "")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+  }
+
+  return "cette question";
 }
 
     function normaliseIdPart(value) {
-      return LSA11yTextUtils.normaliseIdPart(value, "field");
+      return String(value || "")
+        .replace(/[^a-zA-Z0-9_-]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .slice(0, 80) || "field";
     }
 
     function ensureControlId(control, fallbackPrefix) {
@@ -3175,12 +3048,7 @@ function questionTitle(q) {
               'input[type="submit"][name="move"][value="movenext"],' +
               'button[name="move"][value="movesubmit"],' +
               'input[type="submit"][name="move"][value="movesubmit"],' +
-              '#ls-button-next,' +
-              '#ls-button-submit,' +
-              '.ls-move-next-btn,' +
-              '.ls-move-submit-btn,' +
-              '[data-ls-move="movenext"],' +
-              '[data-ls-move="movesubmit"]'
+              "#ls-button-submit"
           );
           if (!isNav) return;
           var form = btn.form || btn.closest("form") || document.querySelector("form");
@@ -3226,12 +3094,7 @@ function questionTitle(q) {
               'input[type="submit"][name="move"][value="movenext"],' +
               'button[name="move"][value="movesubmit"],' +
               'input[type="submit"][name="move"][value="movesubmit"],' +
-              '#ls-button-next,' +
-              '#ls-button-submit,' +
-              '.ls-move-next-btn,' +
-              '.ls-move-submit-btn,' +
-              '[data-ls-move="movenext"],' +
-              '[data-ls-move="movesubmit"]'
+              "#ls-button-submit"
           );
           if (!isNav) return;
 
@@ -3364,7 +3227,7 @@ function questionTitle(q) {
     });
   }
 /* =========================================================
-   8b) Neutraliser bootstrap-select seulement si PAS de live-search
+   8b) Harmoniser les list-dropdown avec bootstrap-select
 ========================================================= */
 function forceNativeSelectAccessibility(root) {
   if (!$) return;
@@ -3407,36 +3270,53 @@ function forceNativeSelectAccessibility(root) {
       .prop("disabled", false)
       .attr("tabindex", "0")
       .attr("data-native-select-restored", "1");
+
+    var wrapper = select.parentElement;
+    if (wrapper && wrapper.classList && wrapper.classList.contains("bootstrap-select") && wrapper.parentNode) {
+      wrapper.parentNode.insertBefore(select, wrapper);
+      wrapper.parentNode.removeChild(wrapper);
+    }
   }
 
   function keepBootstrapSelect(select) {
     var $select = $(select);
     if (!$select.length) return;
 
-    // évite de retraiter plusieurs fois le même select
-    if ($select.attr("data-ls-bs-initialized") === "1") {
+    $select.attr("data-native-select-restored", "0");
+    $select.css({
+      display: "",
+      visibility: "",
+      position: "",
+      left: "",
+      top: "",
+      width: "",
+      opacity: ""
+    });
+
+    var alreadyInitialized = $select.attr("data-ls-bs-initialized") === "1";
+
+    if (alreadyInitialized) {
       try {
         if ($select.data("selectpicker")) {
           $select.selectpicker("refresh");
         }
       } catch (e) {}
-      return;
+    } else {
+      try {
+        if (!$select.data("selectpicker") && !$select.parent().hasClass("bootstrap-select")) {
+          $select.selectpicker();
+        } else {
+          $select.selectpicker("refresh");
+        }
+      } catch (e) {}
     }
-
-    try {
-      if (!$select.data("selectpicker") && !$select.parent().hasClass("bootstrap-select")) {
-        $select.selectpicker();
-      } else {
-        $select.selectpicker("refresh");
-      }
-    } catch (e) {}
 
     var $wrap = $select.parent(".bootstrap-select");
     if (!$wrap.length) $wrap = $select.next(".bootstrap-select");
 
     if ($wrap.length) {
       var requestedWidth = String($select.attr("data-width") || "").toLowerCase();
-      var keepAutoWidth = requestedWidth === "auto";
+      var keepAutoWidth = requestedWidth === "auto" || $wrap[0].style.width === "0px";
 
       $wrap.toggleClass("ls-a11y-bs-width-auto", keepAutoWidth);
       $wrap.css({
@@ -3469,8 +3349,7 @@ function forceNativeSelectAccessibility(root) {
   }
 
   function processOne(select) {
-    if (hasLiveSearch(select)) keepBootstrapSelect(select);
-    else restoreNativeSelect(select);
+    keepBootstrapSelect(select);
   }
 
   $(root).find("select.list-question-select").each(function () {
@@ -3487,11 +3366,18 @@ function enhanceArrayTableSemantics(root) {
   root = root || document;
 
   function cleanText(node) {
-    return LSA11yTextUtils.cleanText(node, { stripStars: "all" });
+    if (!node) return "";
+    return (node.textContent || "")
+      .replace(/\*/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
   }
 
   function normaliseIdPart(value) {
-    return LSA11yTextUtils.normaliseIdPart(value, "cell");
+    return String(value || "")
+      .replace(/[^a-zA-Z0-9_-]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 80) || "cell";
   }
 
   function ensureElementId(el, prefix) {
@@ -3931,7 +3817,10 @@ function initReflowZoomSupport(root) {
   root = root || document;
 
   function cleanText(node) {
-    return LSA11yTextUtils.cleanText(node);
+    if (!node) return "";
+    return (node.textContent || "")
+      .replace(/\s+/g, " ")
+      .trim();
   }
 
   function getQuestionTitleFromTable(table) {
@@ -4041,7 +3930,7 @@ function initBootstrapSelectKeyboardFix() {
     root = root || document;
 
     function cleanText(txt) {
-      return LSA11yTextUtils.cleanText(txt);
+      return (txt || "").replace(/\s+/g, " ").trim();
     }
 
     function findLabelFor(question, inputId) {
@@ -4469,7 +4358,7 @@ function initBootstrapSelectKeyboardFix() {
     var lastFocused = null;
 
     function cleanText(value) {
-      return LSA11yTextUtils.cleanText(value);
+      return String(value || "").replace(/\s+/g, " ").trim();
     }
 
     function focusableNodes(container) {
@@ -4499,7 +4388,7 @@ function initBootstrapSelectKeyboardFix() {
         '<div class="ls-a11y-session-timeout__panel" role="document">' +
           '<h2 id="ls-a11y-session-timeout-title">Session bientot expiree</h2>' +
           '<p id="ls-a11y-session-timeout-desc">Votre session peut expirer apres une periode d inactivite. Prolongez-la pour continuer a repondre au questionnaire.</p>' +
-          '<p id="ls-a11y-session-timeout-countdown" aria-live="polite">Expiration possible dans 0 seconde.</p>' +
+          '<p id="ls-a11y-session-timeout-countdown" aria-live="polite"></p>' +
           '<div class="ls-a11y-session-timeout__actions">' +
             '<button type="button" class="btn btn-primary" data-ls-a11y-session-extend="1">Prolonger la session</button>' +
             '<button type="button" class="btn btn-outline-secondary" data-ls-a11y-session-close="1">Fermer</button>' +
@@ -4742,64 +4631,6 @@ function initBootstrapSelectKeyboardFix() {
      Chaque famille est documentée dans files/a11y-modules/manifest.json
      et couverte dans tests/accessibilite/MATRICE-TESTS-RGAA-WCAG.md.
   ========================================================= */
-  function ensureDirectFieldsetLegends(root) {
-    root = root || document;
-
-    function hasDirectLegend(fieldset) {
-      return Array.prototype.some.call(fieldset.children, function (child) {
-        return child.tagName && child.tagName.toLowerCase() === "legend";
-      });
-    }
-
-    function textFromLabelledby(fieldset) {
-      var ids = (fieldset.getAttribute("aria-labelledby") || "").split(/\s+/);
-      for (var i = 0; i < ids.length; i += 1) {
-        if (!ids[i]) continue;
-        var labelled = document.getElementById(ids[i]);
-        var text = labelled ?labelled.textContent.replace(/\s+/g, " ").trim() : "";
-        if (text) return text;
-      }
-      return "";
-    }
-
-    function fallbackText(fieldset) {
-      var title = fieldset.querySelector(
-        ".ls-label-question, .question-title-container, .question-text, .ls-question-text, .group-title, h1, h2, h3"
-      );
-      return title ?title.textContent.replace(/\s+/g, " ").trim() : "";
-    }
-
-    var fieldsets = [];
-    if (root.nodeType === 1 && root.tagName && root.tagName.toLowerCase() === "fieldset") {
-      fieldsets.push(root);
-    }
-    fieldsets = fieldsets.concat(Array.prototype.slice.call(root.querySelectorAll ?root.querySelectorAll("fieldset") : []));
-
-    fieldsets.forEach(function (fieldset) {
-      if (hasDirectLegend(fieldset)) return;
-
-      var legend = document.createElement("legend");
-      legend.className = "visually-hidden sr-only ls-a11y-generated-legend";
-      legend.textContent = textFromLabelledby(fieldset) || fallbackText(fieldset) || "Groupe de champs";
-      fieldset.insertBefore(legend, fieldset.firstChild);
-    });
-  }
-
-  function updateRankingSelectStates(root) {
-    root = root || document;
-    var selects = root.querySelectorAll ?root.querySelectorAll(".ls-ranking-a11y-enabled select[data-ls-ranking-a11y-select]") : [];
-    Array.prototype.forEach.call(selects, function (select) {
-      var sync = function () {
-        if (select.value) select.classList.add("ls-ranking-has-value");
-        else select.classList.remove("ls-ranking-has-value");
-      };
-      sync();
-      if (select.dataset.lsRankingPaletteStateBound === "1") return;
-      select.dataset.lsRankingPaletteStateBound = "1";
-      select.addEventListener("change", sync);
-    });
-  }
-
   function boot(root) {
     root = root || document;
 
@@ -4833,7 +4664,6 @@ function initBootstrapSelectKeyboardFix() {
       applyRequiredRadiosFieldsets(scope);
       updateRequiredAttributes(scope);
       updateRadioRequiredAttributes(scope);
-      ensureDirectFieldsetLegends(scope);
     });
 
     runA11yModule("personal-data-autocomplete", root, function () {
@@ -4855,8 +4685,6 @@ function initBootstrapSelectKeyboardFix() {
       initUploadAccessibility(scope);
       initSliderAccessibility(scope);
       initEquationAccessibility(scope);
-      ensureDirectFieldsetLegends(scope);
-      updateRankingSelectStates(scope);
     });
 
     runA11yModule("arrays-tables", root, function (scope) {
@@ -4869,7 +4697,6 @@ function initBootstrapSelectKeyboardFix() {
       forceNativeSelectAccessibility(scope);
       initBootstrapSelectKeyboardFix();
       initAriaLiveSubmitMessage();
-      initDataSecurityNextGate(scope);
       initBootstrapAlertModalAriaLive();
     });
 
