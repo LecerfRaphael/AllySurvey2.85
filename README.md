@@ -1,7 +1,7 @@
 <p align="center">
   <strong>✨ AllySurvey V2.85 autonome — Des questionnaires LimeSurvey plus simples, plus clairs, plus accessibles</strong><br>
   Université de Lille • Direction du numérique — Service DAWAM<br>
-  Thème LimeSurvey accessible RGAA/WCAG • Version manifeste 2.0.41<br>
+  Thème LimeSurvey accessible RGAA/WCAG • Version manifeste 2.85 Autonome<br>
   Variante autonome sans thème parent <code>fruity_twentythree</code><br>
   Compatible LimeSurvey 7.0 et LimeSurvey 6.0<br>
   Dernière mise à jour documentaire : 24/09/2026
