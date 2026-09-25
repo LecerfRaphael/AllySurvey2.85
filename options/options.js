@@ -337,6 +337,7 @@
 
   function hydrateIframeCode() {
     var code = document.getElementById('fas-iframe-code');
+    var directUrl = document.getElementById('fas-iframe-direct-url');
     var status = document.getElementById('fas-iframe-url-status');
     var surveyUrl = buildCurrentSurveyPublicUrl();
     var embedUrl;
@@ -352,6 +353,7 @@
 
     if (surveyUrl) {
       embedUrl = addIframeQueryOptions(surveyUrl);
+      if (directUrl) directUrl.value = embedUrl;
       renderIframeCode(code, template, embedUrl, adminTitle || 'Questionnaire');
       if (status) status.textContent = 'URL du questionnaire détectée automatiquement : ' + embedUrl;
 
@@ -362,9 +364,43 @@
         }
       });
     } else {
+      if (directUrl) directUrl.value = '';
       renderIframeCode(code, template, '', adminTitle || 'Questionnaire');
       if (status) status.textContent = 'Impossible de détecter automatiquement le numéro du questionnaire. Remplacez URL_DU_QUESTIONNAIRE manuellement.';
     }
+  }
+
+  function bindIframeUrlCopy() {
+    var button = document.getElementById('fas-copy-iframe-url');
+    var input = document.getElementById('fas-iframe-direct-url');
+    var status = document.getElementById('fas-copy-iframe-url-status');
+    if (!button || !input || button.getAttribute('data-fas-copy-bound') === '1') return;
+    button.setAttribute('data-fas-copy-bound', '1');
+    button.addEventListener('click', function () {
+      var value = input.value || '';
+      var success = function () {
+        if (status) status.textContent = 'URL copiée dans le presse-papiers.';
+      };
+      var fallback = function () {
+        input.focus();
+        input.select();
+        try {
+          document.execCommand('copy');
+          success();
+        } catch (error) {
+          if (status) status.textContent = 'Sélectionnez l’URL puis copiez-la manuellement.';
+        }
+      };
+      if (!value) {
+        if (status) status.textContent = 'URL du questionnaire indisponible.';
+        return;
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(value).then(success).catch(fallback);
+      } else {
+        fallback();
+      }
+    });
   }
 
   function bindIframeCodeCopy() {
@@ -581,6 +617,7 @@
     bindFields();
     bindFooterUpload();
     hydrateIframeCode();
+    bindIframeUrlCopy();
     bindIframeCodeCopy();
     bindImagePreview();
     updateChildren();
