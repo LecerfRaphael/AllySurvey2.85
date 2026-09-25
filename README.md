@@ -1,15 +1,28 @@
 <p align="center">
   <strong>✨ AllySurvey V2.85 autonome — Des questionnaires LimeSurvey plus simples, plus clairs, plus accessibles</strong><br>
   Université de Lille • Direction du numérique — Service DAWAM<br>
-  Thème LimeSurvey accessible RGAA/WCAG • Version manifeste 2.0.32<br>
+  Thème LimeSurvey accessible RGAA/WCAG • Version manifeste 2.0.41<br>
   Variante autonome sans thème parent <code>fruity_twentythree</code><br>
   Compatible LimeSurvey 7.0 et LimeSurvey 6.0<br>
-  Dernière mise à jour documentaire : 15/07/2026
+  Dernière mise à jour documentaire : 24/09/2026
 </p>
 
 <p align="center">
   ♿ Accessibilité numérique • 🧭 Navigation clavier • 🔊 Lecteurs d’écran • 🎨 Palettes • 📱 Mobile • 🧩 Formulaires complexes
 </p>
+
+## Nouveautés documentées le 24/09/2026
+
+- **Session** : durée estimée et avertissement configurables (24 et 3 minutes par défaut), à aligner sur la session du serveur.
+- **Langue des options** : langue de l'administration, complément français/anglais ; nouveaux libellés de messages et titres de session en français à la source.
+- **Messages et contact** : textes d'expiration et d'erreur personnalisables, contact d'assistance indépendant de l'administrateur.
+- **Image ou mascotte** : illustration personnalisée des messages avec texte alternatif, désactivée par défaut.
+- **Envoi d'images** : boutons pour l'arrière-plan, le logo, le pied de page et les messages. Enregistrer les changements avant l'envoi ; après le rechargement, sélectionner le fichier et enregistrer les options.
+- **Correctifs Twig** : filtre `escape` compatible avec le sandbox testé et suppression du double échappement de l'apostrophe du contact.
+
+Pour le questionnaire `183268`, recopier le message historique dans ses options : la condition codée en dur a été supprimée. Voir [Messages et contact](docs/MESSAGES-ET-CONTACT.md), la [documentation technique](DOCUMENTATION_TECHNIQUE_ALLYSURVEY_V285.md) et le [guide développeur](GUIDE-DEVELOPPEUR-ALLYSURVEY-V285.md).
+
+Les tests locaux ne remplacent pas la recette LimeSurvey 6/7 : vérifier notamment l'envoi réel, l'enregistrement, l'héritage, les pages d'erreur et le sandbox Twig PHP avant diffusion. La version du manifeste reste `2.0.41` ; cette mise à jour documentaire ne crée pas de nouvelle version publiée.
 
 ---
 
@@ -62,7 +75,7 @@ Il est également mis à disposition des membres de l’**APRANESR** — Associa
 - 📝 **Type :** thème de questionnaire LimeSurvey.
 - 📦 **Nom du thème :** `AllySurvey V285 RGAA WCAG`.
 - 🏷️ **Titre LimeSurvey :** `AllySurvey_V285_RGAA_WCAG_Autonome`.
-- 🚀 **Version manifeste :** `2.0.32`.
+- 🚀 **Version manifeste :** `2.0.41`.
 - ⚙️ **API thème :** `3.0`.
 - 📅 **Dernière mise à jour manifeste :** `2026-07-14 00:00:50`.
 
@@ -294,7 +307,7 @@ views/
 ### 📌 Fichiers principaux
 
 - ⚙️ `config.xml` : manifeste du thème LimeSurvey, compatibilité et options.
-- 🧾 `CHANGELOG.md` : historique détaillé des évolutions jusqu’à V2.0.32.
+- 🧾 `CHANGELOG.md` : historique détaillé des évolutions jusqu’à V2.0.41.
 - 🧱 `views/layout_global.twig` : structure générale, landmarks, liens d’évitement, barre d’accessibilité.
 - 🧠 `views/subviews/header/custom_header.twig` : application des palettes et variables CSS.
 - ♿ `files/accessibilite.js` : bundle principal des correctifs accessibilité côté questionnaire.

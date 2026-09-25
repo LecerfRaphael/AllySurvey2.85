@@ -286,15 +286,7 @@
   if (window.jQuery) {
     jQuery(document).on('pjax:scriptcomplete', scheduleBind);
   }
-  if (window.LSA11yObserverHub) {
-    window.LSA11yObserverHub.register({
-      id: 'diagnostic-panel-bind',
-      interest: 'addedNodes',
-      onMutations: function () { bind(); }
-    });
-  } else if (window.MutationObserver) {
-    new MutationObserver(function () {
-      bind();
-    }).observe(document.documentElement, { childList: true, subtree: true });
-  }
+  /* Le panneau de diagnostic appartient au layout global du thème. Les hooks
+     DOMContentLoaded/pageshow/PJAX ci-dessus suffisent pour le rebrancher ;
+     inutile de conserver un observateur DOM permanent quand l'outil est inactif. */
 })();

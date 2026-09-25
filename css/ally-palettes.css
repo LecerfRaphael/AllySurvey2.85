@@ -162,6 +162,19 @@ body[class*="fas-palette-"]:not(.fas-palette-custom) .slider-selection,
 body[class*="fas-palette-"]:not(.fas-palette-custom) .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary {
   background: var(--fas-control-primary) !important;
 }
+/* Bootstrap Slider : même palette pour la piste, le curseur et sa valeur,
+   y compris lorsque la couleur du thème est personnalisée. */
+body .slider-container .slider .slider-selection,
+body .slider-container .slider .slider-handle:not(.custom) {
+  background: var(--fas-palette-primary2, #4b5563) !important;
+}
+body .slider-container .slider .slider-handle.custom::before,
+body .slider-container .slider .tooltip .tooltip-inner {
+  color: var(--fas-palette-primary2, #4b5563) !important;
+}
+body .slider-container .slider .tooltip .tooltip-inner {
+  background: transparent !important;
+}
 body[class*="fas-palette-"]:not(.fas-palette-custom) .ui-slider-handle,
 body[class*="fas-palette-"]:not(.fas-palette-custom) .noUi-handle {
   border-color: var(--fas-control-primary) !important;

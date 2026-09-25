@@ -1,0 +1,23 @@
+/* AllySurvey 2.0.38 - intégration iframe */
+html.fas-is-embedded body[data-fas-iframe-hide-header="on"] #survey-nav,
+html.fas-is-embedded body[data-fas-iframe-hide-header="1"] #survey-nav,
+html.fas-is-embedded body[data-fas-iframe-hide-header="true"] #survey-nav {
+    display: none !important;
+}
+
+html.fas-is-embedded body[data-fas-iframe-hide-footer="on"] .fas-custom-footer,
+html.fas-is-embedded body[data-fas-iframe-hide-footer="1"] .fas-custom-footer,
+html.fas-is-embedded body[data-fas-iframe-hide-footer="true"] .fas-custom-footer {
+    display: none !important;
+}
+
+html.fas-is-embedded body[data-fas-iframe-hide-header="on"],
+html.fas-is-embedded body[data-fas-iframe-hide-header="1"],
+html.fas-is-embedded body[data-fas-iframe-hide-header="true"] {
+    padding-top: 0 !important;
+}
+
+html.fas-is-embedded,
+html.fas-is-embedded body {
+    min-height: 0;
+}

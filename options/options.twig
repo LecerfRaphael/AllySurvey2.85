@@ -1,3 +1,4 @@
+<script src="{{ optionsPath }}/../scripts/ally-options-i18n.js"></script>
 <div class="fas-theme-options">
     <style>
         .fas-theme-options .nav-tabs { margin-bottom: 1rem; }
@@ -72,38 +73,53 @@
         .fas-theme-options.is-inherited .fas-option-row {
             opacity: .72;
         }
+        .fas-theme-options .fas-integration-help { margin: 0 0 1rem; }
+        .fas-theme-options .fas-embed-code { min-height: 19rem; font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace; white-space: pre; }
+        .fas-theme-options .fas-integration-code-wrap { margin-top: 1.25rem; }
+        .fas-theme-options .fas-copy-row { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; margin-top: .65rem; }
     </style>
 
     <div class="fas-inherit-panel" role="status">
-        <p>Le questionnaire herite actuellement des reglages du theme general.</p>
-        <button type="button" class="btn btn-primary" id="fas-customize-survey-options">Personnaliser le questionnaire</button>
+        <p>{{ gT('This survey inherits the general theme settings.') }}</p>
+        <button type="button" class="btn btn-primary" id="fas-customize-survey-options">{{ gT('Customize this survey') }}</button>
     </div>
 
     <div class="fas-custom-panel" role="status">
-        <p>Le questionnaire utilise des reglages personnalises.</p>
-        <button type="button" class="btn btn-outline-secondary" id="fas-return-inherit-options">Revenir a l'heritage du theme general</button>
+        <p>{{ gT('This survey uses custom settings.') }}</p>
+        <button type="button" class="btn btn-outline-secondary" id="fas-return-inherit-options">{{ gT('Restore general theme inheritance') }}</button>
     </div>
 
     <ul class="nav nav-tabs" role="tablist">
         {% for category in aOptionAttributes.categories %}
             <li class="nav-item" role="presentation">
                 <button class="nav-link{% if loop.first %} active{% endif %}" type="button" data-bs-toggle="tab" data-bs-target="#fas-option-category-{{ loop.index }}" role="tab" aria-selected="{% if loop.first %}true{% else %}false{% endif %}">
-                    {{ category }}
+                    {{ gT(category) }}
                 </button>
             </li>
         {% endfor %}
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="fas-option-about-tab" type="button" data-bs-toggle="tab" data-bs-target="#fas-option-about" role="tab" aria-controls="fas-option-about" aria-selected="false">
+                {{ gT('À propos') }}
+            </button>
+        </li>
     </ul>
 
     <div class="tab-content">
         {% for category in aOptionAttributes.categories %}
             <div class="tab-pane{% if loop.first %} active{% endif %}" id="fas-option-category-{{ loop.index }}" role="tabpanel">
+                {% if category == 'Messages et contact' or category == 'Messages and contact' %}
+                    <p>{{ gT('Laisser les champs vides pour conserver les messages et le contact habituels de LimeSurvey. Ces réglages concernent les pages d’erreur bloquantes du questionnaire, pas les alertes de session. Les messages sont en texte simple, avec conservation des sauts de ligne. Un contact personnalisé remplace le contact administrateur ; renseigner le nom et l’adresse e-mail si nécessaire.') }}</p>
+                {% endif %}
+                {% if category == 'Intégration' or category == 'Integration' %}
+                    <p class="fas-integration-help">{{ gT('Ces réglages ne s’appliquent que lorsque le questionnaire est réellement affiché dans une iframe. L’ouverture directe du questionnaire conserve son affichage normal.') }}</p>
+                {% endif %}
                 <div class="row fas-option-row">
                     {% for key, attribute in aOptionAttributes.optionAttributes %}
                         {% if attribute.category == category %}
                             {% set width = attribute.width|default('4') %}
                             {% set parent = attribute.parent|default('') %}
                             <div class="col-12 col-lg-{{ width }}">
-                                <label for="simple_edit_options_{{ key }}" class="form-label">{{ attribute.title|default(key) }}</label>
+                                <label for="simple_edit_options_{{ key }}" class="form-label">{{ gT(attribute.title|default(key)) }}</label>
 
                                 {% if attribute.type == 'buttons' %}
                                     {% set values = attribute.options|default('')|split('|') %}
@@ -112,7 +128,7 @@
                                         <div class="btn-group{% if key == 'themecolor' %} fas-palette-button-group{% endif %}" role="group">
                                             {% for value in values %}
                                                 {% set rawLabel = labels[loop.index0]|default(value) %}
-                                                {% set displayLabel = rawLabel == 'Yes' ? 'Oui' : (rawLabel == 'No' ? 'Non' : rawLabel) %}
+                                                {% set displayLabel = gT(rawLabel) %}
                                                 <input id="{{ key }}_{{ value }}" type="radio" name="{{ key }}" value="{{ value }}" class="btn-check selector_option_radio_field simple_edit_options_{{ key }}"{% if oParentOptions[key]|default('') == value %} data-inherit-checked="1"{% endif %}>
                                                 <label for="{{ key }}_{{ value }}" class="btn btn-outline-secondary">{{ displayLabel }}</label>
                                             {% endfor %}
@@ -121,39 +137,56 @@
 
                                 {% elseif attribute.type == 'textarea' or key == 'footertext' %}
                                     <div class="col-12">
-                                        <textarea class="form-control selector-text-input selector_text_option_value_field simple_edit_options_{{ key }}" id="simple_edit_options_{{ key }}" name="{{ key }}" rows="{{ attribute.rows|default('10') }}" data-inherit-value="{{ oParentOptions[key]|default('') }}"{% if parent %} data-parent="{{ parent }}"{% endif %}></textarea>
+                                        <textarea class="form-control selector-text-input selector_text_option_value_field simple_edit_options_{{ key }}" id="simple_edit_options_{{ key }}" name="{{ key }}" rows="{{ attribute.rows|default('10') }}" data-inherit-value="{{ oParentOptions[key]|default('')|escape('html_attr') }}"{% if parent %} data-parent="{{ parent }}"{% endif %}></textarea>
+                                    </div>
+
+                                {% elseif key == 'sessiontimeoutminutes' or key == 'sessionwarningminutes' %}
+                                    <div class="col-12">
+                                        <input type="number" min="1" step="1" class="form-control selector-text-input selector_text_option_value_field simple_edit_options_{{ key }}" id="simple_edit_options_{{ key }}" name="{{ key }}" data-inherit-value="{{ oParentOptions[key]|default(key == 'sessiontimeoutminutes' ? '24' : '3') }}" aria-describedby="{{ key }}_help">
+                                        <p id="{{ key }}_help" class="form-text">
+                                            {% if key == 'sessiontimeoutminutes' %}
+                                                {{ gT('Inactivity delay used by the warning. Match the LimeSurvey/PHP server session duration; this setting does not change the server session. Default: 24 minutes.') }}
+                                            {% else %}
+                                                {{ gT('Countdown before estimated expiration. Use a value below the session duration. Default: 3 minutes. Otherwise, the script uses a quarter of the session duration, with a minimum of 30 seconds.') }}
+                                            {% endif %}
+                                        </p>
+                                    </div>
+
+                                {% elseif key == 'surveycontactemail' %}
+                                    <div class="col-12">
+                                        <input type="email" class="form-control selector-text-input selector_text_option_value_field simple_edit_options_{{ key }}" id="simple_edit_options_{{ key }}" name="{{ key }}" data-inherit-value="{{ oParentOptions[key]|default('')|escape('html_attr') }}">
                                     </div>
 
                                 {% elseif attribute.type == 'text' or attribute.type == 'duration' %}
                                     <div class="col-12">
-                                        <input type="text" class="form-control selector-text-input selector_text_option_value_field simple_edit_options_{{ key }}{% if parent %} selector_radio_childfield{% endif %}" id="simple_edit_options_{{ key }}" name="{{ key }}" data-inherit-value="{{ oParentOptions[key]|default('') }}"{% if parent %} data-parent="{{ parent }}"{% endif %}>
+                                        <input type="text" class="form-control selector-text-input selector_text_option_value_field simple_edit_options_{{ key }}{% if parent %} selector_radio_childfield{% endif %}" id="simple_edit_options_{{ key }}" name="{{ key }}" data-inherit-value="{{ oParentOptions[key]|default('')|escape('html_attr') }}"{% if parent %} data-parent="{{ parent }}"{% endif %}>
                                     </div>
 
                                 {% elseif attribute.type == 'colorpicker' %}
                                     <div class="input-group">
-                                        <input type="text" class="form-control selector_option_value_field selector__color-picker simple_edit_options_{{ key }}" id="simple_edit_options_{{ key }}" name="{{ key }}" data-inherit-value="{{ oParentOptions[key]|default('') }}">
-                                        <input type="color" class="form-control form-control-color selector__colorpicker-preview" aria-label="{{ attribute.title|default(key) }}">
+                                        <input type="text" class="form-control selector_option_value_field selector__color-picker simple_edit_options_{{ key }}" id="simple_edit_options_{{ key }}" name="{{ key }}" data-inherit-value="{{ oParentOptions[key]|default('')|escape('html_attr') }}">
+                                        <input type="color" class="form-control form-control-color selector__colorpicker-preview" aria-label="{{ gT(attribute.title|default(key)) }}">
                                     </div>
 
                                 {% elseif attribute.type == 'imagefile' or (category == 'Images' and attribute.type == 'dropdown') %}
                                     <div class="col-12">
-                                        <select class="form-select selector_option_value_field selector_image_selector{% if parent %} selector_radio_childfield{% endif %}" id="simple_edit_options_{{ key }}" name="{{ key }}" data-inherit-value="{{ oParentOptions[key]|default('') }}"{% if parent %} data-parent="{{ parent }}"{% endif %}>
+                                        <select class="form-select selector_option_value_field selector_image_selector{% if parent %} selector_radio_childfield{% endif %}" id="simple_edit_options_{{ key }}" name="{{ key }}" data-inherit-value="{{ oParentOptions[key]|default('')|escape('html_attr') }}"{% if parent %} data-parent="{{ parent }}"{% endif %}>
                                             {% for imageKey, image in templateConfiguration.imageFileList %}
                                                 <option data-lightbox-src="{{ image.preview }}" value="{{ image.filepath }}">{{ image.filename }}</option>
                                             {% endfor %}
                                         </select>
-                                        <button type="button" class="btn btn-outline-secondary selector__open_lightbox mt-2" data-bs-target="#simple_edit_options_{{ key }}">Prévisualiser l'image</button>
-                                        {% if key == 'footerimage' %}
+                                        <button type="button" class="btn btn-outline-secondary selector__open_lightbox mt-2" data-bs-target="#simple_edit_options_{{ key }}">{{ gT('Preview image') }}</button>
+                                        {% if key == 'footerimage' or key == 'backgroundimagefile' or key == 'brandlogofile' or key == 'messageimagefile' %}
                                             <div class="fas-footer-upload">
-                                                <span id="fileselector_frontend">
-                                                    <label class="btn btn-outline-secondary" for="fas_footer_upload_image">
-                                                        <input class="d-none" id="fas_footer_upload_image" name="fas_footer_upload_image" type="file" accept="image/*">
-                                                        Envoyer un fichier
+                                                <span>
+                                                    <label class="btn btn-outline-secondary" for="fas_upload_{{ key }}">
+                                                        <input class="d-none" id="fas_upload_{{ key }}" name="fas_upload_{{ key }}" data-fas-image-upload="{{ key }}" type="file" accept="image/*">
+                                                        {{ gT('Upload a file') }}
                                                     </label>
                                                 </span>
-                                                <span class="fas-footer-upload-help">Le fichier sera ajouté au dossier files du thème.</span>
+                                                <span class="fas-footer-upload-help">{{ gT('The file will be added to the theme files folder.') }}</span>
                                                 <div class="progress">
-                                                    <div id="upload_progress_frontend" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                                                    <div class="progress-bar" role="progressbar" aria-label="{{ gT('Upload a file') }}" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
                                                         <span class="visually-hidden">0%</span>
                                                     </div>
                                                 </div>
@@ -163,7 +196,7 @@
 
                                 {% else %}
                                     <div class="col-12">
-                                        <select class="form-select selector_option_value_field{% if parent %} selector_radio_childfield{% endif %}" id="simple_edit_options_{{ key }}" name="{{ key }}" data-inherit-value="{{ oParentOptions[key]|default('') }}"{% if parent %} data-parent="{{ parent }}"{% endif %}>
+                                        <select class="form-select selector_option_value_field{% if parent %} selector_radio_childfield{% endif %}" id="simple_edit_options_{{ key }}" name="{{ key }}" data-inherit-value="{{ oParentOptions[key]|default('')|escape('html_attr') }}"{% if parent %} data-parent="{{ parent }}"{% endif %}>
                                             {{ attribute.dropdownoptions|raw }}
                                         </select>
                                     </div>
@@ -172,7 +205,52 @@
                         {% endif %}
                     {% endfor %}
                 </div>
+                {% if category == 'Intégration' or category == 'Integration' %}
+                    <div class="fas-integration-code-wrap">
+                        <label for="fas-iframe-code" class="form-label">{{ gT('Code d’intégration responsive avec redimensionnement automatique') }}</label>
+                        <textarea id="fas-iframe-code" class="form-control fas-embed-code" readonly spellcheck="false">&lt;div class="allysurvey-embed" style="width:100%;max-width:100%;"&gt;
+  &lt;iframe
+    id="allysurvey-frame"
+    src="URL_DU_QUESTIONNAIRE"
+    title="TITRE_DU_QUESTIONNAIRE"
+    loading="lazy"
+    style="display:block;width:100%;min-height:700px;border:0;"
+  &gt;&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;script&gt;
+(function () {
+  var frame = document.getElementById('allysurvey-frame');
+  if (!frame) return;
+
+  window.addEventListener('message', function (event) {
+    var data = event.data;
+    var height;
+
+    if (event.source !== frame.contentWindow) return;
+    if (!data || data.type !== 'allysurvey:resize') return;
+
+    height = Number(data.height);
+    if (!Number.isFinite(height) || height &lt; 100) return;
+    frame.style.height = Math.ceil(height) + 'px';
+  });
+}());
+&lt;/script&gt;</textarea>
+                        <div class="fas-copy-row">
+                            <button type="button" class="btn btn-outline-primary" id="fas-copy-iframe-code">{{ gT('Copier le code') }}</button>
+                            <span id="fas-copy-iframe-status" class="form-text" role="status" aria-live="polite"></span>
+                        </div>
+                        <p id="fas-iframe-url-status" class="form-text" role="status" aria-live="polite">{{ gT('L’URL publique du questionnaire est détectée automatiquement à partir du questionnaire courant.') }}</p>
+                        <p class="form-text">{{ gT('Le redimensionnement fonctionne également entre domaines différents grâce à postMessage.') }}</p>
+                    </div>
+                {% endif %}
             </div>
         {% endfor %}
+
+        <div class="tab-pane" id="fas-option-about" role="tabpanel" aria-labelledby="fas-option-about-tab" tabindex="0">
+            <div class="fas-about-panel">
+                <p>{{ gT('Thème LimeSurvey autonome, adapté pour améliorer l’accessibilité numérique et la conformité au RGAA 4. En amélioration continue par la Direction du numérique – Service DAWAM de l’Université de Lille.') }}</p>
+                <p>📧 {{ gT('Contact') }} : <a href="mailto:support-limesurvey@univ-lille.fr">support-limesurvey@univ-lille.fr</a></p>
+            </div>
+        </div>
     </div>
 </div>

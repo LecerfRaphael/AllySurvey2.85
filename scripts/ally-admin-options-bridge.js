@@ -92,7 +92,7 @@
     var headings = doc.querySelectorAll('.survey-setting .h6, .settings-block .h6');
     var i;
     for (i = 0; i < headings.length; i += 1) {
-      if (normalize(headings[i].textContent) === 'color palette') {
+      if (['color palette', 'palette de couleurs'].indexOf(normalize(headings[i].textContent)) !== -1) {
         return headings[i].closest('.survey-setting') || headings[i].parentElement.parentElement;
       }
     }

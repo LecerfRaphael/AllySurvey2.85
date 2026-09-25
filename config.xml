@@ -1,19 +1,19 @@
-﻿<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <config>
     <metadata>
-        <name>AllySurvey_V285_RGAA_WCAG_Autonome</name>
-        <title>AllySurvey_V285_RGAA_WCAG_Autonome</title>
+        <name>AllySurvey_V285_RGAA_WCAG_AutonomeV2</name>
+        <title>AllySurvey_V285_RGAA_WCAG_AutonomeV2</title>
         <type>theme</type>
-        <creationDate>2026-07-13</creationDate>
+        <creationDate>2026-09-19</creationDate>
         <author>Raphaël Lecerf – Université de Lille / DAWAM</author>
         <authorEmail>support-limesurvey@univ-lille.fr</authorEmail>
         <authorUrl>https://www.univ-lille.fr</authorUrl>
         <copyright>Copyright (C) LimeSurvey GmbH and Université de Lille DGD Num DAWAM</copyright>
         <license>GNU General Public License version 2 or later</license>
-        <version>2.0.32</version>
+        <version>2.0.41</version>
         <apiVersion>3.0</apiVersion>
         <description twig="on">Thème LimeSurvey autonome, adapté pour améliorer l’accessibilité numérique et la conformité au RGAA 4. En amélioration continue par la Direction du numérique – Service DAWAM de l’Université de Lille. 📧 Contact : raphael.lecerf@univ-lille.fr</description>
-        <lastUpdate>2026-07-14 00:00:50</lastUpdate>
+        <lastUpdate>2026-09-25 14:00:00</lastUpdate>
     </metadata>
     <compatibility>
         <version>7.0</version>
@@ -38,6 +38,7 @@
             <add>css/ally-ranking.css</add>
             <add>css/ally-palettes.css</add>
             <add>css/ally-admin-options.css</add>
+            <add>css/ally-iframe.css</add>
         </css>
         <js>
             <add>scripts/theme.js</add>
@@ -55,21 +56,16 @@
             <add>scripts/ally-ls7-compat.js</add>
             <add>scripts/ally-matching.js</add>
             <add>scripts/ally-audit-fixes.js</add>
+            <add>scripts/ally-options-i18n.js</add>
             <add>scripts/ally-admin-options-bridge.js</add>
+            <add>scripts/ally-iframe.js</add>
         </js>
         <print_css>
             <add>css/print_theme.css</add>
         </print_css>
     </files>
     <options>
-        <themecolor
-            type="buttons"
-            category="Color themes"
-            width="12"
-            title="Color palette"
-            options="neutre|industrie|pinklady|brique|orangette|hyperion|ocean|menthe|dune|commodore|colvert|vulcain|orangesanguine|custom"
-            optionlabels="1 Neutre|2 Industrie|3 Pink Lady|4 Brique du Nord|5 Orangette|6 Hypérion|7 Océan|8 Menthe|9 Dune|10 Commodore|11 Colvert|12 Vulcain|13 Orange Sanguine|Personnalisé"
-            optionimages="palette-neutre.txt|palette-industrie.txt|palette-pinklady.txt|palette-brique.txt|palette-orangette.txt|palette-hyperion.txt|palette-ocean.txt|palette-menthe.txt|palette-dune.txt|palette-commodore.txt|palette-colvert.txt|palette-vulcain.txt|palette-orangesanguine.txt|palette-custom.txt">neutre</themecolor>
+        <themecolor type="buttons" category="Color themes" width="12" title="Color palette" options="neutre|industrie|pinklady|brique|orangette|hyperion|ocean|menthe|dune|commodore|colvert|vulcain|orangesanguine|custom" optionlabels="1 Neutre|2 Industrie|3 Pink Lady|4 Brique du Nord|5 Orangette|6 Hypérion|7 Océan|8 Menthe|9 Dune|10 Commodore|11 Colvert|12 Vulcain|13 Orange Sanguine|Personnalisé" optionimages="palette-neutre.txt|palette-industrie.txt|palette-pinklady.txt|palette-brique.txt|palette-orangette.txt|palette-hyperion.txt|palette-ocean.txt|palette-menthe.txt|palette-dune.txt|palette-commodore.txt|palette-colvert.txt|palette-vulcain.txt|palette-orangesanguine.txt|palette-custom.txt">neutre</themecolor>
         <hideprivacyinfo type="buttons" category="Simple options" width="4" title="Hide privacy info" options="on|off" optionlabels="Yes|No">off
         </hideprivacyinfo>
         <showpopups type="buttons" category="Simple options" width="4" title="Show popups" options="1|0|-1" optionlabels="Popup|On page|No">1
@@ -156,6 +152,15 @@
                 </optgroup>
             </dropdownoptions>
         </cssframework>
+        <expiredsurveytext type="textarea" category="Messages et contact" width="12" rows="5" title="Message du questionnaire expiré"></expiredsurveytext>
+        <surveyerrortext type="textarea" category="Messages et contact" width="12" rows="5" title="Message d’erreur du questionnaire"></surveyerrortext>
+        <surveycontactname type="text" category="Messages et contact" width="6" title="Nom du contact d’assistance"></surveycontactname>
+        <surveycontactemail type="text" category="Messages et contact" width="6" title="Adresse e-mail du contact d’assistance"></surveycontactemail>
+        <messageimageenabled type="buttons" category="Messages et contact" width="4" title="Image personnalisée des messages" options="on|off" optionlabels="Oui|Non">off</messageimageenabled>
+        <messageimagefile type="imagefile" category="Messages et contact" width="8" title="Image ou mascotte des messages" parent="messageimageenabled">./files/error.png</messageimagefile>
+        <messageimagealt type="text" category="Messages et contact" width="12" title="Texte alternatif de l’image (vide si décorative)" parent="messageimageenabled"></messageimagealt>
+        <sessiontimeoutminutes type="text" category="Session" width="6" title="Durée de session estimée (minutes)">24</sessiontimeoutminutes>
+        <sessionwarningminutes type="text" category="Session" width="6" title="Avertir avant l’expiration (minutes)">3</sessionwarningminutes>
         <skiplinks type="buttons" category="Accessibility" width="4" title="Skip links" options="on|off" optionlabels="Yes|No">on</skiplinks>
         <enhancedfocus type="buttons" category="Accessibility" width="4" title="Enhanced keyboard focus" options="on|off" optionlabels="Yes|No">on</enhancedfocus>
         <reducedmotion type="buttons" category="Accessibility" width="4" title="Respect reduced motion" options="on|off" optionlabels="Yes|No">on</reducedmotion>
@@ -187,59 +192,72 @@
         <allybuttonstyle type="buttons" category="Advanced customization" width="4" title="Button shape" options="square|soft|pill" optionlabels="Square|Soft|Pill">soft</allybuttonstyle>
         <allyfontsize type="buttons" category="Advanced customization" width="4" title="Base text size" options="small|normal|large" optionlabels="Small|Normal|Large">normal</allyfontsize>
         <ls7compatibility type="buttons" category="LimeSurvey 7" width="4" title="LimeSurvey 7 compatibility layer" options="on|off" optionlabels="Yes|No">on</ls7compatibility>
+        <iframehideheader type="buttons" category="Intégration" width="6" title="Masquer le header dans une iframe" options="on|off" optionlabels="Oui|Non">off</iframehideheader>
+        <iframehidefooter type="buttons" category="Intégration" width="6" title="Masquer le footer dans une iframe" options="on|off" optionlabels="Oui|Non">off</iframehidefooter>
     </options>
     <optionsOrderReact>
-        <themecolor category="Color themes" />
-        <brandlogo category="Logo" />
-        <brandlogofile category="Logo" />
-        <footertext category="Special footer" />
-        <footerlogo category="Special footer" />
-        <footerimage category="Special footer" />
-        <font category="Appearance" />
-        <fontcolor category="Appearance" />
-        <bodybackgroundcolor category="Appearance" />
-        <questionbackgroundcolor category="Appearance" />
-        <cssframework category="Appearance" />
-        <checkicon category="Appearance" />
-        <backgroundimage category="Appearance" />
-        <backgroundimagefile category="Appearance" />
-        <cornerradius category="Display options" />
-        <hideprivacyinfo category="Display options" />
-        <notables category="Display options" />
-        <showclearall category="Display options" />
-        <questionhelptextposition category="Display options" />
-        <showpopups category="Display options" />
-        <fixnumauto category="Display options" />
-        <skiplinks category="Accessibility" />
-        <enhancedfocus category="Accessibility" />
-        <reducedmotion category="Accessibility" />
-        <accessibilitytoolbar category="Accessibility toolbar" />
-        <toolbarposition category="Accessibility toolbar" />
-        <toolbarcollapsed category="Accessibility toolbar" />
-        <toolbartextsize category="Accessibility toolbar" />
-        <toolbarcontrast category="Accessibility toolbar" />
-        <toolbarmonochrome category="Accessibility toolbar" />
-        <toolbarspacing category="Accessibility toolbar" />
-        <toolbarlinks category="Accessibility toolbar" />
-        <toolbarmotion category="Accessibility toolbar" />
-        <toolbarluciole category="Accessibility toolbar" />
-        <toolbardyslexic category="Accessibility toolbar" />
-        <questionborder category="Display options" />
-        <questioncontainershadow category="Display options" />
-        <contentwidth category="Display options" />
-        <diagnosticmode category="Exclusive tools" />
-        <diagnosticvisibility category="Exclusive tools" />
-        <developermode category="Exclusive tools" />
-        <devshowcodes category="Exclusive tools" />
-        <advancedcustomization category="Advanced customization" />
-        <allyaccentcolor category="Advanced customization" />
-        <allyfocuscolor category="Advanced customization" />
-        <allymaxwidth category="Advanced customization" />
-        <allydensity category="Advanced customization" />
-        <allyquestionstyle category="Advanced customization" />
-        <allybuttonstyle category="Advanced customization" />
-        <allyfontsize category="Advanced customization" />
-        <ls7compatibility category="LimeSurvey 7" />
+        <themecolor category="Color themes"/>
+        <brandlogo category="Logo"/>
+        <brandlogofile category="Logo"/>
+        <footertext category="Special footer"/>
+        <footerlogo category="Special footer"/>
+        <footerimage category="Special footer"/>
+        <font category="Appearance"/>
+        <fontcolor category="Appearance"/>
+        <bodybackgroundcolor category="Appearance"/>
+        <questionbackgroundcolor category="Appearance"/>
+        <cssframework category="Appearance"/>
+        <checkicon category="Appearance"/>
+        <backgroundimage category="Appearance"/>
+        <backgroundimagefile category="Appearance"/>
+        <cornerradius category="Display options"/>
+        <hideprivacyinfo category="Display options"/>
+        <notables category="Display options"/>
+        <showclearall category="Display options"/>
+        <questionhelptextposition category="Display options"/>
+        <showpopups category="Display options"/>
+        <fixnumauto category="Display options"/>
+        <expiredsurveytext category="Messages et contact"/>
+        <surveyerrortext category="Messages et contact"/>
+        <surveycontactname category="Messages et contact"/>
+        <surveycontactemail category="Messages et contact"/>
+        <messageimageenabled category="Messages et contact"/>
+        <messageimagefile category="Messages et contact"/>
+        <messageimagealt category="Messages et contact"/>
+        <sessiontimeoutminutes category="Session"/>
+        <sessionwarningminutes category="Session"/>
+        <skiplinks category="Accessibility"/>
+        <enhancedfocus category="Accessibility"/>
+        <reducedmotion category="Accessibility"/>
+        <accessibilitytoolbar category="Accessibility toolbar"/>
+        <toolbarposition category="Accessibility toolbar"/>
+        <toolbarcollapsed category="Accessibility toolbar"/>
+        <toolbartextsize category="Accessibility toolbar"/>
+        <toolbarcontrast category="Accessibility toolbar"/>
+        <toolbarmonochrome category="Accessibility toolbar"/>
+        <toolbarspacing category="Accessibility toolbar"/>
+        <toolbarlinks category="Accessibility toolbar"/>
+        <toolbarmotion category="Accessibility toolbar"/>
+        <toolbarluciole category="Accessibility toolbar"/>
+        <toolbardyslexic category="Accessibility toolbar"/>
+        <questionborder category="Display options"/>
+        <questioncontainershadow category="Display options"/>
+        <contentwidth category="Display options"/>
+        <diagnosticmode category="Exclusive tools"/>
+        <diagnosticvisibility category="Exclusive tools"/>
+        <developermode category="Exclusive tools"/>
+        <devshowcodes category="Exclusive tools"/>
+        <advancedcustomization category="Advanced customization"/>
+        <allyaccentcolor category="Advanced customization"/>
+        <allyfocuscolor category="Advanced customization"/>
+        <allymaxwidth category="Advanced customization"/>
+        <allydensity category="Advanced customization"/>
+        <allyquestionstyle category="Advanced customization"/>
+        <allybuttonstyle category="Advanced customization"/>
+        <allyfontsize category="Advanced customization"/>
+        <ls7compatibility category="LimeSurvey 7"/>
+        <iframehideheader category="Intégration"/>
+        <iframehidefooter category="Intégration"/>
     </optionsOrderReact>
     <engine>
         <optionspage>custom</optionspage>

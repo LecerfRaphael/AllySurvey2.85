@@ -42,7 +42,13 @@
   var pendingMutations = [];
   var scheduled = false;
   var started = false;
-  var attributeFilter = ["class", "style"];
+  var attributeFilter = [];
+
+  function needsAttributeObservation() {
+    return watchers.some(function (watcher) {
+      return watcher.interest === "attributes" || watcher.interest === "addedNodesOrAttributes";
+    });
+  }
 
   function flush() {
     scheduled = false;
@@ -113,12 +119,16 @@
       schedule();
     });
 
-    mo.observe(root, {
+    var options = {
       childList: true,
-      subtree: true,
-      attributes: true,
-      attributeFilter: attributeFilter
-    });
+      subtree: true
+    };
+    if (needsAttributeObservation()) {
+      options.attributes = true;
+      if (attributeFilter.length) options.attributeFilter = attributeFilter.slice();
+    }
+
+    mo.observe(root, options);
 
     window.LSA11yObserverHub.observer = mo;
   }

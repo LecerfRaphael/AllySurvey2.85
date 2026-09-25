@@ -168,12 +168,14 @@
         }
         collectOptions();
         updateChildren();
+        if (field.name === 'iframehideheader' || field.name === 'iframehidefooter') hydrateIframeCode();
       });
       field.addEventListener('change', function () {
         hasUserChangedOptions = true;
         if (field.classList.contains('selector__color-picker')) syncColorPreview(field);
         collectOptions();
         updateChildren();
+        if (field.name === 'iframehideheader' || field.name === 'iframehidefooter') hydrateIframeCode();
       });
       if (field.classList.contains('selector__color-picker')) syncColorPreview(field);
     });
@@ -208,7 +210,193 @@
     }
   }
 
+  function detectCurrentSurveyId() {
+    var params;
+    var value;
+    var match;
+    var field;
+
+    try {
+      params = new URLSearchParams(window.location.search || '');
+      value = params.get('surveyid') || params.get('sid');
+      if (/^\d+$/.test(value || '')) return value;
+    } catch (error) {
+      // URLSearchParams indisponible : continuer avec les autres méthodes.
+    }
+
+    match = (window.location.pathname || '').match(/(?:surveyid|sid|survey)\/(\d+)(?:\/|$)/i);
+    if (match) return match[1];
+
+    field = document.querySelector('input[name="surveyid"], input[name="sid"], [data-survey-id]');
+    if (field) {
+      value = field.value || field.getAttribute('data-survey-id') || '';
+      if (/^\d+$/.test(value)) return value;
+    }
+
+    return '';
+  }
+
+  function buildCurrentSurveyPublicUrl() {
+    var sid = detectCurrentSurveyId();
+    var path = window.location.pathname || '/';
+    var basePath = '';
+    var indexPos;
+    var markerPos;
+    var markers = ['/admin/', '/surveyAdministration/', '/themeOptions/'];
+    var i;
+
+    if (!sid) return '';
+
+    indexPos = path.indexOf('/index.php');
+    if (indexPos >= 0) {
+      basePath = path.slice(0, indexPos);
+    } else {
+      basePath = path.replace(/\/$/, '');
+      for (i = 0; i < markers.length; i += 1) {
+        markerPos = basePath.indexOf(markers[i]);
+        if (markerPos >= 0) {
+          basePath = basePath.slice(0, markerPos);
+          break;
+        }
+      }
+    }
+
+    return window.location.origin + basePath + '/index.php/' + sid;
+  }
+
+  function currentIframeFlag(name) {
+    var checked = document.querySelector('.fas-theme-options input[name="' + name + '"]:checked');
+    var value = checked ? String(checked.value).toLowerCase() : 'off';
+    return (value === 'on' || value === '1' || value === 'true' || value === 'yes') ? '1' : '0';
+  }
+
+  function addIframeQueryOptions(surveyUrl) {
+    var separator;
+    if (!surveyUrl) return '';
+    separator = surveyUrl.indexOf('?') >= 0 ? '&' : '?';
+    return surveyUrl + separator
+      + 'allyiframe=1'
+      + '&allyhideheader=' + currentIframeFlag('iframehideheader')
+      + '&allyhidefooter=' + currentIframeFlag('iframehidefooter');
+  }
+
+  function escapeHtmlAttribute(value) {
+    return String(value || '')
+      .replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
+  function detectSurveyTitleFromAdmin() {
+    var selectors = [
+      '[name="surveyls_title"]',
+      '#surveyls_title',
+      '.pagetitle',
+      'h1'
+    ];
+    var node;
+    var value;
+    var i;
+
+    for (i = 0; i < selectors.length; i += 1) {
+      node = document.querySelector(selectors[i]);
+      if (!node) continue;
+      value = ('value' in node ? node.value : node.textContent || '').trim();
+      if (value && value.toLowerCase() !== 'theme options' && value.toLowerCase() !== 'options du thème') {
+        return value;
+      }
+    }
+    return '';
+  }
+
+  function fetchSurveyTitle(surveyUrl) {
+    if (!surveyUrl || !window.fetch || !window.DOMParser) return Promise.resolve('');
+    return window.fetch(surveyUrl, { credentials: 'same-origin', cache: 'no-store' })
+      .then(function (response) {
+        if (!response.ok) return '';
+        return response.text();
+      })
+      .then(function (html) {
+        var parsed;
+        var title;
+        if (!html) return '';
+        parsed = new DOMParser().parseFromString(html, 'text/html');
+        title = parsed && parsed.querySelector('title');
+        return title ? title.textContent.trim() : '';
+      })
+      .catch(function () { return ''; });
+  }
+
+  function renderIframeCode(code, template, embedUrl, surveyTitle) {
+    var safeTitle = escapeHtmlAttribute(surveyTitle || 'Questionnaire');
+    code.value = template
+      .replace(/URL_DU_QUESTIONNAIRE/g, embedUrl || 'URL_DU_QUESTIONNAIRE')
+      .replace(/TITRE_DU_QUESTIONNAIRE/g, safeTitle);
+  }
+
+  function hydrateIframeCode() {
+    var code = document.getElementById('fas-iframe-code');
+    var status = document.getElementById('fas-iframe-url-status');
+    var surveyUrl = buildCurrentSurveyPublicUrl();
+    var embedUrl;
+    var template;
+    var adminTitle;
+
+    if (!code) return;
+    if (!code.getAttribute('data-fas-template')) {
+      code.setAttribute('data-fas-template', code.value);
+    }
+    template = code.getAttribute('data-fas-template');
+    adminTitle = detectSurveyTitleFromAdmin();
+
+    if (surveyUrl) {
+      embedUrl = addIframeQueryOptions(surveyUrl);
+      renderIframeCode(code, template, embedUrl, adminTitle || 'Questionnaire');
+      if (status) status.textContent = 'URL du questionnaire détectée automatiquement : ' + embedUrl;
+
+      fetchSurveyTitle(surveyUrl).then(function (publicTitle) {
+        if (publicTitle) {
+          renderIframeCode(code, template, embedUrl, publicTitle);
+          if (status) status.textContent = 'URL et titre du questionnaire détectés automatiquement : ' + publicTitle;
+        }
+      });
+    } else {
+      renderIframeCode(code, template, '', adminTitle || 'Questionnaire');
+      if (status) status.textContent = 'Impossible de détecter automatiquement le numéro du questionnaire. Remplacez URL_DU_QUESTIONNAIRE manuellement.';
+    }
+  }
+
+  function bindIframeCodeCopy() {
+    var button = document.getElementById('fas-copy-iframe-code');
+    var code = document.getElementById('fas-iframe-code');
+    var status = document.getElementById('fas-copy-iframe-status');
+    if (!button || !code || button.getAttribute('data-fas-copy-bound') === '1') return;
+    button.setAttribute('data-fas-copy-bound', '1');
+    button.addEventListener('click', function () {
+      var success = function () {
+        if (status) status.textContent = 'Code copié dans le presse-papiers.';
+      };
+      var fallback = function () {
+        code.focus();
+        code.select();
+        try {
+          document.execCommand('copy');
+          success();
+        } catch (error) {
+          if (status) status.textContent = 'Sélectionnez le code puis copiez-le manuellement.';
+        }
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code.value).then(success).catch(fallback);
+      } else {
+        fallback();
+      }
+    });
+  }
+
   function notify(message, type) {
+    if (document.__allyOptionsI18n) message = document.__allyOptionsI18n.translate(message);
     if (window.LS && LS.LsGlobalNotifier && LS.LsGlobalNotifier.createAlert) {
       LS.LsGlobalNotifier.createAlert(message, type || 'info', { showCloseButton: true });
     } else {
@@ -217,10 +405,11 @@
   }
 
   function bindFooterUpload() {
-    var input = document.getElementById('fas_footer_upload_image');
     var form = document.getElementById('upload_frontend');
-    var progress = document.getElementById('upload_progress_frontend');
-    if (!input || !form || input.getAttribute('data-fas-upload-bound') === '1') return;
+    if (!form) return;
+    document.querySelectorAll('[data-fas-image-upload]').forEach(function (input) {
+    var progress = input.closest('.fas-footer-upload').querySelector('.progress-bar');
+    if (input.getAttribute('data-fas-upload-bound') === '1') return;
     input.setAttribute('data-fas-upload-bound', '1');
 
     input.addEventListener('change', function () {
@@ -255,20 +444,58 @@
           response = {};
         }
         if (xhr.status >= 200 && xhr.status < 300 && response.success === true) {
-          notify(response.message || 'Fichier envoyé.', 'success');
-          window.location.hash = 'fas-option-category-5';
+          // Le rechargement actualise les images, mais le serveur ne connaît
+          // pas encore les réglages non enregistrés du questionnaire.
+          collectOptions();
+          try {
+            window.sessionStorage.setItem(uploadDraftKey(), JSON.stringify({
+              value: hiddenOptions().value,
+              createdAt: Date.now()
+            }));
+          } catch (error) {
+            notify('Image envoyée. Enregistrez vos réglages puis rechargez la page pour actualiser la liste des images.', 'warning');
+            return;
+          }
+          notify(response.message || 'File uploaded.', 'success');
+          var pane = input.closest('.tab-pane');
+          if (pane) window.location.hash = pane.id;
           window.location.reload();
           return;
         }
-        notify(response.message || "L'envoi du fichier a échoué.", 'danger');
+        notify(response.message || 'File upload failed.', 'danger');
       };
       xhr.onerror = function () {
         if (progress) progress.style.width = '0%';
         input.value = '';
-        notify("L'envoi du fichier a échoué.", 'danger');
+        notify('File upload failed.', 'danger');
       };
       xhr.send(data);
     });
+    });
+  }
+
+  function uploadDraftKey() {
+    return 'fas-options-upload:' + window.location.pathname + window.location.search;
+  }
+
+  function restoreUploadDraft() {
+    var draft;
+    try {
+      draft = window.sessionStorage.getItem(uploadDraftKey());
+      window.sessionStorage.removeItem(uploadDraftKey());
+      if (!draft || !hiddenOptions()) return;
+      draft = JSON.parse(draft);
+      if (!draft || typeof draft.value !== 'string' ||
+          typeof draft.createdAt !== 'number' || Date.now() - draft.createdAt > 300000) return;
+      if (draft.value !== 'inherit') {
+        var options = JSON.parse(draft.value);
+        if (!options || typeof options !== 'object' || Array.isArray(options)) return;
+      }
+      hiddenOptions().value = draft.value;
+      hasUserChangedOptions = draft.value !== 'inherit';
+    } catch (error) {
+      // Le stockage peut être indisponible dans certains navigateurs.
+    }
   }
 
   function ensureLightbox() {
@@ -283,7 +510,7 @@
           '<div class="modal-content">' +
             '<div class="modal-header">' +
               '<h5 class="modal-title selector__title"></h5>' +
-              '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>' +
+              '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>' +
             '</div>' +
             '<div class="modal-body">' +
               '<img class="selector__image img-fluid" src="" alt="">' +
@@ -292,6 +519,8 @@
         '</div>' +
       '</div>';
     document.body.appendChild(wrapper.firstElementChild);
+    var close = document.querySelector('#lightbox-modal .btn-close');
+    if (close && document.__allyOptionsI18n) close.setAttribute('aria-label', document.__allyOptionsI18n.translate('Close'));
     return document.getElementById('lightbox-modal');
   }
 
@@ -315,7 +544,7 @@
       src = option ? option.getAttribute('data-lightbox-src') : '';
       title = option ? (option.textContent || option.value || '').trim() : '';
       if (!src) {
-        notify("Aucune image disponible pour cette sélection.", 'warning');
+        notify('No image available for this selection.', 'warning');
         return;
       }
 
@@ -339,6 +568,7 @@
   }
 
   function boot() {
+    restoreUploadDraft();
     if (readOptionsInherited()) {
       hydrateInheritedFields();
       setInheritedState(true);
@@ -350,8 +580,17 @@
     installPaletteSwatches();
     bindFields();
     bindFooterUpload();
+    hydrateIframeCode();
+    bindIframeCodeCopy();
     bindImagePreview();
     updateChildren();
+    var tabId = window.location.hash.slice(1);
+    if (/^fas-option-category-\d+$/.test(tabId)) {
+      var tab = document.querySelector('[data-bs-target="#' + tabId + '"]');
+      if (tab && window.bootstrap && window.bootstrap.Tab) {
+        window.bootstrap.Tab.getOrCreateInstance(tab).show();
+      }
+    }
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

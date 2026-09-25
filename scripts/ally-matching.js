@@ -47,15 +47,17 @@
   }
 
   function enhanceTable(table) {
-    if (!table || table.dataset.fasMatching === '1') return;
+    if (!table) return;
     var selects = table.querySelectorAll('tbody select, tr:not(.ls-heading) select');
     if (!selects.length) return;
 
     var question = table.closest('.question-container,fieldset[id^="question"],div[id^="question"]');
     var cols = columnHeaders(table);
-    table.dataset.fasMatching = '1';
-    table.classList.add('fas-accessible-matching-table');
-    if (question) question.classList.add('fas-accessible-matching');
+    if (table.dataset.fasMatching !== '1') {
+      table.dataset.fasMatching = '1';
+      table.classList.add('fas-accessible-matching-table');
+      if (question) question.classList.add('fas-accessible-matching');
+    }
 
     var caption = table.querySelector(':scope > caption');
     if (!caption) {
@@ -125,13 +127,31 @@
   document.addEventListener('fas:ready', schedule);
   if (window.jQuery) window.jQuery(document).on('pjax:scriptcomplete', schedule);
 
+  function mutationTouchesMatching(addedNodes) {
+    return addedNodes.some(function (node) {
+      if (!node || node.nodeType !== 1) return false;
+      if (node.matches && (node.matches('table.ls-answers') || node.matches('select'))) return true;
+      return !!(node.querySelector && node.querySelector('table.ls-answers, table.ls-answers select'));
+    });
+  }
+
   if (window.LSA11yObserverHub) {
     window.LSA11yObserverHub.register({
       id: 'matching-tables',
       interest: 'addedNodes',
-      onMutations: schedule
+      onMutations: function (mutations, addedNodes) {
+        if (mutationTouchesMatching(addedNodes)) schedule();
+      }
     });
   } else if (window.MutationObserver) {
-    new MutationObserver(schedule).observe(document.documentElement, { childList: true, subtree: true });
+    new MutationObserver(function (mutations) {
+      var addedNodes = [];
+      mutations.forEach(function (mutation) {
+        Array.prototype.forEach.call(mutation.addedNodes || [], function (node) {
+          if (node.nodeType === 1) addedNodes.push(node);
+        });
+      });
+      if (mutationTouchesMatching(addedNodes)) schedule();
+    }).observe(document.documentElement, { childList: true, subtree: true });
   }
 }());

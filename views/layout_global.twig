@@ -84,12 +84,39 @@
               data-fas-maxwidth="{{ aSurveyInfo.options.allymaxwidth|default('1140') }}"
               data-fas-dev-codes="{{ aSurveyInfo.options.devshowcodes|default('on') }}"
               data-fas-ls7-compat="{{ aSurveyInfo.options.ls7compatibility|default('on') }}"
-              data-fas-theme-version="2.0.32"
+              data-ls-a11y-session-timeout-minutes="{{ aSurveyInfo.options.sessiontimeoutminutes|default('24')|escape('html_attr') }}"
+              data-ls-a11y-session-warning-minutes="{{ aSurveyInfo.options.sessionwarningminutes|default('3')|escape('html_attr') }}"
+              data-fas-theme-version="2.0.41"
               data-fas-color-palette="{{ fasResolvedPalette }}"
               data-fas-body-background="{{ aSurveyInfo.options.bodybackgroundcolor|default('') }}"
               data-fas-font-color="{{ aSurveyInfo.options.fontcolor|default('') }}"
               data-fas-question-background="{{ aSurveyInfo.options.questionbackgroundcolor|default('') }}"
-              data-fas-preview="{% if fasIsPreview %}true{% else %}false{% endif %}">
+              data-fas-preview="{% if fasIsPreview %}true{% else %}false{% endif %}"
+              data-fas-iframe-hide-header="{{ aSurveyInfo.options.iframehideheader|default('off') }}"
+              data-fas-iframe-hide-footer="{{ aSurveyInfo.options.iframehidefooter|default('off') }}">
+
+        <script>
+            (function () {
+                var embedded = false;
+                try {
+                    embedded = (window.self !== window.top);
+                } catch (e) {
+                    embedded = true;
+                }
+
+                try {
+                    var params = new URLSearchParams(window.location.search || '');
+                    var forced = String(params.get('allyiframe') || '').toLowerCase();
+                    if (forced === '1' || forced === 'true' || forced === 'yes' || forced === 'on') {
+                        embedded = true;
+                    }
+                } catch (e) {}
+
+                if (embedded) {
+                    document.documentElement.classList.add('fas-is-embedded');
+                }
+            }());
+        </script>
 
         {% if aSurveyInfo.options.skiplinks == "on" %}
             {% set fasSkipIsFrench = aSurveyInfo.languagecode in ['fr', 'fr-FR', 'fr_FR', 'fr-BE', 'fr_BE', 'fr-CA', 'fr_CA'] %}

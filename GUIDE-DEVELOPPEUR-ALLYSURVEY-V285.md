@@ -1,6 +1,6 @@
 # Guide développeur — AllySurvey V2.85 RGAA/WCAG autonome
 
-Version : générée le 18/09/2026 à partir du contenu réel de l'archive `AllySurvey_V285_RGAA_WCAG_Autonome.zip`.
+Version : mise à jour le 24/09/2026 à partir des fichiers du thème présents dans le projet.
 Public visé : toute personne qui doit **modifier le code** du thème (JS, CSS, Twig, `config.xml`), pas seulement le consulter.
 
 > Ce document complète `DOCUMENTATION_TECHNIQUE_ALLYSURVEY_V285.md` (déjà présent dans l'archive), qui décrit le périmètre fonctionnel et la conformité RGAA. Ici, l'angle est : *où toucher au code, comment c'est câblé, quels pièges éviter*.
@@ -38,6 +38,7 @@ scripts/ally-customization.js  ← applique les variables CSS de personnalisatio
 scripts/ally-ls7-compat.js     ← compatibilité LimeSurvey 7 / Bootstrap 5 / PJAX
 scripts/ally-matching.js       ← correctifs questions d'appariement
 scripts/ally-audit-fixes.js    ← correctifs ponctuels (liens/boutons de fermeture, etc.)
+scripts/ally-options-i18n.js   ← traduction des options selon la langue d'administration
 scripts/ally-admin-options-bridge.js ← pont éditeur d'options (React + classique)
 ```
 
@@ -139,9 +140,9 @@ window.LSA11yMaintenance.bootLog = [];
 // puis naviguer dans le questionnaire et inspecter window.LSA11yMaintenance.bootLog
 ```
 
-## 6. Système de palettes — les trois couches à garder synchronisées
+## 6. Système de palettes — les quatre couches à garder synchronisées
 
-Modifier une palette (ou en ajouter une) touche **trois endroits distincts** :
+Modifier une palette (ou en ajouter une) touche **quatre endroits distincts** :
 
 1. **`config.xml`** — l'option `themecolor` (type `buttons`) liste `options`, `optionlabels` et `optionimages` en parallèle, séparés par `|`. Les trois listes doivent rester alignées position par position.
 2. **`css/ally-palettes.css`** — déclare les variables CSS `--fas-palette-*` par palette.
@@ -188,6 +189,82 @@ Convention de nommage : classes préfixées `fas-` (héritage "FruityAllySurvey"
 
 Raphael modifie fréquemment ces deux fichiers en parallèle du reste ; en cas de fusion, vérifiez la cohérence entre `options.js` (`paletteColors`), `config.xml` (`themecolor`) et `ally-admin-options-bridge.js`.
 
+### 8.1 Réglages de session
+
+Le câblage relie quatre fichiers :
+
+1. `config.xml` déclare `sessiontimeoutminutes` (24) et `sessionwarningminutes` (3) dans la catégorie `Session`, ainsi que leur ordre dans `optionsOrderReact`.
+2. `options/options.twig` affiche des champs numériques en minutes (`min="1"`, `step="1"`) et les explications. `options/options.js` les collecte et les hydrate via le mécanisme générique des champs nommés, avec prise en charge de l'héritage.
+3. `views/layout_global.twig` transmet les valeurs dans les attributs du `body` : `data-ls-a11y-session-timeout-minutes` et `data-ls-a11y-session-warning-minutes`, avec repli 24/3 et échappement `html_attr`.
+4. `initSessionTimeoutWarning()` dans `files/accessibilite.js` lit ces attributs via `dataset.lsA11ySessionTimeoutMinutes` et `dataset.lsA11ySessionWarningMinutes`.
+
+Le script accepte aussi `window.LSA11ySessionTimeout`. Il recherche d'abord les valeurs en secondes (`timeoutSeconds`/`warningSeconds`, puis les attributs correspondants) ; à défaut, il utilise les minutes (configuration globale, puis attributs du `body`, puis valeurs par défaut). Ne pas laisser une surcharge globale existante masquer involontairement les réglages du thème.
+
+Le délai avant alerte vaut `Math.max(5, timeoutSeconds - warningSeconds) * 1000`. Si l'avertissement dépasse ou égale la durée totale, le script le remplace par `Math.max(30, Math.floor(timeoutSeconds / 4))`. Les événements `keydown`, `pointerdown`, `touchstart`, `change` et `input` réarment le délai, sauf lorsqu'ils proviennent de la boîte de dialogue ouverte.
+
+`sessionPing()` appelle `config.pingUrl`, l'attribut `data-ls-a11y-session-ping-url` ou l'URL courante, via `fetch` avec les identifiants de même origine. Le code actuel ne contrôle ni le statut HTTP ni la validité métier de la session : une promesse réseau résolue suffit pour annoncer la prolongation. Ne pas documenter cela comme une preuve de renouvellement côté serveur. Les réglages du thème ne modifient pas la configuration PHP/LimeSurvey.
+
+Recette sur l'instance cible : héritage puis personnalisation, sauvegarde/relecture, valeurs invalides, alerte à délai réduit, clavier dans la boîte de dialogue, prolongation et erreur réseau. Valider aussi le comportement réel du serveur. L'initialisation est protégée par `window.__LS_SESSION_TIMEOUT_A11Y__` : les valeurs sont lues lors de la première initialisation du document.
+
+### 8.2 Traduction des options d'administration
+
+`options/options.twig` utilise `gT()` pour les catégories, titres, choix et messages. Le complément `scripts/ally-options-i18n.js` contient le dictionnaire français et sa correspondance anglaise ; il utilise la langue de `doc.documentElement.lang`, normalisée sur son code principal. Il ne consulte pas la langue du navigateur ni celle du questionnaire.
+
+Chargement : la page classique utilise `optionsPath`, fourni par le moteur Twig de LimeSurvey, pour charger `../scripts/ally-options-i18n.js`. Le manifeste charge aussi ce script avant `ally-admin-options-bridge.js`, afin que l'aperçu puisse traiter son document parent lorsque l'accès de même origine est permis. Une garde par document (`__allyOptionsI18n`) évite la double installation.
+
+La traduction cible les libellés de l'éditeur, conserve les éléments enfants et ne change pas les valeurs des champs. Un `WeakMap` mémorise le texte source et sa dernière traduction pour éviter les traductions successives ambiguës. Les observateurs traitent les libellés ajoutés ou modifiés et les changements de l'attribut `lang`. Ils sont propres au document d'administration et peuvent concerner le parent de l'aperçu.
+
+`document.__allyOptionsI18n.translate(message)` est utilisé pour les notifications et le libellé de fermeture de l'aperçu d'image. Le pont des palettes reconnaît le titre anglais « Color palette » et le français « Palette de couleurs » : conserver cette compatibilité si les libellés évoluent.
+
+Pour ajouter une langue, compléter explicitement le dictionnaire et la sélection de langue, puis tester les libellés dynamiques et les noms accessibles. Les langues autres que français/anglais gardent les traductions natives de LimeSurvey ; les textes spécifiques non traduits restent dans leur langue source. Ne pas annoncer une couverture multilingue complète.
+
+Tests locaux déjà exécutés dans Edge sur une page de test : français/anglais, variantes régionales, libellés allemands existants conservés, mises à jour dynamiques, traduction répétée stable, valeurs et structure des champs inchangées, langue d'administration indépendante de l'iframe. La recette intégrée LimeSurvey 6/7 reste à faire. Voir aussi `docs/LANGUE-OPTIONS-THEME.md`.
+
+### 8.3 Messages d'expiration, erreurs et contact
+
+Les quatre options de texte suivantes sont déclarées dans `config.xml`, catégorie `Messages et contact`, et référencées dans `optionsOrderReact`. Elles sont vides par défaut :
+
+| Clé | Type du manifeste | Rendu dans l'éditeur classique |
+|---|---|---|
+| `expiredsurveytext` | `textarea` | Message pour `aError.type == 'survey-expiry'` |
+| `surveyerrortext` | `textarea` | Message pour les autres erreurs bloquantes |
+| `surveycontactname` | `text` | Nom du contact |
+| `surveycontactemail` | `text` | Champ HTML `type="email"` |
+
+`options/options.twig` affiche les champs et les consignes ; la collecte, l'hydratation et l'héritage utilisent les mécanismes génériques de `options/options.js`. `scripts/ally-options-i18n.js` fournit les libellés français. Ne pas traduire les valeurs saisies : elles sont volontairement conservées telles quelles.
+
+`views/layout_errors.twig` lit chaque option avec `default('')|trim`. La sélection du message est exclusive : `expiredsurveytext` pour `survey-expiry`, `surveyerrortext` pour les autres types. Si le message sélectionné est vide, conserver `aError.message`. Le titre natif de l'erreur est inchangé.
+
+Les messages personnalisés sont échappés et rendus avec `white-space: pre-wrap` et `overflow-wrap: anywhere`. Ne pas ajouter `raw` : les champs sont prévus pour du texte simple. L'adresse du contact est encodée avec `url_encode`, puis échappée avec `escape('html_attr')` dans le lien `mailto:` ; son texte visible est échappé séparément. Utiliser le nom complet `escape` : l'alias `e` est rejeté par le sandbox Twig de l'installation testée.
+
+Priorité du contact : si le nom ou l'adresse personnalisée est non vide, afficher uniquement ce contact. Sinon, conserver `aError.contact` lorsqu'il existe, puis le repli natif `aSurveyInfo.admin` / `aSurveyInfo.adminemail`. Un nom seul ne doit donc pas faire réapparaître l'adresse administrateur.
+
+La branche spécifique à `sid == 183268` a été supprimée. Lors de la mise à niveau, recopier le message historique dans `expiredsurveytext` des options de ce questionnaire pour préserver son affichage. L'exemple complet et les consignes utilisateur figurent dans `docs/MESSAGES-ET-CONTACT.md`.
+
+Périmètre : pages bloquantes rendues par `layout_errors.twig` avec les options du thème disponibles. Aucun effet sur les alertes de session, les erreurs de validation des réponses, la date de fermeture ou les pages d'erreur serveur externes au thème.
+
+Validation locale réalisée avec Twig.js et Edge : sélection du bon message, repli natif, champs vides ou composés d'espaces, contact partiel/complet, absence de l'ancien texte codé en dur, échappement HTML et du lien e-mail, libellés français, collecte des champs et sauts de ligne. Twig.js ne remplace pas le moteur Twig PHP de LimeSurvey : vérifier l'intégration sur LimeSurvey 6/7, notamment la disponibilité de `aSurveyInfo.options` sur la page d'erreur, la sauvegarde réelle et l'héritage des valeurs.
+
+### 8.4 Image des messages et envoi de fichiers
+
+Le manifeste et `optionsOrderReact` déclarent également `messageimageenabled` (boutons `on|off`, défaut `off`), `messageimagefile` (type `imagefile`, défaut `./files/error.png`) et `messageimagealt` (texte, vide par défaut). Les deux derniers champs dépendent de `messageimageenabled` dans l'éditeur classique.
+
+`layout_errors.twig` utilise l'image personnalisée si l'option est active, le chemin non vide et `imageSrc(messageImage)` résolu. Le helper `image()` reçoit le texte alternatif, éventuellement vide pour une image décorative, et les styles de dimensionnement : largeur maximale 100 %, hauteur maximale 24 rem, proportions conservées. Sinon, le rendu revient à `./files/error.png` si disponible. Le contrôle `imageSrc` ne remplace pas un test HTTP de disponibilité du fichier.
+
+`options/options.twig` génère un champ fichier portant `data-fas-image-upload` pour `backgroundimagefile`, `brandlogofile`, `footerimage` et `messageimagefile`. Les identifiants sont propres à chaque champ ; la barre de progression est recherchée dans son conteneur `.fas-footer-upload`.
+
+La fonction historique `bindFooterUpload()` de `options/options.js` prend désormais en charge les quatre contrôles. Elle utilise l'action du formulaire natif `upload_frontend`, construit `FormData(form)` afin de conserver notamment le jeton CSRF, ajoute le fichier sous la clé `file`, puis effectue une requête POST. Le succès exige un statut HTTP 2xx et `response.success === true`. La page est alors rechargée ; le fichier doit ensuite être sélectionné et les options enregistrées. Il n'y a pas de sauvegarde automatique des modifications en cours.
+
+L'identifiant de l'onglet courant remplace l'ancien numéro d'onglet de pied de page codé en dur. Au chargement, un fragment conforme à `fas-option-category-<nombre>` permet de réafficher cet onglet via Bootstrap Tab. Le code décrit ici concerne l'éditeur personnalisé classique ; ne pas supposer une couverture identique des contrôles de l'éditeur React sans recette dédiée.
+
+### 8.5 Corrections récentes et recette avant diffusion
+
+- Les nouveaux titres de messages/contact et de session sont écrits en français dans le manifeste ; le dictionnaire conserve la correspondance anglaise. Les catégories dans `optionsOrderReact` doivent rester identiques à celles des options.
+- Ne pas utiliser le filtre abrégé `e` : utiliser `escape('html_attr')`, notamment pour les attributs de durée dans `layout_global.twig` et le lien e-mail dans `layout_errors.twig`.
+- `gT()` échappe par défaut les traductions. La phrase du contact personnalisé utilise `gT(..., 'unescaped')`, puis `format(...)|escape` pour protéger le nom tout en évitant le double échappement de l'apostrophe. Ne pas remplacer ce traitement par `raw`.
+- Les tests locaux Twig.js/Edge couvrent les branches image activée/désactivée, chemin non résolu, alternatives, apostrophe, contact échappé et quatre envois simulés avec fichier et CSRF. Ils ne prouvent ni la compatibilité complète du sandbox Twig PHP ni le fonctionnement de l'endpoint réel.
+- Avant publication, vérifier sur LimeSurvey 6/7 : compilation des deux layouts, droits et taille d'envoi, images réellement publiées, retour au bon onglet, sélection/sauvegarde, héritage, clavier, texte alternatif et dimensions sur mobile. Enregistrer les options avant tout envoi qui recharge la page.
+
 ## 9. `views/` — layouts et sous-vues Twig
 
 Structure standard LimeSurvey/Fruity (voir `views/README.md`, non spécifique à AllySurvey) :
@@ -206,7 +283,7 @@ Modification notable déjà faite dans le cadre du chantier RGAA : dans `privacy
 
 - Pas de build/bundler : tout JS est chargé tel quel par LimeSurvey. Validez au minimum la syntaxe avec `node --check <fichier>.js` avant tout envoi.
 - Pas de `package.json`/dépendances npm dans cette archive — pas de linter ni de tests automatisés fournis. `tests/accessibilite/` (référencé par la documentation) est absent (voir section 5) : à reconstituer ou à réclamer si vous reprenez la maintenance du projet.
-- Après toute modification JS/CSS, réimporter le thème dans LimeSurvey, vider les caches (thème + navigateur), puis rejouer manuellement les 12 points listés dans `DOCUMENTATION_TECHNIQUE_ALLYSURVEY_V285.md` (section 11 "Tests minimum avant diffusion").
+- Après toute modification JS/CSS, réimporter le thème dans LimeSurvey, vider les caches (thème + navigateur), puis rejouer les contrôles listés dans `DOCUMENTATION_TECHNIQUE_ALLYSURVEY_V285.md` (section 11 "Tests minimum avant diffusion"), notamment la session et la langue des options.
 - Testez systématiquement un cycle PJAX (navigation entre pages du questionnaire) après modification d'un module qui touche au DOM : c'est la source la plus fréquente de régressions silencieuses dans ce thème (double-attachement d'observateurs, boot non rejoué, etc.).
 
 ## 12. Repères rapides (grep utiles)

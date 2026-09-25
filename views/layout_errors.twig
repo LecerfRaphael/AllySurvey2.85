@@ -25,6 +25,13 @@
 
 {# We register a specific css file for that layout. #}
 {% set aError     = aSurveyInfo.aError    %}
+{% set customExpiredText = aSurveyInfo.options.expiredsurveytext|default('')|trim %}
+{% set customErrorText = aSurveyInfo.options.surveyerrortext|default('')|trim %}
+{% set customContactName = aSurveyInfo.options.surveycontactname|default('')|trim %}
+{% set customContactEmail = aSurveyInfo.options.surveycontactemail|default('')|trim %}
+{% set customMessage = aError.type == 'survey-expiry' ? customExpiredText : customErrorText %}
+{% set messageImage = aSurveyInfo.options.messageimagefile|default('')|trim %}
+{% set messageImageAlt = aSurveyInfo.options.messageimagealt|default('')|trim %}
 
 <!DOCTYPE html>
 <html lang="{{ aSurveyInfo.languagecode }}" dir="{{ aSurveyInfo.dir }}"
@@ -61,8 +68,24 @@
                     {% endif %}
                     {{ aError.title }}
                 </h2>
-                <div class="error-content">{{ aError.message }}</div>
-                {% if aError.contact %}
+                {% if customMessage is not empty %}
+                    <div class="card-text" style="white-space: pre-wrap; overflow-wrap: anywhere;">{{ customMessage|escape }}</div>
+                {% else %}
+                    <div class="card-text">{{ aError.message }}</div>
+                {% endif %}
+                {% if customContactName is not empty or customContactEmail is not empty %}
+                    <p class="mt-3">
+                        {% if customContactName is not empty %}
+                            {{ gT("For further information please contact %s:", 'unescaped')|format(customContactName)|escape }}
+                        {% else %}
+                            {{ gT("For further information please contact %s:", 'unescaped')|format('')|escape }}
+                        {% endif %}
+                        {% if customContactEmail is not empty %}
+                            <br>
+                            <a class="error-link" href="mailto:{{ customContactEmail|url_encode|escape('html_attr') }}">{{ customContactEmail|escape }}</a>
+                        {% endif %}
+                    </p>
+                {% elseif aError.contact %}
                     {{ aError.contact }}
                 {% else %}
                     {{ gT("For further information please contact %s:")|format (aSurveyInfo.admin) }}
@@ -78,7 +101,9 @@
                 {% endif %}
             </div>
             <div class="col d-flex">
-              {% if(imageSrc('./files/error.png')) %}
+              {% if aSurveyInfo.options.messageimageenabled|default('off') == 'on' and messageImage and imageSrc(messageImage) %}
+                {{ image(messageImage, messageImageAlt, {class: 'm-auto img-fluid', style: 'max-width: 100%; max-height: 24rem; width: auto; height: auto; object-fit: contain;'}) }}
+              {% elseif(imageSrc('./files/error.png')) %}
                 {{ image("./files/error.png", "Survey Error", {class: 'm-auto'}) }}
               {% endif %}
             </div>      

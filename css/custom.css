@@ -53,6 +53,11 @@
     min-width: 0;
 }
 
+/* Sans logo, le texte occupe toute la grille du pied de page. */
+.fas-custom-footer-text:only-child {
+    grid-column: 1 / -1;
+}
+
 .fas-custom-footer-text p,
 .fas-custom-footer-text .fas-footer-paragraph {
     margin: 0 0 .5rem;

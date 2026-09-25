@@ -1,13 +1,13 @@
 # Documentation technique - AllySurvey V2.85 RGAA/WCAG autonome
 
-Version documentaire : 16/07/2026 (régénérée à partir du contenu réel de l'archive `AllySurvey_V285_RGAA_WCAG_Autonome.zip`)
+Version documentaire : 24/09/2026 (mise à jour à partir des fichiers du thème présents dans le projet)
 Nom du thème (`config.xml`) : `AllySurvey_V285_RGAA_WCAG_Autonome`
 Variante : autonome, sans thème parent déclaré
-Version manifeste (`config.xml > version`) : `2.0.32`
+Version manifeste (`config.xml > version`) : `2.0.41`
 Version API thème : `3.0`
 Compatibilité déclarée : LimeSurvey 7.0 et 6.0
 Auteur déclaré : Raphaël Lecerf — Université de Lille / DAWAM (`support-limesurvey@univ-lille.fr`)
-Dernière mise à jour du manifeste : `2026-07-14 00:00:50`
+Dernière mise à jour déclarée du manifeste : `2026-09-18 11:36:26`
 
 > Cette version de la documentation a été reconstruite en inspectant directement le contenu de l'archive fournie (`config.xml`, `README.md`, `COMPARAISON_ALLYSURVEY_V276C_V285.md`, `docs/`, `files/a11y-modules/manifest.json`, `css/`, `scripts/`, `views/`). Les écarts constatés entre les documents narratifs et le contenu réel du paquet sont signalés en section 14.
 
@@ -22,7 +22,7 @@ Ce document décrit le thème AllySurvey V2.85 RGAA/WCAG autonome pour LimeSurve
 - La clé de palette principale exposée à l'éditeur React LimeSurvey 7 est `themecolor`.
 - Une clé héritée `allycolorpalette` est prise en charge en lecture de secours par le script `scripts/ally-admin-options-bridge.js` pour les configurations issues de versions antérieures.
 
-⚠️ Le champ `<description>` du manifeste (`config.xml`) contient un texte hérité mentionnant une dépendance à `fruity_twentythree` ("Thème LimeSurvey dépendant de fruity_twentythree..."). Ce texte est incohérent avec le statut autonome du thème et devrait être corrigé avant publication (voir section 14).
+Le champ `<description>` du manifeste décrit désormais explicitement un thème autonome ; l'ancienne mention de dépendance à `fruity_twentythree` a été corrigée.
 
 ## 3. Périmètre fonctionnel réel
 
@@ -105,6 +105,7 @@ Aucun `CHANGELOG.md` n'est présent dans l'archive (voir section 14).
 | `ally-matching.js` | Corrections spécifiques aux questions d'appariement |
 | `ally-audit-fixes.js` | Correctifs ponctuels d'audit (dont libellés de fermeture localisés FR/EN) |
 | `ally-admin-options-bridge.js` | Pont entre la clé React `themecolor` et les palettes internes |
+| `ally-options-i18n.js` | Traduction des libellés d'administration selon la langue de la page ; complément français/anglais |
 | `theme.js`, `custom.js`, `ajaxify.js` | Scripts standard du socle Fruity/LimeSurvey |
 
 ### 4.4 `options/` et `views/`
@@ -135,7 +136,9 @@ Chaque module référence des identifiants de tests (`AUTO-xx`, `MAN-xx`) exploi
 
 Catégories d'options réellement déclarées :
 
-- **Color themes** : `themecolor` (15 valeurs listées dans le manifeste, palette par défaut `neutre`).
+- **Color themes** : `themecolor` (14 valeurs listées dans le manifeste, palette par défaut `neutre`).
+- **Session** : `sessiontimeoutminutes`, `sessionwarningminutes` (durées en minutes).
+- **Messages et contact** : `expiredsurveytext`, `surveyerrortext`, `surveycontactname`, `surveycontactemail` (vides par défaut), `messageimageenabled`, `messageimagefile`, `messageimagealt`.
 - **Simple options** : `hideprivacyinfo`, `showpopups`, `notables`, `showclearall`, `questionhelptextposition`, `fixnumauto`, `cornerradius`, `cssframework` (4 variations Apple/Blueberry/Grape/Mango).
 - **Colors** : `bodybackgroundcolor`, `fontcolor`, `questionbackgroundcolor`, `checkicon`.
 - **Images** : `backgroundimage`, `backgroundimagefile`, `brandlogo`, `brandlogofile`.
@@ -149,6 +152,87 @@ Catégories d'options réellement déclarées :
 - **LimeSurvey 7** : `ls7compatibility`.
 
 L'ordre d'affichage dans l'éditeur React est fixé par le bloc `<optionsOrderReact>` du manifeste.
+
+### 6.1 Durée de session et avertissement
+
+Dans **Options du thème > Session**, deux valeurs sont personnalisables au niveau du thème ou du questionnaire :
+
+| Réglage | Clé enregistrée | Valeur par défaut |
+|---|---|---|
+| Durée de session estimée (minutes) | `sessiontimeoutminutes` | 24 |
+| Avertir avant l'expiration (minutes) | `sessionwarningminutes` | 3 |
+
+Avec les valeurs par défaut, l'alerte apparaît après 21 minutes sans interaction suivie par le script, puis affiche un compte à rebours de 3 minutes. Les événements clavier, pointeur, tactile, changement ou saisie réarment le délai d'avertissement. Le bouton « Prolonger la session » envoie une requête au serveur avant de réarmer l'alerte.
+
+Ces options règlent une **estimation côté navigateur** : elles ne modifient pas la durée de session du serveur LimeSurvey/PHP. Les aligner sur la configuration du serveur. Une interaction locale ne garantit pas le renouvellement de la session serveur ; la réussite réseau de la requête de prolongation ne prouve pas non plus que la session est encore valide.
+
+Dans l'éditeur classique, saisir des minutes entières positives et un avertissement inférieur à la durée de session. Le script utilise ses valeurs par défaut pour une valeur non numérique ou non positive. Si l'avertissement est supérieur ou égal à la durée de session, il utilise un quart de cette durée, avec un minimum de 30 secondes.
+
+Pour un questionnaire qui hérite des options générales, activer « Personnaliser le questionnaire » avant de modifier les valeurs. Enregistrer puis rouvrir les options pour vérifier leur persistance. L'affichage et l'enregistrement complets sur une instance LimeSurvey restent à valider.
+
+### 6.2 Langue des options d'administration
+
+Les libellés de la page classique passent par la traduction native `gT()` de LimeSurvey. Le script `scripts/ally-options-i18n.js` complète les traductions propres au thème en **français et anglais**, selon l'attribut `lang` de la page d'administration. Les variantes comme `fr-FR`, `fr_CA` et `en-GB` sont reconnues.
+
+La langue effective de l'administration est utilisée : une préférence du compte administrateur peut différer de la langue par défaut de la plateforme. La langue du questionnaire affiché dans l'aperçu ne commande pas celle des réglages.
+
+Pour les autres langues, les traductions natives sont conservées ; les libellés propres au thème sans traduction restent dans leur langue source, généralement l'anglais. Il ne s'agit pas d'une traduction automatique de toutes les langues. Les clés, valeurs enregistrées et contenus saisis ne sont pas traduits.
+
+La page classique charge directement le script ; l'aperçu peut également compléter les libellés du document d'administration parent, lorsque celui-ci est accessible sur la même origine. Voir `docs/LANGUE-OPTIONS-THEME.md` pour les détails.
+
+### 6.3 Messages personnalisés et contact d'assistance
+
+Dans **Options du thème > Messages et contact**, quatre champs permettent de personnaliser les pages d'erreur bloquantes du questionnaire :
+
+| Champ | Clé enregistrée | Comportement |
+|---|---|---|
+| Message du questionnaire expiré | `expiredsurveytext` | Remplace le message de l'erreur `survey-expiry` |
+| Message d'erreur du questionnaire | `surveyerrortext` | Remplace le message des autres erreurs bloquantes rendues par le thème |
+| Nom du contact d'assistance | `surveycontactname` | Personne ou service affiché comme contact |
+| Adresse e-mail du contact d'assistance | `surveycontactemail` | Adresse affichée et lien e-mail |
+
+Pour modifier un seul questionnaire, personnaliser ses options avant de saisir les valeurs. Les réglages généraux peuvent être hérités par les questionnaires. Les messages sont en texte simple, avec conservation des sauts de ligne ; les balises HTML saisies s'affichent comme du texte. Le titre de l'erreur reste celui de LimeSurvey.
+
+Chaque message vide conserve le message standard correspondant. Le message d'erreur général ne remplace pas le message d'expiration lorsque ce dernier est vide. Si au moins un champ de contact est renseigné, le contact personnalisé remplace entièrement le contact standard : l'adresse de l'administrateur n'est pas ajoutée en secours. Renseigner les deux champs pour afficher le nom et l'adresse ; laisser les deux vides pour conserver le contact habituel de LimeSurvey.
+
+Exemple de message du questionnaire expiré :
+
+> Suite au nombre important de demandes, le formulaire est temporairement clos.
+> Nous vous invitons à consulter régulièrement cette page afin de vérifier quand il sera de nouveau ouvert.
+
+Nom du contact : `Demande d'aide à la connexion` ; adresse : `aide-connexion@univ-lille.fr`.
+
+Exemple de message d'erreur général : « Le formulaire est momentanément indisponible. Merci de réessayer ultérieurement ou de contacter notre assistance. »
+
+**Migration du questionnaire `183268` :** le message d'expiration auparavant codé en dur a été retiré de `layout_errors.twig`. Pour le conserver, renseigner le champ `expiredsurveytext` dans les options de ce questionnaire avec l'exemple ci-dessus.
+
+Ces options concernent l'expiration du questionnaire, pas l'avertissement de session décrit en section 6.1. Elles ne changent ni la date d'expiration ni l'état du questionnaire : la réouverture s'effectue dans les paramètres LimeSurvey. Les textes saisis ne sont pas traduits automatiquement et restent identiques dans les différentes langues du questionnaire. Les erreurs serveur qui ne chargent pas le thème ou ses options ne bénéficient pas de cette personnalisation.
+
+Tests locaux réalisés : rendu des gabarits avec Twig.js, distinction expiration/autre erreur, repli standard, contact partiel ou complet, champs vides, échappement du texte et du lien e-mail ; contrôles Edge des libellés français et de la collecte des valeurs, y compris les sauts de ligne. La recette avec le moteur Twig PHP et l'enregistrement réel dans LimeSurvey 6/7 reste à effectuer.
+
+### 6.4 Image ou mascotte des messages
+
+Dans **Messages et contact**, activer **Image personnalisée des messages**, puis choisir **Image ou mascotte des messages**. Cette image remplace l'illustration standard sur les pages d'expiration et d'erreur rendues par le thème, même si le texte du message reste standard.
+
+| Réglage | Clé | Valeur par défaut |
+|---|---|---|
+| Image personnalisée des messages | `messageimageenabled` | `off` |
+| Image ou mascotte des messages | `messageimagefile` | `./files/error.png` |
+| Texte alternatif de l'image | `messageimagealt` | Vide |
+
+Le bouton **Envoyer un fichier** permet d'ajouter l'image au dossier du thème. Après le rechargement, sélectionner le fichier dans la liste puis enregistrer les options. Enregistrer les autres modifications avant l'envoi : le rechargement peut perdre les changements non sauvegardés.
+
+Le texte alternatif décrit une image informative. Le laisser vide pour une mascotte décorative. Les proportions sont conservées, avec une largeur limitée au conteneur et une hauteur maximale de 24 rem. Lorsque l'option est désactivée, ou que le chemin personnalisé n'est pas résolu par `imageSrc`, le thème utilise l'illustration standard si elle est disponible.
+
+### 6.5 Envoi d'images et corrections de compatibilité
+
+Les contrôles d'envoi sont disponibles pour le logo et l'image d'arrière-plan dans **Images**, pour l'image du pied de page et pour l'image des messages. Chaque contrôle possède sa propre progression. Après un envoi réussi, la page se recharge avec l'identifiant de l'onglet courant ; son rétablissement utilise l'API Bootstrap Tab lorsqu'elle est disponible.
+
+Les libellés sources des nouveaux réglages de messages/contact et les titres des réglages de session sont désormais en français. La traduction anglaise est conservée ; les textes personnalisés saisis ne sont pas traduits.
+
+Deux corrections concernent le rendu des erreurs : le filtre Twig `escape('html_attr')` remplace l'alias `e` refusé par le sandbox de l'installation testée ; la phrase de contact utilise la traduction non échappée avant un échappement final unique, pour éviter l'affichage littéral de `&#039;`. Le nom personnalisé reste échappé.
+
+Contrôles locaux complémentaires : choix de la mascotte, repli standard, texte alternatif informatif ou vide, styles de redimensionnement, affichage de l'apostrophe et quatre contrôles d'envoi testés avec requêtes simulées (fichier, jeton CSRF et traitement d'échec). Aucun envoi réel n'a été validé sur le serveur LimeSurvey. Avant diffusion, tester les droits d'envoi, la sélection après rechargement, la sauvegarde, les formats acceptés et l'affichage mobile sur l'instance cible.
 
 ## 7. Palettes et personnalisation
 
@@ -226,7 +310,13 @@ D'autres documents complètent le dossier de preuves sans statut de non-conformi
 - lecteur d'écran (NVDA a minima, conformément aux fiches `NC-R` ouvertes) sur un parcours complet ;
 - sauvegarde d'une palette spécifique au questionnaire, y compris avec la clé héritée `allycolorpalette`.
 
+Contrôles complémentaires pour les ajouts du 24/09/2026 : sauvegarder et relire les deux durées de session ; vérifier l'héritage thème/questionnaire ; tester le délai et la prolongation avec le serveur ; contrôler les options en français et en anglais, avec un aperçu dans une autre langue.
+
+Validation déjà effectuée localement : XML du manifeste et syntaxe JavaScript ; tests Edge sur une page de test pour les libellés français/anglais, variantes linguistiques, conservation de libellés allemands, mises à jour dynamiques, valeurs de formulaire inchangées et indépendance de la langue de l'aperçu. Ces contrôles ne remplacent pas la recette sur LimeSurvey 6 et 7.
+
 ## 12. Limites connues
+
+Pour les messages personnalisés, vérifier sur l'instance cible : sauvegarde et relecture des quatre champs, héritage global et personnalisation par questionnaire, page expirée et autre erreur bloquante, retour aux messages standards avec des champs vides, absence du contact administrateur lorsqu'un contact personnalisé est défini. Vérifier également la migration du questionnaire `183268` si celui-ci est utilisé.
 
 - Le thème n'améliore pas automatiquement les contenus mal rédigés par les créateurs de questionnaires.
 - Les matrices très complexes restent à tester au cas par cas (`NC-R015`, `NC-R0412`).
@@ -240,6 +330,9 @@ D'autres documents complètent le dossier de preuves sans statut de non-conformi
 - `README.md`
 - `COMPARAISON_ALLYSURVEY_V276C_V285.md`
 - `DOCUMENTATION_TECHNIQUE_ALLYSURVEY_V285.pdf`
+- `GUIDE-DEVELOPPEUR-ALLYSURVEY-V285.md`
+- `docs/LANGUE-OPTIONS-THEME.md`
+- `docs/MESSAGES-ET-CONTACT.md`
 - `docs/LIMESURVEY-7-COMPATIBILITE.md`
 - `docs/PROCEDURE-PREUVES-CONFORMITE-RGAA.md`
 - `docs/DIAGNOSTIC-MODE-DEVELOPPEUR.md`
@@ -257,8 +350,8 @@ D'autres documents complètent le dossier de preuves sans statut de non-conformi
 
 Ces points sont à corriger ou clarifier avant diffusion officielle :
 
-1. **`CHANGELOG.md` référencé mais absent.** `README.md` et `COMPARAISON_ALLYSURVEY_V276C_V285.md` renvoient tous deux vers un fichier `CHANGELOG.md` ("historique détaillé des évolutions jusqu'à V2.0.32"), qui n'existe pas dans l'archive fournie.
-2. **Texte de dépendance obsolète dans `config.xml`.** Le champ `<description>` du manifeste indique encore "Thème LimeSurvey dépendant de fruity_twentythree", alors qu'aucun `parentThemeName` n'est déclaré et que le thème est présenté partout ailleurs comme autonome.
+1. **`CHANGELOG.md` référencé mais absent.** `README.md` et `COMPARAISON_ALLYSURVEY_V276C_V285.md` renvoient tous deux vers un fichier `CHANGELOG.md` ("historique détaillé des évolutions jusqu'à V2.0.41"), qui n'existe pas dans l'archive fournie.
+2. **Ancien texte de dépendance corrigé.** Le champ `<description>` du manifeste décrit maintenant un thème autonome ; l'écart historique relatif à `fruity_twentythree` est résolu dans les fichiers actuels.
 3. **Palette `highcontrast` non exposée.** Un 15ᵉ fichier de miniature (`files/palette-highcontrast.txt`) et des styles CSS complets existent (`css/ally-palettes.css`), mais la valeur `highcontrast` n'apparaît pas dans la liste `options`/`optionlabels`/`optionimages` de `themecolor` dans `config.xml` : elle n'est donc pas sélectionnable depuis l'interface, sauf ajout manuel de l'option.
 4. **Dossier de preuves de tests non fourni.** `docs/PROCEDURE-PREUVES-CONFORMITE-RGAA.md` référence un fichier `tests/accessibilite/MATRICE-TESTS-RGAA-WCAG.md`, absent de cette archive.
 5. **Cinq non-conformités documentées restent ouvertes** (`NC-R015`, `NC-R0210`, `NC-R0311`, `NC-R0412`, `NC-R058`) : elles doivent être traitées ou explicitement assumées avant toute déclaration de conformité RGAA, ce que ne mentionnait pas la documentation technique précédente.
