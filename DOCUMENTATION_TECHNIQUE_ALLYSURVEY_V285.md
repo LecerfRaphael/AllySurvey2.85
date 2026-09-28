@@ -1,13 +1,13 @@
 # Documentation technique - AllySurvey V2.85 RGAA/WCAG autonome
 
-Version documentaire : 24/09/2026 (mise à jour à partir des fichiers du thème présents dans le projet)
-Nom du thème (`config.xml`) : `AllySurvey_V285_RGAA_WCAG_Autonome`
+Version documentaire : 28/09/2026 (mise à jour à partir des fichiers du thème présents dans le projet)
+Nom du thème (`config.xml`) : `AllySurvey_V285_RGAA_WCAG_AutonomeV2`
 Variante : autonome, sans thème parent déclaré
 Version manifeste (`config.xml > version`) : `2.0.41`
 Version API thème : `3.0`
 Compatibilité déclarée : LimeSurvey 7.0 et 6.0
 Auteur déclaré : Raphaël Lecerf — Université de Lille / DAWAM (`support-limesurvey@univ-lille.fr`)
-Dernière mise à jour déclarée du manifeste : `2026-09-18 11:36:26`
+Dernière mise à jour déclarée du manifeste : `2026-09-25 14:00:00`
 
 > Cette version de la documentation a été reconstruite en inspectant directement le contenu de l'archive fournie (`config.xml`, `README.md`, `COMPARAISON_ALLYSURVEY_V276C_V285.md`, `docs/`, `files/a11y-modules/manifest.json`, `css/`, `scripts/`, `views/`). Les écarts constatés entre les documents narratifs et le contenu réel du paquet sont signalés en section 14.
 
@@ -16,6 +16,21 @@ Dernière mise à jour déclarée du manifeste : `2026-09-18 11:36:26`
 Ce document décrit le thème AllySurvey V2.85 RGAA/WCAG autonome pour LimeSurvey, à partir du contenu effectif de l'archive de distribution, et non uniquement de sa documentation narrative.
 
 ## 2. Positionnement de cette variante
+
+### Nouveautés d'administration couvertes par cette mise à jour
+
+AllySurvey 2.85 permet de personnaliser les fonctions suivantes depuis les options du thème, sans modifier les fichiers Twig :
+
+| Fonction | Réglages disponibles | Détails |
+|---|---|---|
+| Gestion de session | Durée estimée et délai d'avertissement en minutes | Section 6.1 |
+| Langue des options | Libellés adaptés à la langue de l'administration, compléments français/anglais | Section 6.2 |
+| Messages personnalisés | Texte du questionnaire expiré et texte des autres erreurs bloquantes | Section 6.3 |
+| Assistance indépendante | Nom et e-mail distincts de l'administrateur du questionnaire | Section 6.3 |
+| Gestion des images | Envoi du logo, du fond, de l'image du pied de page et de l'illustration des messages | Sections 6.4 et 6.5 |
+| Intégration iframe | Code à copier, URL directe, masquage de l'en-tête/pied de page et hauteur automatique | Section 6.6 |
+
+Ces options simplifient l'administration et limitent les personnalisations dans le code. Leur périmètre exact et les vérifications sur l'instance cible sont précisés ci-dessous.
 
 - Aucun `parentThemeName` n'est déclaré dans `config.xml` : la variante est techniquement autonome.
 - La compatibilité LimeSurvey 7.0 et 6.0 est déclarée dans la balise `<compatibility>` de `config.xml`.
@@ -80,6 +95,7 @@ Aucun `CHANGELOG.md` n'est présent dans l'archive (voir section 14).
 | `ally-ranking.css` | Questions de classement |
 | `ally-palettes.css` | Déclaration des 15 palettes (variables CSS `--fas-palette-*`) |
 | `ally-admin-options.css` | Pont avec les options d'administration |
+| `ally-iframe.css` | Présentation intégrée et masquage conditionnel de l'en-tête et du pied de page |
 | `background-image.css`, `maintenance.css`, `print_theme.css`, `survey-list.css` | Écrans annexes |
 | `variations/theme_apple*.css`, `theme_blueberry*.css`, `theme_grape*.css`, `theme_mango*.css` (+ variantes `-rtl`) | 4 variations de thème Fruity, y compris RTL |
 
@@ -106,11 +122,12 @@ Aucun `CHANGELOG.md` n'est présent dans l'archive (voir section 14).
 | `ally-audit-fixes.js` | Correctifs ponctuels d'audit (dont libellés de fermeture localisés FR/EN) |
 | `ally-admin-options-bridge.js` | Pont entre la clé React `themecolor` et les palettes internes |
 | `ally-options-i18n.js` | Traduction des libellés d'administration selon la langue de la page ; complément français/anglais |
+| `ally-iframe.js` | Persistance des paramètres d'intégration et transmission de la hauteur au site hôte |
 | `theme.js`, `custom.js`, `ajaxify.js` | Scripts standard du socle Fruity/LimeSurvey |
 
 ### 4.4 `options/` et `views/`
 
-- `options/options.twig` et `options/options.js` : pont d'options côté éditeur de thème.
+- `options/options.twig` et `options/options.js` : interface classique des options, héritage/personnalisation, envoi d'images et génération/copie du code iframe et de son URL.
 - `views/` : layouts Twig (`layout_global.twig`, `layout_errors.twig`, `layout_maintenance.twig`, `layout_print.twig`, `layout_printanswers.twig`, `layout_statistics_user.twig`, `layout_survey_list.twig`, `layout_user_forms.twig`) et sous-vues complètes dans `views/subviews/` (contenu, en-tête, pied de page, navigation, messages, impression, confidentialité, inscription, statistiques publiques, questionnaire).
 
 ## 5. Bundle d'accessibilité et modules documentés
@@ -150,6 +167,7 @@ Catégories d'options réellement déclarées :
 - **Exclusive tools** : `diagnosticmode`, `diagnosticvisibility` (preview/always), `developermode`, `devshowcodes`.
 - **Advanced customization** : `advancedcustomization`, `allyaccentcolor`, `allyfocuscolor`, `allymaxwidth`, `allydensity`, `allyquestionstyle`, `allybuttonstyle`, `allyfontsize`.
 - **LimeSurvey 7** : `ls7compatibility`.
+- **Intégration** : `iframehideheader`, `iframehidefooter` (tous deux à `off` par défaut) ; générateur de code et copie d'URL dans l'interface classique.
 
 L'ordre d'affichage dans l'éditeur React est fixé par le bloc `<optionsOrderReact>` du manifeste.
 
@@ -200,6 +218,8 @@ Exemple de message du questionnaire expiré :
 > Suite au nombre important de demandes, le formulaire est temporairement clos.
 > Nous vous invitons à consulter régulièrement cette page afin de vérifier quand il sera de nouveau ouvert.
 
+Autre exemple pour une campagne d'inscriptions : « Suite à un nombre important d'inscriptions, le questionnaire est temporairement suspendu. Nous vous invitons à revenir consulter cette page dans quelques jours. » Saisir ce texte dans `expiredsurveytext` si LimeSurvey affiche une erreur `survey-expiry`. Une fermeture pour un autre motif ne déclenche pas nécessairement cette erreur ; vérifier la page réellement rendue avant de choisir le champ.
+
 Nom du contact : `Demande d'aide à la connexion` ; adresse : `aide-connexion@univ-lille.fr`.
 
 Exemple de message d'erreur général : « Le formulaire est momentanément indisponible. Merci de réessayer ultérieurement ou de contacter notre assistance. »
@@ -233,6 +253,33 @@ Les libellés sources des nouveaux réglages de messages/contact et les titres d
 Deux corrections concernent le rendu des erreurs : le filtre Twig `escape('html_attr')` remplace l'alias `e` refusé par le sandbox de l'installation testée ; la phrase de contact utilise la traduction non échappée avant un échappement final unique, pour éviter l'affichage littéral de `&#039;`. Le nom personnalisé reste échappé.
 
 Contrôles locaux complémentaires : choix de la mascotte, repli standard, texte alternatif informatif ou vide, styles de redimensionnement, affichage de l'apostrophe et quatre contrôles d'envoi testés avec requêtes simulées (fichier, jeton CSRF et traitement d'échec). Aucun envoi réel n'a été validé sur le serveur LimeSurvey. Avant diffusion, tester les droits d'envoi, la sélection après rechargement, la sauvegarde, les formats acceptés et l'affichage mobile sur l'instance cible.
+
+### 6.6 Génération du code d'intégration iframe
+
+Dans l'interface classique **Options du thème > Intégration**, le thème génère un bloc HTML avec une iframe et un script de redimensionnement automatique, prêt à copier dans le site qui accueille le questionnaire.
+
+| Réglage | Clé enregistrée | Valeur par défaut |
+|---|---|---|
+| Masquer le header dans une iframe | `iframehideheader` | `off` |
+| Masquer le footer dans une iframe | `iframehidefooter` | `off` |
+
+**Procédure d'administration :**
+
+1. Ouvrir les options du thème du questionnaire concerné, puis l'onglet **Intégration**. Personnaliser les options du questionnaire si nécessaire.
+2. Choisir si l'en-tête et le pied de page doivent être masqués. Le code est recalculé lorsque ces choix changent ; enregistrer les options pour les conserver.
+3. Vérifier l'URL détectée et le titre du questionnaire. Le script recherche l'identifiant dans l'URL d'administration ou les champs de la page, puis construit l'adresse publique sous la forme `/index.php/IDENTIFIANT`. Le titre est recherché dans l'administration puis dans la page publique ; le repli est « Questionnaire ».
+4. Utiliser **Copier le code** et coller l'ensemble du bloc dans une zone HTML du site d'accueil qui autorise les iframes et les scripts. Si l'identifiant n'est pas détecté, remplacer `URL_DU_QUESTIONNAIRE` manuellement avant publication.
+5. Utiliser **Copier l'URL** pour récupérer séparément l'adresse avec ses paramètres d'intégration. Tester le parcours complet depuis la page hôte.
+
+Le code produit une iframe de largeur 100 %, sans bordure, avec `loading="lazy"`, un attribut `title` et une hauteur minimale de 700 px. Le script hôte écoute les messages `allysurvey:resize`, vérifie que leur source est la fenêtre de cette iframe et applique une hauteur numérique finie d'au moins 100 px. Le questionnaire transmet sa hauteur via `postMessage`, y compris lorsque les deux sites ont des domaines différents. Un `ResizeObserver` (ou un `MutationObserver` de repli), le chargement, le redimensionnement et les événements PJAX/AJAX déclenchent les mises à jour.
+
+**Paramètres et persistance :** l'URL générée contient `allyiframe=1`, `allyhideheader=0|1` et `allyhidefooter=0|1`. Ces paramètres pilotent les choix d'affichage, sont mémorisés dans `sessionStorage` sous la clé `allysurvey:iframe:<identifiant>` et sont réinjectés dans l'action du formulaire `limesurvey`. Le script restaure aussi les paramètres dans la barre d'adresse lorsqu'ils ont disparu. En iframe réelle sans paramètres ni état mémorisé, les options du thème servent de repli.
+
+**Limite à connaître :** contrairement au texte d'aide de l'onglet, le code actuel peut appliquer le mode intégré lors d'une ouverture directe avec `allyiframe=1`, ou avec un état intégré déjà mémorisé dans la même session. Une URL avec `allyiframe=0` ne supprime pas cet état mémorisé. Pour vérifier l'affichage normal, utiliser l'URL publique sans paramètres dans une nouvelle session de navigation. Le masquage cible `#survey-nav` et `.fas-custom-footer` ; il ne garantit pas le retrait de tout élément ajouté par une autre personnalisation.
+
+**Conditions de fonctionnement :** le serveur doit autoriser l'affichage dans le site hôte et celui-ci doit conserver le script fourni. Le thème ne modifie pas les règles serveur d'intégration. Sans exécution du script hôte, la hauteur automatique ne fonctionne pas. Le bloc utilise l'identifiant fixe `allysurvey-frame` : pour plusieurs questionnaires sur une même page, adapter chaque identifiant et la référence correspondante dans son script. Le générateur est implémenté dans `options/options.twig` et `options/options.js` ; la déclaration des deux options dans l'éditeur React ne garantit pas la présence de ce générateur dans cet éditeur.
+
+Cette section repose sur la lecture des fichiers actuels ; la copie réelle, la navigation entre pages, la persistance et le redimensionnement entre domaines restent à valider sur le site d'accueil et l'instance LimeSurvey cible.
 
 ## 7. Palettes et personnalisation
 
@@ -288,9 +335,9 @@ D'autres documents complètent le dossier de preuves sans statut de non-conformi
 
 ## 10. Installation
 
-1. Importer l'archive `AllySurvey_V285_RGAA_WCAG_Autonome.zip` dans l'éditeur de thème LimeSurvey (aucun thème parent requis).
+1. Importer l'archive de distribution `AllySurvey_V285_RGAA_WCAG_AutonomeV2.zip` dans l'éditeur de thème LimeSurvey (aucun thème parent requis). Le dossier de travail conserve le nom `AllySurvey_V285_RGAA_WCAG_Autonome`.
 2. Activer le thème sur un questionnaire de test.
-3. Réinitialiser les options du thème après mise à niveau.
+3. Relever les options personnalisées avant la mise à niveau. Vérifier ensuite la présence des nouveaux réglages ; si une réinitialisation est nécessaire, réappliquer les valeurs sauvegardées (messages, contact, images, session et intégration compris).
 4. Choisir une palette (`themecolor`) dans les options globales ou dans les options du questionnaire.
 5. Vider les caches LimeSurvey et navigateur.
 6. Tester un parcours complet au clavier et avec lecteur d'écran.
@@ -313,6 +360,16 @@ D'autres documents complètent le dossier de preuves sans statut de non-conformi
 Contrôles complémentaires pour les ajouts du 24/09/2026 : sauvegarder et relire les deux durées de session ; vérifier l'héritage thème/questionnaire ; tester le délai et la prolongation avec le serveur ; contrôler les options en français et en anglais, avec un aperçu dans une autre langue.
 
 Validation déjà effectuée localement : XML du manifeste et syntaxe JavaScript ; tests Edge sur une page de test pour les libellés français/anglais, variantes linguistiques, conservation de libellés allemands, mises à jour dynamiques, valeurs de formulaire inchangées et indépendance de la langue de l'aperçu. Ces contrôles ne remplacent pas la recette sur LimeSurvey 6 et 7.
+
+Contrôles complémentaires pour la mise à jour du 28/09/2026 :
+
+- enregistrer puis relire les messages, le contact indépendant et les quatre sélections d'images ; vérifier les valeurs héritées et les replis avec des champs vides ;
+- envoyer une image depuis chacun des quatre contrôles, vérifier le retour sur l'onglet, la sélection puis l'affichage sur mobile ;
+- copier le code iframe et l'URL, vérifier l'absence de placeholder, le titre accessible et les quatre combinaisons de masquage ;
+- parcourir plusieurs pages dans l'iframe, provoquer une erreur de validation et vérifier la hauteur, le focus et la conservation des paramètres ;
+- contrôler l'intégration depuis un autre domaine, puis l'ouverture directe dans une session neuve et dans une session ayant déjà mémorisé le mode intégré.
+
+Vérification documentaire du 28/09/2026 : rapprochement avec `config.xml`, les fichiers d'options, `layout_errors.twig` et les fichiers iframe CSS/JavaScript. Les validations locales précédemment rapportées ci-dessus sont conservées comme historique ; aucune nouvelle recette sur serveur LimeSurvey n'est revendiquée par cette mise à jour documentaire.
 
 ## 12. Limites connues
 
@@ -355,3 +412,4 @@ Ces points sont à corriger ou clarifier avant diffusion officielle :
 3. **Palette `highcontrast` non exposée.** Un 15ᵉ fichier de miniature (`files/palette-highcontrast.txt`) et des styles CSS complets existent (`css/ally-palettes.css`), mais la valeur `highcontrast` n'apparaît pas dans la liste `options`/`optionlabels`/`optionimages` de `themecolor` dans `config.xml` : elle n'est donc pas sélectionnable depuis l'interface, sauf ajout manuel de l'option.
 4. **Dossier de preuves de tests non fourni.** `docs/PROCEDURE-PREUVES-CONFORMITE-RGAA.md` référence un fichier `tests/accessibilite/MATRICE-TESTS-RGAA-WCAG.md`, absent de cette archive.
 5. **Cinq non-conformités documentées restent ouvertes** (`NC-R015`, `NC-R0210`, `NC-R0311`, `NC-R0412`, `NC-R058`) : elles doivent être traitées ou explicitement assumées avant toute déclaration de conformité RGAA, ce que ne mentionnait pas la documentation technique précédente.
+6. **Aide iframe à préciser.** L'interface annonce un masquage réservé aux iframes réelles, mais `scripts/ally-iframe.js` active aussi le mode intégré à partir des paramètres d'URL ou de l'état de session mémorisé. Le comportement actuel est détaillé en section 6.6.
