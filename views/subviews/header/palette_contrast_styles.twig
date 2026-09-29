@@ -1,0 +1,21 @@
+{# Textes sur les fonds colores : ne pas reutiliser la couleur des liens
+   prevue pour un fond blanc. Les couleurs personnalisees restent configurables. #}
+{% if fasPalette != 'custom' and fasPalette != 'highcontrast' %}
+html:not(.fas-high-contrast) body #survey-nav .navbar-brand,
+html:not(.fas-high-contrast) body #survey-nav #navbar-toggler,
+html:not(.fas-high-contrast) body #survey-nav #navbar-toggler .ri-menu-fill,
+html:not(.fas-high-contrast) body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) footer,
+html:not(.fas-high-contrast) body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) footer a {
+  color: #000 !important;
+}
+html:not(.fas-high-contrast) body #survey-nav #main-dropdown :is(.nav-link, .dropdown-item, .animate, .btn-link):is(:hover, :focus, :active, [aria-expanded="true"]) {
+  background: var(--fas-palette-primary1) !important;
+  color: #000 !important;
+  box-shadow: inset .25rem 0 0 #000 !important;
+  text-decoration: underline !important;
+}
+html:not(.fas-high-contrast) body #survey-nav #main-dropdown :is(.nav-link, .dropdown-item, .animate, .btn-link):focus-visible {
+  outline: 3px solid #000 !important;
+  outline-offset: -3px !important;
+}
+{% endif %}

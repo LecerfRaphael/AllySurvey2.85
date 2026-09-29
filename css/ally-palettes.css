@@ -15,9 +15,9 @@ body[data-fas-color-palette="pinklady"]{--fas-palette-primary1:#FE7DB1;--fas-pal
 body[data-fas-color-palette="brique"]{--fas-palette-primary1:#FC8670;--fas-palette-primary2:#B14937;--fas-palette-accent:#8C584F;--fas-palette-on-primary:#FFFFFF;}
 body[data-fas-color-palette="orangette"]{--fas-palette-primary1:#F39200;--fas-palette-primary2:#AA2E00;--fas-palette-accent:#995238;--fas-palette-on-primary:#FFFFFF;}
 body[data-fas-color-palette="hyperion"]{--fas-palette-primary1:#FFD24D;--fas-palette-primary2:#4D3F17;--fas-palette-accent:#7B6523;--fas-palette-on-primary:#FFFFFF;}
-body[data-fas-color-palette="ocean"]{--fas-palette-primary1:#7ABAFF;--fas-palette-primary2:#2973C3;--fas-palette-accent:#2569B1;--fas-palette-on-primary:#FFFFFF;}
-body[data-fas-color-palette="menthe"]{--fas-palette-primary1:#89E0B1;--fas-palette-primary2:#3F845F;--fas-palette-accent:#37724F;--fas-palette-on-primary:#FFFFFF;}
-body[data-fas-color-palette="dune"]{--fas-palette-primary1:#FAF0E1;--fas-palette-primary2:#827561;--fas-palette-accent:#6F6452;--fas-palette-on-primary:#FFFFFF;}
+body[data-fas-color-palette="ocean"]{--fas-palette-primary1:#7ABAFF;--fas-palette-primary2:#266AB3;--fas-palette-accent:#2569B1;--fas-palette-on-primary:#FFFFFF;}
+body[data-fas-color-palette="menthe"]{--fas-palette-primary1:#89E0B1;--fas-palette-primary2:#377454;--fas-palette-accent:#37724F;--fas-palette-on-primary:#FFFFFF;}
+body[data-fas-color-palette="dune"]{--fas-palette-primary1:#FAF0E1;--fas-palette-primary2:#726755;--fas-palette-accent:#6F6452;--fas-palette-on-primary:#FFFFFF;}
 body[data-fas-color-palette="commodore"]{--fas-palette-primary1:#A6CEFF;--fas-palette-primary2:#003D87;--fas-palette-accent:#005AC7;--fas-palette-on-primary:#FFFFFF;}
 body[data-fas-color-palette="colvert"]{--fas-palette-primary1:#4ABEB1;--fas-palette-primary2:#007668;--fas-palette-accent:#007668;--fas-palette-on-primary:#FFFFFF;}
 body[data-fas-color-palette="vulcain"]{--fas-palette-primary1:#D15C64;--fas-palette-primary2:#941B23;--fas-palette-accent:#944C53;--fas-palette-on-primary:#FFFFFF;}
@@ -61,9 +61,9 @@ body.fas-palette-pinklady{--fas-palette-primary1:#FE7DB1;--fas-palette-primary2:
 body.fas-palette-brique{--fas-palette-primary1:#FC8670;--fas-palette-primary2:#B14937;--fas-palette-accent:#8C584F;--fas-palette-on-primary:#fff}
 body.fas-palette-orangette{--fas-palette-primary1:#F39200;--fas-palette-primary2:#AA2E00;--fas-palette-accent:#995238;--fas-palette-on-primary:#fff}
 body.fas-palette-hyperion{--fas-palette-primary1:#FFD24D;--fas-palette-primary2:#4D3F17;--fas-palette-accent:#7B6523;--fas-palette-on-primary:#fff}
-body.fas-palette-ocean{--fas-palette-primary1:#7ABAFF;--fas-palette-primary2:#2973C3;--fas-palette-accent:#2569B1;--fas-palette-on-primary:#fff}
-body.fas-palette-menthe{--fas-palette-primary1:#89E0B1;--fas-palette-primary2:#3F845F;--fas-palette-accent:#37724F;--fas-palette-on-primary:#fff}
-body.fas-palette-dune{--fas-palette-primary1:#FAF0E1;--fas-palette-primary2:#827561;--fas-palette-accent:#6F6452;--fas-palette-on-primary:#fff}
+body.fas-palette-ocean{--fas-palette-primary1:#7ABAFF;--fas-palette-primary2:#266AB3;--fas-palette-accent:#2569B1;--fas-palette-on-primary:#fff}
+body.fas-palette-menthe{--fas-palette-primary1:#89E0B1;--fas-palette-primary2:#377454;--fas-palette-accent:#37724F;--fas-palette-on-primary:#fff}
+body.fas-palette-dune{--fas-palette-primary1:#FAF0E1;--fas-palette-primary2:#726755;--fas-palette-accent:#6F6452;--fas-palette-on-primary:#fff}
 body.fas-palette-commodore{--fas-palette-primary1:#A6CEFF;--fas-palette-primary2:#003D87;--fas-palette-accent:#005AC7;--fas-palette-on-primary:#fff}
 body.fas-palette-colvert{--fas-palette-primary1:#4ABEB1;--fas-palette-primary2:#007668;--fas-palette-accent:#007668;--fas-palette-on-primary:#fff}
 body.fas-palette-vulcain{--fas-palette-primary1:#D15C64;--fas-palette-primary2:#941B23;--fas-palette-accent:#944C53;--fas-palette-on-primary:#fff}
@@ -764,9 +764,9 @@ body[class*="fas-palette-"]:not(.fas-palette-custom) #survey-nav #main-dropdown 
 body[class*="fas-palette-"]:not(.fas-palette-custom) #survey-nav #main-dropdown > li.index-menu-full > a.dropdown-toggle:active,
 body[class*="fas-palette-"]:not(.fas-palette-custom) #survey-nav #main-dropdown > li.index-menu-full > a.dropdown-toggle[aria-expanded="true"] {
   background: var(--fas-palette-primary1, #e7f1ff) !important;
-  border-color: var(--fas-palette-primary2, #005ac7) !important;
-  box-shadow: inset .25rem 0 0 var(--fas-palette-primary2, #005ac7) !important;
-  color: var(--fas-palette-primary2, #005ac7) !important;
+  border-color: #000 !important;
+  box-shadow: inset .25rem 0 0 #000 !important;
+  color: #000 !important;
 }
 
 body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) #survey-nav #index-dropdown .dropdown-item:hover,
@@ -774,8 +774,8 @@ body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) #survey-nav 
 body[class*="fas-palette-"]:not(.fas-palette-custom) #survey-nav #index-dropdown .dropdown-item:hover,
 body[class*="fas-palette-"]:not(.fas-palette-custom) #survey-nav #index-dropdown .dropdown-item:focus {
   background: var(--fas-palette-primary1, #e7f1ff) !important;
-  box-shadow: inset .25rem 0 0 var(--fas-palette-primary2, #005ac7) !important;
-  color: var(--fas-palette-primary2, #005ac7) !important;
+  box-shadow: inset .25rem 0 0 #000 !important;
+  color: #000 !important;
 }
 
 html.fas-high-contrast body #survey-nav #main-dropdown > li.index-menu-full > a.dropdown-toggle:hover,
@@ -801,9 +801,9 @@ body #survey-nav #main-dropdown > li.list-group-item.index-item > a.dropdown-ite
 body #survey-nav #main-dropdown > li.list-group-item.index-item > a.dropdown-item:focus,
 body #survey-nav #main-dropdown > li.list-group-item.index-item > a.dropdown-item:focus-visible {
   background: var(--fas-palette-primary1, #e7f1ff) !important;
-  border-left-color: var(--fas-palette-primary2, #005ac7) !important;
-  box-shadow: inset .25rem 0 0 var(--fas-palette-primary2, #005ac7) !important;
-  color: var(--fas-palette-primary2, #005ac7) !important;
+  border-left-color: #000 !important;
+  box-shadow: inset .25rem 0 0 #000 !important;
+  color: #000 !important;
 }
 
 body #survey-nav #main-dropdown > li.list-group-item.index-item > a.dropdown-item.active,

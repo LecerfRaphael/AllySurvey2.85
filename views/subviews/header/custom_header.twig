@@ -33,9 +33,9 @@
     {% elseif fasPalette == 'brique' %}{% set fasPrimary1 = '#FC8670' %}{% set fasPrimary2 = '#B14937' %}{% set fasAccent = '#8C584F' %}
     {% elseif fasPalette == 'orangette' %}{% set fasPrimary1 = '#F39200' %}{% set fasPrimary2 = '#AA2E00' %}{% set fasAccent = '#995238' %}
     {% elseif fasPalette == 'hyperion' %}{% set fasPrimary1 = '#FFD24D' %}{% set fasPrimary2 = '#4D3F17' %}{% set fasAccent = '#7B6523' %}{% set fasOnPrimary = '#FFFFFF' %}
-    {% elseif fasPalette == 'ocean' %}{% set fasPrimary1 = '#7ABAFF' %}{% set fasPrimary2 = '#2973C3' %}{% set fasAccent = '#2569B1' %}
-    {% elseif fasPalette == 'menthe' %}{% set fasPrimary1 = '#89E0B1' %}{% set fasPrimary2 = '#3F845F' %}{% set fasAccent = '#37724F' %}
-    {% elseif fasPalette == 'dune' %}{% set fasPrimary1 = '#FAF0E1' %}{% set fasPrimary2 = '#827561' %}{% set fasAccent = '#6F6452' %}{% set fasOnPrimary = '#FFFFFF' %}
+    {% elseif fasPalette == 'ocean' %}{% set fasPrimary1 = '#7ABAFF' %}{% set fasPrimary2 = '#266AB3' %}{% set fasAccent = '#2569B1' %}
+    {% elseif fasPalette == 'menthe' %}{% set fasPrimary1 = '#89E0B1' %}{% set fasPrimary2 = '#377454' %}{% set fasAccent = '#37724F' %}
+    {% elseif fasPalette == 'dune' %}{% set fasPrimary1 = '#FAF0E1' %}{% set fasPrimary2 = '#726755' %}{% set fasAccent = '#6F6452' %}{% set fasOnPrimary = '#FFFFFF' %}
     {% elseif fasPalette == 'commodore' %}{% set fasPrimary1 = '#A6CEFF' %}{% set fasPrimary2 = '#003D87' %}{% set fasAccent = '#005AC7' %}
     {% elseif fasPalette == 'colvert' %}{% set fasPrimary1 = '#4ABEB1' %}{% set fasPrimary2 = '#007668' %}{% set fasAccent = '#007668' %}
     {% elseif fasPalette == 'vulcain' %}{% set fasPrimary1 = '#D15C64' %}{% set fasPrimary2 = '#941B23' %}{% set fasAccent = '#944C53' %}
@@ -69,6 +69,7 @@
       --fas-focus: {{ fasAccent }} !important;
     }
     {% include './subviews/header/language_menu_styles.twig' %}
+    {% include './subviews/header/palette_contrast_styles.twig' %}
 
     body .btn-primary, body .ls-move-btn, body .progress-bar {
       background-color: var(--fas-palette-primary2) !important;

@@ -180,9 +180,9 @@
 #survey-nav .dropdown-menu button.nav-link:focus-visible,
 #survey-nav .dropdown-menu .btn-link:hover,
 #survey-nav .dropdown-menu .btn-link:focus-visible {
-    background-color: var(--fas-palette-primary1, rgba(0, 90, 199, .12));
-    box-shadow: inset .25rem 0 0 var(--fas-palette-accent, #005ac7);
-    color: var(--fas-palette-primary2, #003d87);
+    background-color: var(--fas-palette-primary1, #e7f1ff) !important;
+    box-shadow: inset .25rem 0 0 #000;
+    color: #000 !important;
     outline: 0;
     text-decoration: underline;
 }
