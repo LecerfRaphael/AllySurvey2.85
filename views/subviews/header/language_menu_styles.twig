@@ -1,0 +1,55 @@
+{# Styles inclus dans custom_header pour eviter le cache des assets CSS publies. #}
+/* Menu des langues : priorite sur les survols Fruity herites.
+   LS deplace les liens de #language-dropdown dans #main-dropdown : cibler
+   leurs classes conserve les couleurs apres ouverture et retour.
+   Noir sur primary1 atteint 4.5:1 pour toutes les palettes predefinies. */
+body #survey-nav #main-dropdown {
+  --fas-language-hover-bg: var(--fas-palette-primary1, #e7f1ff);
+}
+/* Une couleur personnalisee peut etre sombre : l'eclaircir pour le texte noir. */
+body.fas-palette-custom #survey-nav #main-dropdown,
+body[data-fas-color-palette="custom"] #survey-nav #main-dropdown {
+  --fas-language-hover-bg: #e7f1ff;
+  --fas-language-hover-bg: color-mix(in srgb, var(--fas-palette-primary1, #005ac7) 25%, white);
+}
+html.fas-high-contrast body #survey-nav #main-dropdown {
+  --fas-language-hover-bg: #ffff00;
+}
+body #survey-nav #main-dropdown > li.form-change-lang > a.nav-link.dropdown-toggle:hover,
+body #survey-nav #main-dropdown > li.form-change-lang > a.nav-link.dropdown-toggle:focus,
+body #survey-nav #main-dropdown > li.form-change-lang > a.nav-link.dropdown-toggle:active,
+body #survey-nav #main-dropdown > li.form-change-lang > a.nav-link.dropdown-toggle[aria-expanded="true"],
+body #survey-nav #main-dropdown a.ls-language-link:hover,
+body #survey-nav #main-dropdown a.ls-language-link:focus,
+body #survey-nav #main-dropdown a.ls-language-link:active,
+body #survey-nav #main-dropdown a.ls-language-link[aria-expanded="true"],
+body #survey-nav #main-dropdown a.back-link:hover,
+body #survey-nav #main-dropdown a.back-link:focus,
+body #survey-nav #main-dropdown a.back-link:active,
+body #survey-nav #main-dropdown a.back-link[aria-expanded="true"] {
+  background: var(--fas-language-hover-bg) !important;
+  color: #000 !important;
+  box-shadow: inset .25rem 0 0 #000 !important;
+  text-decoration: underline !important;
+}
+body #survey-nav #main-dropdown > li.form-change-lang > a.nav-link.dropdown-toggle:focus-visible,
+body #survey-nav #main-dropdown a.ls-language-link:focus-visible,
+body #survey-nav #main-dropdown a.back-link:focus-visible {
+  outline: 3px solid #000 !important;
+  outline-offset: -3px !important;
+}
+body #survey-nav #main-dropdown > li.form-change-lang > a.nav-link.dropdown-toggle:hover::after,
+body #survey-nav #main-dropdown > li.form-change-lang > a.nav-link.dropdown-toggle:focus::after,
+body #survey-nav #main-dropdown > li.form-change-lang > a.nav-link.dropdown-toggle:active::after,
+body #survey-nav #main-dropdown > li.form-change-lang > a.nav-link.dropdown-toggle[aria-expanded="true"]::after,
+body #survey-nav #main-dropdown a.ls-language-link:hover::after,
+body #survey-nav #main-dropdown a.ls-language-link:focus::after,
+body #survey-nav #main-dropdown a.ls-language-link:active::after,
+body #survey-nav #main-dropdown a.ls-language-link[aria-expanded="true"]::after,
+body #survey-nav #main-dropdown a.back-link:hover::after,
+body #survey-nav #main-dropdown a.back-link:focus::after,
+body #survey-nav #main-dropdown a.back-link:active::after,
+body #survey-nav #main-dropdown a.back-link[aria-expanded="true"]::after {
+  color: inherit !important;
+}
+

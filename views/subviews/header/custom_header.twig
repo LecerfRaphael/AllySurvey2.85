@@ -68,6 +68,8 @@
       --fas-accent: {{ fasPrimary2 }} !important;
       --fas-focus: {{ fasAccent }} !important;
     }
+    {% include './subviews/header/language_menu_styles.twig' %}
+
     body .btn-primary, body .ls-move-btn, body .progress-bar {
       background-color: var(--fas-palette-primary2) !important;
       border-color: var(--fas-palette-primary2) !important;
