@@ -93,12 +93,26 @@
         var col = cols[cellIndex] || null;
         var labelText = [rowText, col && col.text].filter(Boolean).join(' — ') || questionTitle(question);
         var label = cell.querySelector('.fas-matching-visible-label');
+        // LimeSurvey peut déjà fournir un label explicite ou englobant.
+        // Le rappel visuel ne doit pas ajouter un second label au contrôle.
+        var hasNativeLabel = Array.prototype.some.call(select.labels || [], function (existing) {
+          return existing !== label;
+        });
+        var labelTag = hasNativeLabel ? 'span' : 'label';
+        if (label && label.tagName.toLowerCase() !== labelTag) {
+          var replacement = document.createElement(labelTag);
+          Array.prototype.forEach.call(label.attributes, function (attr) {
+            if (attr.name !== 'for') replacement.setAttribute(attr.name, attr.value);
+          });
+          label.parentNode.replaceChild(replacement, label);
+          label = replacement;
+        }
         if (!label) {
-          label = document.createElement('label');
+          label = document.createElement(labelTag);
           label.className = 'fas-matching-visible-label';
-          label.setAttribute('for', ensureId(select, 'fas-match-select'));
           cell.insertBefore(label, cell.firstChild);
         }
+        if (!hasNativeLabel) label.setAttribute('for', ensureId(select, 'fas-match-select'));
         label.textContent = labelText;
         var ids = [];
         if (rowHeader && rowHeader.id) ids.push(rowHeader.id);

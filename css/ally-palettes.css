@@ -1,5 +1,5 @@
 /* Fruity AllySurvey V2.0.8 - palettes ULille 2026.
-   Une palette sélectionnée neutralise les colorpickers de l'onglet Couleurs. */
+   Les couleurs enregistrées dans l'onglet Couleurs surchargent les surfaces de la palette. */
 body[data-fas-color-palette]:not([data-fas-color-palette="custom"]){
   --fas-palette-bg:#FFFFFF;--fas-palette-surface:#F8F9FB;--fas-palette-surface-2:#F3F4F6;
   --fas-palette-text:#111827;--fas-palette-muted:#4B5563;--fas-palette-warning:#C70000;
@@ -323,7 +323,11 @@ body[data-fas-color-palette="highcontrast"] .privacy .checkbox-item input[type="
 }
 
 /* V2.0.25 — surcharge enregistrée du fond des questions. */
-body[data-fas-color-palette] .question-container {
+body[data-fas-color-palette] .question-container,
+body[data-fas-color-palette]:not([data-fas-color-palette="custom"]) .question-container,
+body[class*="fas-palette-"]:not(.fas-palette-custom) .question-container,
+body.fas-custom-enabled.fas-question-card .question-container,
+body.fas-custom-enabled.fas-question-outlined .question-container {
   background-color: var(--fas-question-background, var(--fas-palette-surface, #f8f9fb)) !important;
 }
 
