@@ -17,6 +17,19 @@
 
 {# Custom backgroud option #}
 <style>
+    {# Only allow predefined relative sizes; inherited/legacy options keep theme defaults. #}
+    {% if aSurveyInfo.options.allyh1size|default('default') in ['1.5', '1.75', '2', '2.5', '3'] %}
+    :root { --fas-h1-size: {{ aSurveyInfo.options.allyh1size }}rem; }
+    body #fas-survey-title, body #fas-main-content h1 { font-size: var(--fas-h1-size) !important; }
+    {% endif %}
+    {% if aSurveyInfo.options.allyh2size|default('default') in ['1.125', '1.25', '1.5', '1.75', '2'] %}
+    :root { --fas-h2-size: {{ aSurveyInfo.options.allyh2size }}rem; }
+    body #fas-main-content h2 { font-size: var(--fas-h2-size) !important; }
+    {% endif %}
+    {% if aSurveyInfo.options.allyparagraphsize|default('default') in ['1', '1.125', '1.25', '1.5'] %}
+    :root { --fas-paragraph-size: {{ aSurveyInfo.options.allyparagraphsize }}rem; }
+    body #fas-main-content :is(p, .survey-welcome, .survey-description, .group-description) { font-size: var(--fas-paragraph-size) !important; }
+    {% endif %}
     {# V2.0.11 palette variables #}
     {% set fasPalette = aSurveyInfo.options.themecolor|default(aSurveyInfo.options.allycolorpalette|default('neutre')) %}
     {% set fasPrimary1 = '#D2D4DB' %}

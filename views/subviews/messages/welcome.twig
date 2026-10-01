@@ -34,9 +34,9 @@ To see what's inside aSurveyInfo, turn debug mode on and copy the following line
     </div>
 
     <!-- Welcome text -->
-    <h2 class="{{ aSurveyInfo.class.welcome }} form-heading" {{ aSurveyInfo.attr.welcome }}>
+    <div class="{{ aSurveyInfo.class.welcome }} form-heading" {{ aSurveyInfo.attr.welcome }}>
         {{ processString(aSurveyInfo.welcome,1) }}
-    </h2>
+    </div>
 
     {# Résolution locale : le layout du parent peut être conservé par LimeSurvey dans un thème étendu. #}
     {% set fasWelcomeIsPreview = (aSurveyInfo.active != 'Y') or aSurveyInfo.popupPreview %}

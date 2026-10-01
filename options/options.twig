@@ -113,6 +113,13 @@
                 {% if category == 'Intégration' or category == 'Integration' %}
                     <p class="fas-integration-help">{{ gT('Ces réglages ne s’appliquent que lorsque le questionnaire est réellement affiché dans une iframe. L’ouverture directe du questionnaire conserve son affichage normal.') }}</p>
                 {% endif %}
+                {% if category == 'Fonts' %}
+                    <div class="fas-typography-preview border rounded p-3 mb-3" aria-label="Aperçu des tailles de police">
+                        <p data-fas-size-preview="allyh1size" style="font-size:2.5rem;font-weight:700">Titre du questionnaire (H1)</p>
+                        <p data-fas-size-preview="allyh2size" style="font-size:2rem;font-weight:700">Nom du groupe (H2)</p>
+                        <p data-fas-size-preview="allyparagraphsize" style="font-size:1rem">Exemple de paragraphe : les mots restent entiers lors des retours à la ligne.</p>
+                    </div>
+                {% endif %}
                 <div class="row fas-option-row">
                     {% for key, attribute in aOptionAttributes.optionAttributes %}
                         {% if attribute.category == category %}

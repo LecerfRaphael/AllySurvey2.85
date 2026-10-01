@@ -498,6 +498,27 @@
     return detected && detected.key;
   }
 
+  function syncTypographyPreview(doc, target) {
+    var allowed = {"allyh1size":["1.5","1.75","2","2.5","3"],"allyh2size":["1.125","1.25","1.5","1.75","2"],"allyparagraphsize":["1","1.125","1.25","1.5"]};
+    var keys = Object.keys(allowed);
+    var signature = [target.name, target.id, target.getAttribute('data-testid')].join(' ');
+    var key = keys.filter(function (name) { return signature.indexOf(name) !== -1; })[0];
+    if (!key || (target.value !== 'default' && allowed[key].indexOf(target.value) === -1)) return;
+    var iframe = doc.querySelector('#theme-options-preview-container iframe, .theme-options-preview-iframe');
+    if (!iframe) return;
+    var apply = function () {
+      try {
+        var preview = iframe.contentDocument;
+        if (!preview || !preview.head) return;
+        var style = preview.getElementById('fas-size-preview-' + key);
+        if (!style) { style = preview.createElement('style'); style.id = 'fas-size-preview-' + key; preview.head.appendChild(style); }
+        var selectors = ["body #fas-survey-title, body #fas-main-content h1","body #fas-main-content h2","body #fas-main-content :is(p, .survey-welcome, .survey-description, .group-description)"];
+        style.textContent = target.value === 'default' ? '' : selectors[keys.indexOf(key)] + '{font-size:' + target.value + 'rem!important}';
+      } catch (error) { /* Preview may use another origin. */ }
+    };
+    apply();
+  }
+
   function installPreviewSync(doc) {
     var sourceDocument = document;
     var iframe;
@@ -525,6 +546,7 @@
       if (key && palettes[key]) syncPreviewFromChoice(doc, key);
     };
     changeHandler = function (event) {
+      syncTypographyPreview(doc, event.target);
       var colorKey = colorOptionKeyFromTarget(event.target);
       var color = colorKey && colorValueFromTarget(event.target);
       var key;

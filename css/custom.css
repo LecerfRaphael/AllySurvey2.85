@@ -257,3 +257,14 @@ body #fas-survey-title {
     word-break: normal !important;
     word-wrap: normal !important;
 }
+
+/* Keep words intact in survey text, including descendants of rich text. */
+body #fas-main-content :is(h1, h2, h3, p, label, legend, th, td, .question-text, .help-block, .form-heading, .group-description, .ls-question-message),
+body #fas-main-content :is(h1, h2, h3, p, label, legend, th, td, .question-text, .help-block, .form-heading, .group-description, .ls-question-message) * {
+    -webkit-hyphens: none !important;
+    hyphens: none !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+    word-wrap: normal !important;
+}
+/* Relative units preserve the accessibility toolbar's text zoom. */

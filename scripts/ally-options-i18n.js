@@ -12,6 +12,7 @@
     'Support contact email': 'Adresse e-mail du contact d’assistance',
     'Leave fields blank to keep the standard LimeSurvey messages and contact. These settings apply to blocking survey error pages, not session warnings. Messages use plain text and preserve line breaks. A custom contact replaces the administrator contact; enter both name and email when needed.': 'Laisser les champs vides pour conserver les messages et le contact habituels de LimeSurvey. Ces réglages concernent les pages d’erreur bloquantes du questionnaire, pas les alertes de session. Les messages sont en texte simple, avec conservation des sauts de ligne. Un contact personnalisé remplace le contact administrateur ; renseigner le nom et l’adresse e-mail si nécessaire.',
     'Color themes': 'Palettes de couleurs', 'Color palette': 'Palette de couleurs',
+    'Survey title size (H1)': 'Taille du titre (H1)', 'Group name size (H2)': 'Taille du nom du groupe (H2)', 'Paragraph size': 'Taille des paragraphes', 'Theme default': 'Taille par défaut du thème',
     'Simple options': 'Options générales', 'Colors': 'Couleurs', 'Fonts': 'Polices',
     'Special footer': 'Pied de page', 'Appearance': 'Apparence',
     'Accessibility': 'Accessibilité', 'Accessibility toolbar': 'Barre d’accessibilité',

@@ -142,6 +142,9 @@
                 </optgroup>
             </dropdownoptions>
         </font>
+        <allyh1size type="dropdown" category="Fonts" width="4" title="Survey title size (H1)">default<dropdownoptions><option value="default">Theme default</option><option value="1.5">24 px (1.5 rem)</option><option value="1.75">28 px (1.75 rem)</option><option value="2">32 px (2 rem)</option><option value="2.5">40 px (2.5 rem)</option><option value="3">48 px (3 rem)</option></dropdownoptions></allyh1size>
+        <allyh2size type="dropdown" category="Fonts" width="4" title="Group name size (H2)">default<dropdownoptions><option value="default">Theme default</option><option value="1.125">18 px (1.125 rem)</option><option value="1.25">20 px (1.25 rem)</option><option value="1.5">24 px (1.5 rem)</option><option value="1.75">28 px (1.75 rem)</option><option value="2">32 px (2 rem)</option></dropdownoptions></allyh2size>
+        <allyparagraphsize type="dropdown" category="Fonts" width="4" title="Paragraph size">default<dropdownoptions><option value="default">Theme default</option><option value="1">16 px (1 rem)</option><option value="1.125">18 px (1.125 rem)</option><option value="1.25">20 px (1.25 rem)</option><option value="1.5">24 px (1.5 rem)</option></dropdownoptions></allyparagraphsize>
         <cssframework type="dropdown" colorSwatch="true" category="Simple options" width="12" title="Theme color">Apple
             <dropdownoptions>
                 <optgroup>

@@ -158,6 +158,16 @@
     document.querySelectorAll('.fas-theme-options .selector__color-picker').forEach(syncColorPreview);
   }
 
+  function updateTypographyPreview() {
+    var defaults = { allyh1size: '2.5', allyh2size: '2', allyparagraphsize: '1' };
+    document.querySelectorAll('[data-fas-size-preview]').forEach(function (sample) {
+      var key = sample.getAttribute('data-fas-size-preview');
+      var field = document.querySelector('.fas-theme-options [name="' + key + '"]');
+      var value = field && field.value;
+      sample.style.fontSize = (value && value !== 'default' ? value : defaults[key]) + 'rem';
+    });
+  }
+
   function bindFields() {
     document.querySelectorAll('.fas-theme-options input, .fas-theme-options select, .fas-theme-options textarea').forEach(function (field) {
       field.addEventListener('input', function () {
@@ -168,6 +178,7 @@
         }
         collectOptions();
         updateChildren();
+        updateTypographyPreview();
         if (field.name === 'iframehideheader' || field.name === 'iframehidefooter') hydrateIframeCode();
       });
       field.addEventListener('change', function () {
@@ -175,6 +186,7 @@
         if (field.classList.contains('selector__color-picker')) syncColorPreview(field);
         collectOptions();
         updateChildren();
+        updateTypographyPreview();
         if (field.name === 'iframehideheader' || field.name === 'iframehidefooter') hydrateIframeCode();
       });
       if (field.classList.contains('selector__color-picker')) syncColorPreview(field);
@@ -193,6 +205,7 @@
         hasUserChangedOptions = true;
         setInheritedState(false);
         updateChildren();
+        updateTypographyPreview();
         collectOptions();
       });
     }
@@ -206,6 +219,7 @@
         syncColorPreviews();
         setInheritedState(true);
         updateChildren();
+        updateTypographyPreview();
       });
     }
   }
@@ -613,6 +627,7 @@
       setInheritedState(false);
     }
     syncColorPreviews();
+    updateTypographyPreview();
     installPaletteSwatches();
     bindFields();
     bindFooterUpload();
