@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
     <metadata>
-        <name>AllySurvey_V285_RGAA_WCAG_AutonomeV2</name>
-        <title>AllySurvey_V285_RGAA_WCAG_AutonomeV2</title>
+        <name>AllySurvey_V285_RGAA_WCAG_AutonomeV3</name>
+        <title>AllySurvey_V285_RGAA_WCAG_AutonomeV3</title>
         <type>theme</type>
-        <creationDate>2026-09-19</creationDate>
+        <creationDate>2026-11-09</creationDate>
         <author>Raphaël Lecerf – Université de Lille / DAWAM</author>
         <authorEmail>support-limesurvey@univ-lille.fr</authorEmail>
         <authorUrl>https://www.univ-lille.fr</authorUrl>
         <copyright>Copyright (C) LimeSurvey GmbH and Université de Lille DGD Num DAWAM</copyright>
         <license>GNU General Public License version 2 or later</license>
-        <version>2.0.41</version>
+        <version>2.85.41</version>
         <apiVersion>3.0</apiVersion>
         <description twig="on">Thème LimeSurvey autonome, adapté pour améliorer l’accessibilité numérique et la conformité au RGAA 4. En amélioration continue par la Direction du numérique – Service DAWAM de l’Université de Lille. 📧 Contact : raphael.lecerf@univ-lille.fr</description>
-        <lastUpdate>2026-09-25 14:00:00</lastUpdate>
+        <lastUpdate>2026-11-09 14:00:00</lastUpdate>
     </metadata>
     <compatibility>
         <version>7.0</version>

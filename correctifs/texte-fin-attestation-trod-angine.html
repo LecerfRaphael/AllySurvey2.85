@@ -1,0 +1,86 @@
+<!-- Remplacer tout l'ancien bloc et ses scripts par ce code. -->
+<div id="attestation-resultat" data-note="{note}">
+<div id="cond2" hidden><strong>Vous n'avez pas obtenu la note de 8 pour obtenir votre attestation,<br />votre note était de {note}</strong></div>
+<div id="cond1" hidden>
+<p><button class="btn btn-lg btn-primary" id="create_pdf" type="button">IMPRIMER / ENREGISTRER EN PDF</button></p>
+<p id="attestation-print-status" role="status"></p>
+<div id="attestation-document" style="max-width:1005px;width:100%">
+
+<h3 style="text-align: center;">Formation TROD angine</h3>
+
+<p style="text-align:center">  <img alt="Bandeau de la formation TROD angine" src="/upload/surveys/573547/images/bandeau_haut.png" style="border: 0px; margin-bottom: 45px; width: 75%;" /></p>
+
+<p><strong>Nom : </strong> <span style="color:blue">{nom}</span></p>
+
+<p><strong>Prénom :</strong> <span style="color:blue">{prenom}</span></p>
+
+<p><strong>Fonction : </strong> <span style="color:blue">{fonction}</span></p>
+
+<p><strong>Adresse mail</strong> : <span style="color:blue">{adresseemail}</span></p>
+
+<p>M. / Mme <span style="color:blue">{nom} {prenom} </span>a suivi le e-learning <span style="color:blue">"Formation TROD Angine"</span> proposé par l'UFR3S-Pharmacie de l'Université de Lille, en partenariat avec le CHU de Lille et le CRAtb HDF et a obtenu la note de <span style="color:blue">{note}</span> à l'évaluation.</p>
+
+<p>Fait à <span style="color:blue">Lille</span>, le <span id="p1"> </span></p>
+
+<p> </p>
+
+<p>Signature :</p>
+
+<p> </p>
+
+<p> </p>
+
+</div></div></div>
+<script>
+(function () {
+    var root = document.getElementById('attestation-resultat');
+    if (!root) { return; }
+    var rawNote = (root.getAttribute('data-note') || '').trim();
+    var note = Number(rawNote.replace(',', '.'));
+    var success = rawNote !== '' && isFinite(note) && note >= 8;
+    root.querySelector('#cond1').hidden = !success;
+    root.querySelector('#cond2').hidden = success;
+    root.querySelector('#p1').textContent = new Date().toLocaleDateString('fr-FR');
+    root.querySelector('#create_pdf').addEventListener('click', function () {
+        var popup = window.open('', '_blank', 'width=900,height=750');
+        var status = root.querySelector('#attestation-print-status');
+        if (!popup) {
+            status.textContent = "Autorisez la fenêtre d'impression dans votre navigateur, puis réessayez.";
+            return;
+        }
+        status.textContent = '';
+        var doc = popup.document;
+        doc.title = 'Attestation - Formation TROD angine';
+        doc.documentElement.lang = 'fr';
+        var style = doc.createElement('style');
+        style.textContent = '@page { size: A4; margin: 15mm; } body { font-family: Arial, sans-serif; font-size: 12pt; line-height: 1.5; margin: 20px; } img { max-width: 100%; height: auto; } #p1 { color: blue; } @media print { body { margin: 0; } .print-controls { display: none; } }';
+        doc.head.appendChild(style);
+        var controls = doc.createElement('p');
+        controls.className = 'print-controls';
+        var button = doc.createElement('button');
+        button.type = 'button';
+        button.textContent = 'Imprimer / Enregistrer en PDF';
+        button.addEventListener('click', function () { popup.print(); });
+        controls.appendChild(button);
+        doc.body.appendChild(controls);
+        var certificate = doc.importNode(root.querySelector('#attestation-document'), true);
+        certificate.removeAttribute('style');
+        doc.body.appendChild(certificate);
+        var originals = root.querySelectorAll('#attestation-document img');
+        var ready = Array.prototype.map.call(certificate.querySelectorAll('img'), function (img, index) {
+            img.src = originals[index].src;
+            return new Promise(function (resolve) {
+                if (img.complete) { resolve(); return; }
+                img.addEventListener('load', resolve, { once: true });
+                img.addEventListener('error', resolve, { once: true });
+                popup.setTimeout(resolve, 8000);
+            });
+        });
+        Promise.all(ready).then(function () {
+            if (popup.closed) { return; }
+            popup.focus();
+            popup.print();
+        });
+    });
+}());
+</script>

@@ -38,42 +38,6 @@ To see what's inside aSurveyInfo, turn debug mode on and copy the following line
         {{ processString(aSurveyInfo.welcome,1) }}
     </div>
 
-    {# Résolution locale : le layout du parent peut être conservé par LimeSurvey dans un thème étendu. #}
-    {% set fasWelcomeIsPreview = (aSurveyInfo.active != 'Y') or aSurveyInfo.popupPreview %}
-    {% set fasWelcomePalette = aSurveyInfo.options.themecolor|default(aSurveyInfo.options.allycolorpalette|default('neutre')) %}
-    {# Palette preview: shown only in inactive/popup previews, never in the public active survey. #}
-    {% if fasWelcomeIsPreview %}
-        {% set fasWelcomePaletteLabel = '1 Neutre' %}
-        {% if fasWelcomePalette == 'industrie' %}{% set fasWelcomePaletteLabel = '2 Industrie' %}
-        {% elseif fasWelcomePalette == 'pinklady' %}{% set fasWelcomePaletteLabel = '3 Pink Lady' %}
-        {% elseif fasWelcomePalette == 'brique' %}{% set fasWelcomePaletteLabel = '4 Brique du Nord' %}
-        {% elseif fasWelcomePalette == 'orangette' %}{% set fasWelcomePaletteLabel = '5 Orangette' %}
-        {% elseif fasWelcomePalette == 'hyperion' %}{% set fasWelcomePaletteLabel = '6 Hypérion' %}
-        {% elseif fasWelcomePalette == 'ocean' %}{% set fasWelcomePaletteLabel = '7 Océan' %}
-        {% elseif fasWelcomePalette == 'menthe' %}{% set fasWelcomePaletteLabel = '8 Menthe' %}
-        {% elseif fasWelcomePalette == 'dune' %}{% set fasWelcomePaletteLabel = '9 Dune' %}
-        {% elseif fasWelcomePalette == 'commodore' %}{% set fasWelcomePaletteLabel = '10 Commodore' %}
-        {% elseif fasWelcomePalette == 'colvert' %}{% set fasWelcomePaletteLabel = '11 Colvert' %}
-        {% elseif fasWelcomePalette == 'vulcain' %}{% set fasWelcomePaletteLabel = '12 Vulcain' %}
-        {% elseif fasWelcomePalette == 'orangesanguine' %}{% set fasWelcomePaletteLabel = '13 Orange Sanguine' %}
-        {% elseif fasWelcomePalette == 'custom' %}{% set fasWelcomePaletteLabel = 'Personnalisé' %}
-        {% elseif fasWelcomePalette == 'highcontrast' %}{% set fasWelcomePaletteLabel = 'Contraste élevé' %}
-        {% endif %}
-        <aside class="fas-welcome-palette-preview" aria-labelledby="fas-welcome-palette-title" data-palette="{{ fasWelcomePalette }}">
-            <div class="fas-welcome-palette-heading">
-                <h2 id="fas-welcome-palette-title">{{ gT('Color palette') }}</h2>
-                <strong>{{ fasWelcomePaletteLabel }}</strong>
-            </div>
-            <div class="fas-welcome-palette-colors" aria-hidden="true">
-                <span></span><span></span><span></span>
-            </div>
-            <div class="fas-welcome-palette-sample">
-                <span>{{ gT('Survey introduction') }}</span>
-                <span class="fas-welcome-palette-button">{{ gT('Next') }}</span>
-            </div>
-        </aside>
-    {% endif %}
-
     <!-- Question count -->
     <div class="{{ aSurveyInfo.class.questioncount }}" {{ aSurveyInfo.attr.questioncount }}>
         <div class='{{ aSurveyInfo.class.questioncounttext }}' {{ aSurveyInfo.attr.questioncounttext }}>

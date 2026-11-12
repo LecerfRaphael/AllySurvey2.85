@@ -9,7 +9,13 @@
 .fas-width-wide .container-fluid,.fas-width-wide .container{max-width:1720px}
 .fas-width-full .container-fluid,.fas-width-full .container{max-width:none}
 .fas-progress-top-container{padding-top:.75rem!important;padding-bottom:.5rem!important}
+.fas-progress-top-container + #group-0.group-outer-container{width:100%;max-width:none;margin-inline:auto}
+#group-0.group-outer-container > .group-container{width:100%;max-width:none}
 .top-container #progressbar-top{width:100%}
+.ls-a11y-date-triplet{display:flex!important;flex-flow:row nowrap!important;align-items:center!important;justify-content:flex-start!important;gap:.4rem!important;width:100%}
+.ls-a11y-date-triplet>.col-12,.ls-a11y-date-triplet>.col-sm-auto{flex:0 0 auto!important;width:auto!important;max-width:none!important;padding:0!important}
+.ls-a11y-date-triplet select{width:auto!important;min-width:5.25rem}
+.ls-a11y-date-triplet .ls-a11y-date-separator{flex:0 0 auto}
 .top-container #progressbar-top[aria-valuenow="0"] .progress-bar{min-width:0!important}
 @media(max-width:1199.98px){
   .fas-width-normal .container-fluid,.fas-width-normal .container,

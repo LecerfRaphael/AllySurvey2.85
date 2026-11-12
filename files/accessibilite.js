@@ -648,8 +648,106 @@
       var month = q.querySelector("select.month");
       var year = q.querySelector("select.year");
       var form = q.closest("form");
+      var nativeDate = q.querySelector("input[type='date'][id^='answer']");
+      var answer = hiddenDate || nativeDate;
+      if (!answer || !form) return;
 
-      if (!hiddenDate || !day || !month || !year || !form) return;
+      if ((!day || !month || !year) && nativeDate) {
+        if (q.dataset.lsDateTripletGenerated === "1") return;
+        var base = nativeDate.id.replace(/^answer/, "");
+        var answerName = nativeDate.name;
+        var label = q.querySelector(".date-item label[for], .question-title-container .ls-label-question");
+        var dateItem = nativeDate.closest(".date-item") || nativeDate.parentElement;
+        var dateFormatNode = document.getElementById("dateformat" + base);
+        var surveyDateFormat = document.querySelector("select[id^='dateformat_'], select[name^='dateformat_']");
+        var dateFormatLabels = {"1":"DD.MM.YYYY","2":"DD-MM-YYYY","3":"YYYY.MM.DD","4":"D.M.YYYY","5":"DD/MM/YYYY","6":"YYYY-MM-DD","7":"YYYY/MM/DD","8":"D/M/YYYY","9":"MM-DD-YYYY","10":"MM.DD.YYYY","11":"MM/DD/YYYY","12":"D-M-YYYY"};
+        function getDatePattern() {
+          var formatId = surveyDateFormat && surveyDateFormat.value;
+          return dateFormatLabels[formatId] || String(dateFormatNode ? (dateFormatNode.value || dateFormatNode.textContent || "") : "DD/MM/YYYY").toUpperCase();
+        }
+        var lsDateFormat = getDatePattern();
+        var phpDateFormat = {
+          "DD.MM.YYYY": "d.m.Y", "DD-MM-YYYY": "d-m-Y", "YYYY.MM.DD": "Y.m.d",
+          "D.M.YYYY": "j.n.Y", "DD/MM/YYYY": "d/m/Y", "YYYY-MM-DD": "Y-m-d",
+          "YYYY/MM/DD": "Y/m/d", "D/M/YYYY": "j/n/Y", "MM-DD-YYYY": "m-d-Y",
+          "MM.DD.YYYY": "m.d.Y", "MM/DD/YYYY": "m/d/Y", "D-M-YYYY": "j-n-Y"
+        }[lsDateFormat] || "d/m/Y";
+        var controls = document.createElement("div");
+        controls.className = "ls-answers answer-item date-item mb-3 ls-a11y-date-triplet";
+        controls.setAttribute("role", "group");
+        controls.setAttribute("aria-labelledby", "ls-question-text" + base);
+        var minNode = document.getElementById("datemin" + base);
+        var maxNode = document.getElementById("datemax" + base);
+        var minText = minNode ? (minNode.value || minNode.textContent || "") : "";
+        var maxText = maxNode ? (maxNode.value || maxNode.textContent || "") : "";
+        var minYear = +(String(minText).match(/^\s*(\d{4})/) || [])[1] || 1900;
+        var maxYear = +(String(maxText).match(/^\s*(\d{4})/) || [])[1] || new Date().getFullYear();
+        var selects = [];
+        var submitValue = document.createElement("input");
+        submitValue.type = "hidden";
+        submitValue.name = answerName;
+        submitValue.id = nativeDate.id + "_formatted";
+        nativeDate.removeAttribute("name");
+        nativeDate.parentNode.insertBefore(submitValue, nativeDate);
+
+        function makeSelect(kind, title, values, token) {
+          var col = document.createElement("div");
+          col.className = "col-12 col-sm-auto";
+          var select = document.createElement("select");
+          select.className = "form-select " + kind;
+          select.id = kind + base;
+          // UI-only controls: LimeSurvey receives the original answer input only.
+          select.autocomplete = token;
+          select.setAttribute("data-ls-a11y-autocomplete", token);
+          select.setAttribute("aria-label", title);
+          if (nativeDate.required) select.required = true;
+          var empty = document.createElement("option");
+          empty.value = ""; empty.textContent = title; select.appendChild(empty);
+          values.forEach(function (item) {
+            var option = document.createElement("option");
+            option.value = item[0]; option.textContent = item[1]; select.appendChild(option);
+          });
+          col.appendChild(select); controls.appendChild(col); selects.push(select);
+        }
+        var dayValues = Array.from({length:31}, function(_,i){var n=String(i+1).padStart(2,"0");return [n,n];});
+        var months = ["Jan","Fév","Mar","Avr","Mai","Juin","Juil","Août","Sep","Oct","Nov","Déc"];
+        var monthValues = months.map(function(m,i){var n=String(i+1).padStart(2,"0");return [n,m];});
+        var years=[]; for(var y=minYear;y<=maxYear;y++) years.push([String(y),String(y)]);
+        var parts = lsDateFormat.match(/YYYY|D{1,2}|M{1,2}/g) || ["DD","MM","YYYY"];
+        var definitions = {"D":["day","Jour",dayValues,"bday-day"],"DD":["day","Jour",dayValues,"bday-day"],"M":["month","Mois",monthValues,"bday-month"],"MM":["month","Mois",monthValues,"bday-month"],"YYYY":["year","Année",years,"bday-year"]};
+        var ordered = [];
+        parts.forEach(function(part){var def=definitions[part]; if(def && ordered.indexOf(def[0])<0) ordered.push(def[0]);});
+        ordered.forEach(function(kind){var def=definitions[parts.filter(function(p){return definitions[p]&&definitions[p][0]===kind;})[0]];makeSelect(def[0],def[1],def[2],def[3]);});
+        var separators = lsDateFormat.split(/YYYY|D{1,2}|M{1,2}/).filter(Boolean);
+        for (var si=0;si<separators.length;si++){var sep=document.createElement("span");sep.className="ls-a11y-date-separator";sep.setAttribute("aria-hidden","true");sep.textContent=separators[si]; controls.insertBefore(sep,controls.children[si*2+1]||null);}
+        if (dateItem && dateItem.parentNode) dateItem.parentNode.insertBefore(controls, dateItem);
+        nativeDate.style.display = "none";
+        nativeDate.tabIndex = -1;
+        nativeDate.setAttribute("aria-hidden", "true");
+        nativeDate.removeAttribute("required");
+
+        function syncNative() {
+          var valuesByKind={}; selects.forEach(function(s){valuesByKind[s.classList.contains("day")?"D":s.classList.contains("month")?"M":"Y"]=s.value;});
+          var d=valuesByKind.D,m=valuesByKind.M,yv=valuesByKind.Y;
+          if (!d || !m || !yv) { nativeDate.value = ""; return; }
+          // Keep the UI value ISO, but submit a separate value in LimeSurvey's configured format.
+          nativeDate.value = yv + "-" + m + "-" + d;
+          var values = { d: String(parseInt(d, 10)), m: String(parseInt(m, 10)), Y: yv };
+          submitValue.value = phpDateFormat.replace(/d|m|Y/g, function(token) {
+            return token === "d" ? String(parseInt(d, 10)).padStart(2, "0") :
+              token === "m" ? String(parseInt(m, 10)).padStart(2, "0") : yv;
+          });
+        }
+        selects.forEach(function(s){s.addEventListener("change",syncNative);});
+        form.addEventListener("submit",function(){
+          syncNative();
+          nativeDate.disabled = true;
+          nativeDate.required = false;
+        });
+        q.dataset.lsDateTripletGenerated = "1";
+        return;
+      }
+      if (!hiddenDate || !day || !month || !year) return;
 
       if (q.dataset.lsDateTripletWired === "1") return;
       q.dataset.lsDateTripletWired = "1";
@@ -1495,6 +1593,10 @@
     function applyAutocompleteToken(el, token) {
       if (!token) return;
       var current = (el.getAttribute("autocomplete") || "").trim().toLowerCase();
+
+      // Un champ date générique ne permet pas de déduire un objectif personnel.
+      // Pour une date de naissance, la détection fournit explicitement le token bday.
+      if (el.matches('input[type="date"]') && token !== "bday") return;
 
       // On conserve les valeurs déjà utiles ; on remplace seulement l'absence ou autocomplete=off.
       if (current && current !== "off" && current !== "false") return;
